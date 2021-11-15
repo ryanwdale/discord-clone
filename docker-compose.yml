@@ -1,0 +1,18 @@
+version: "3.7"
+
+services:
+  db:
+    container_name: cmpt-470-project-db-container
+    image: cmpt-470-project-db
+    build:
+      context: .
+      dockerfile: Dockerfile.postgres
+    env_file:
+      - .env
+    ports:
+      - 5432
+    volumes:
+      - db:/var/lib/postgresql/data
+
+volumes:
+  db:
