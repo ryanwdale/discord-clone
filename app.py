@@ -58,7 +58,7 @@ def profile():
 
 
 @app.route('/') 
-def Index(): 
+def index(): 
     return render_template('index.html')
 
 
