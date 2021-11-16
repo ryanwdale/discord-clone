@@ -1,6 +1,14 @@
 version: "3.7"
 
 services:
+  web:
+    container_name: cmpt-470-project-flask-container
+    image: cmpt-470-project-flask
+    build:
+      context: .
+      dockerfile: Dockerfile.flask
+    ports:
+      - 8080:5000
   db:
     container_name: cmpt-470-project-db-container
     image: cmpt-470-project-db
