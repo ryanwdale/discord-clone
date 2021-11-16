@@ -1,0 +1,15 @@
+Runs on localhost:5000
+
+Got the basics set up. Although it is not dockerized. Flask is lightweight and can be installed with 'pip install flask'
+
+To sign into an account go to localhost:5000/profile (it will redirect you to /login) and sign in using one of the following test accounts: 
+
+username='Joe' password='password1'
+username='Anna' password='password2'
+username='Tracy' password='password3'
+
+This is just a starting point and the user class that contains the users should be connected to the database not hard coded into the app.py file. 
+
+The base and index files show how you can get rid of redundant html code by using the block feature. We should do this to minimize the front end 
+code and keep most of it on the back end. It will look cleaner that way. I will try to make this sign in look better with REACT now that it is out of the
+way in it's early stages. 
