@@ -1,4 +1,4 @@
-from flask import Flask, make_response, request,render_template, session, url_for, g, redirect
+from flask import Flask, request, render_template, session, url_for, g, redirect
 
 class User:
     def __init__(self, id, username, password):
