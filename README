@@ -1,7 +1,3 @@
-Runs on localhost:5000
-
-Got the basics set up. Although it is not dockerized. Flask is lightweight and can be installed with 'pip install flask'
-
 To sign into an account go to localhost:5000/profile (it will redirect you to /login) and sign in using one of the following test accounts: 
 
 username='Joe' password='password1'
