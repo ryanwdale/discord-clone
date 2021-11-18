@@ -13,6 +13,17 @@ services:
       - 5432
     volumes:
       - db:/var/lib/postgresql/data
+  
+  client:
+    container_name: cmpt-470-project-react-app-container
+    image: cmpt-470-project-react-app
+    build:
+      context: .
+      dockerfile: Dockerfile.client
+    ports:
+      - 3000:3000
+    volumes:
+      - './client:/app'
 
 volumes:
   db:
