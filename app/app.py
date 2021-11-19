@@ -2,7 +2,10 @@ import os
 
 from flask import Flask, request, render_template, session, url_for, g, redirect
 from flask_bcrypt import Bcrypt
-from flask_sqlalchemy import SQLAlchemy
+
+from db_init import db
+from controllers.account import get_user_by_username, get_user_by_id
+
 
 app = Flask(__name__)
 app.secret_key = 'somesecretkeythatonlyishouldknow'
@@ -14,22 +17,8 @@ app.config["SQLALCHEMY_DATABASE_URI"] = "postgresql://{}:{}@{}:{}/{}".format(
     os.environ['POSTGRES_DB'],
 )
 app.config["SQLALCHEMY_TRACK_MODIFICATIONS"] = "False"
-db = SQLAlchemy(app)
 bcrypt = Bcrypt(app)
-
-
-class Account(db.Model):
-    id = db.Column(db.Integer, primary_key=True)
-    username = db.Column(db.String, nullable=False, unique=True)
-    password = db.Column(db.String, nullable=False)
-
-
-def get_user_by_id(id):
-    return db.session.query(Account).filter(Account.id == id).one()
-
-
-def get_user_by_username(username):
-    return db.session.query(Account).filter(Account.username == username).one()
+db.init_app(app)
 
 
 @app.before_request
@@ -70,8 +59,6 @@ def profile():
 @app.route('/')
 def index():
     return render_template('index.html')
-
-
 
 
 if __name__ == "__main__": 
