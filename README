@@ -1,2 +1,6 @@
 The base and index files show how you can get rid of redundant html code by using the block feature. We should do this to minimize the front end 
 code and keep most of it on the back end. It will look cleaner that way. I will try to make this sign in look better with React now that it is out of the way in it's early stages. 
+
+test login accounts
+username: "user1", password: "user1"
+username: "user2", password: "user2"
