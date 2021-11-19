@@ -4,7 +4,7 @@ from flask import Flask, request, render_template, session, url_for, g, redirect
 from flask_bcrypt import Bcrypt
 
 from db_init import db
-from utils import get_user_by_username, get_user_by_id
+from controllers.account import get_user_by_username, get_user_by_id
 
 
 app = Flask(__name__)
