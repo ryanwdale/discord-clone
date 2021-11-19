@@ -8,4 +8,8 @@ RUN pip install -r requirements.txt
 
 COPY app /app
 
-CMD python3 app.py
+COPY wait.sh /app
+
+RUN chmod +x wait.sh
+
+CMD ./wait.sh db 5432 && python3 app.py
