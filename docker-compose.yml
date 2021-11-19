@@ -11,8 +11,6 @@ services:
       - .env
     ports:
       - 8080:5000
-    volumes:
-      - db_run:/var/run/postgresql
   db:
     container_name: cmpt-470-project-db-container
     image: cmpt-470-project-db
@@ -25,7 +23,6 @@ services:
       - 5432
     volumes:
       - db:/var/lib/postgresql/data
-      - db_run:/var/run/postgresql
   
   client:
     container_name: cmpt-470-project-react-app-container
@@ -40,4 +37,3 @@ services:
 
 volumes:
   db:
-  db_run:

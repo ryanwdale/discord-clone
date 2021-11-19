@@ -1,12 +1,2 @@
-To sign into an account go to localhost:5000/profile (it will redirect you to /login) and sign in using one of the following test accounts: 
-
-username='Joe' password='password1'
-username='Anna' password='password2'
-username='Tracy' password='password3'
-
-This is just a starting point and the user class that contains the users should be connected to the database not hard coded into the app.py file. Also, if the correct user is inputted but there is an inncorrect password then it will just refresh but it crashes if an invalid username is inputted. Needs an error message for both. Also, there is no "log out" implemented yet so I recommend opening  localhost:5000/profile in an incognito tab so you can log out by just closing the window. 
-
-
-
 The base and index files show how you can get rid of redundant html code by using the block feature. We should do this to minimize the front end 
 code and keep most of it on the back end. It will look cleaner that way. I will try to make this sign in look better with React now that it is out of the way in it's early stages. 
