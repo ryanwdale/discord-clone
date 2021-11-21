@@ -6,6 +6,7 @@ from flask_bcrypt import Bcrypt
 from db_init import db
 from controllers.account import get_user_by_username, get_user_by_id
 
+from api_init import init_api
 
 app = Flask(__name__)
 app.secret_key = 'somesecretkeythatonlyishouldknow'
@@ -19,6 +20,11 @@ app.config["SQLALCHEMY_DATABASE_URI"] = "postgresql://{}:{}@{}:{}/{}".format(
 app.config["SQLALCHEMY_TRACK_MODIFICATIONS"] = "False"
 bcrypt = Bcrypt(app)
 db.init_app(app)
+
+with app.app_context():
+    db.create_all()
+
+init_api(app)
 
 
 @app.before_request
@@ -61,5 +67,5 @@ def index():
     return render_template('index.html')
 
 
-if __name__ == "__main__": 
+if __name__ == "__main__":
     app.run(debug=True, host='0.0.0.0')
