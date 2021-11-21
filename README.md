@@ -14,7 +14,7 @@ Example API calls:
 
 ### create new account
 
-`curl --header "Content-Type: application/json" --request POST --data '{"username":"name","password":"pass"}' http://localhost:8080/accounts`
+`curl --header "Content-Type: application/json" --request POST --data '{"username":"name","password":"pass"}' http://localhost:8080/api/accounts`
 
 ```json
 {
@@ -27,7 +27,7 @@ Example API calls:
 
 ### create new server
 
-`curl --header "Content-Type: application/json" --request POST --data '{"server_name": "cool server"}' http://localhost:8080/servers`
+`curl --header "Content-Type: application/json" --request POST --data '{"server_name": "cool server"}' http://localhost:8080/api/servers`
 
 ```json
 {
@@ -39,7 +39,7 @@ Example API calls:
 
 ### create new channel in the server we just created
 
-`curl --header "Content-Type: application/json" --request POST --data '{"channel_name": "cool channel", "server_id": 1}' http://localhost:8080/channels`
+`curl --header "Content-Type: application/json" --request POST --data '{"channel_name": "cool channel", "server_id": 1}' http://localhost:8080/api/channels`
 
 ```json
 {
@@ -51,7 +51,7 @@ Example API calls:
 
 ### add our account to the server
 
-`curl --header "Content-Type: application/json" --request PUT --data '{"server_id": 35}' http://localhost:8080/accounts/13`
+`curl --header "Content-Type: application/json" --request PUT --data '{"server_id": 35}' http://localhost:8080/api/accounts/13`
 
 ```json
 {

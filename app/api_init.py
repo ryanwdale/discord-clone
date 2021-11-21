@@ -9,9 +9,9 @@ from controllers.channel_list import ChannelListResource
 
 def init_api(app):
     api = Api(app)
-    api.add_resource(AccountResource, '/accounts/<int:account_id>')
-    api.add_resource(AccountListResource, '/accounts')
-    api.add_resource(ServerResource, '/servers/<int:server_id>')
-    api.add_resource(ServerListResource, '/servers')
-    api.add_resource(ChannelResource, '/channels/<int:channel_id>')
-    api.add_resource(ChannelListResource, '/channels')
+    api.add_resource(AccountResource, '/api/accounts/<int:account_id>')
+    api.add_resource(AccountListResource, '/api/accounts')
+    api.add_resource(ServerResource, '/api/servers/<int:server_id>')
+    api.add_resource(ServerListResource, '/api/servers')
+    api.add_resource(ChannelResource, '/api/channels/<int:channel_id>')
+    api.add_resource(ChannelListResource, '/api/channels')
