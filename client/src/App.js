@@ -35,7 +35,7 @@ class Main extends Component {
     return !this.state.isLoggedIn && (
       <>
         <p>
-          You must login to continue.
+          You must log in to continue.
         </p>
 
         <Form onSubmit={this.handleSubmit}>
