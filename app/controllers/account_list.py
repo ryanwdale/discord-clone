@@ -1,4 +1,4 @@
-from db_init import db
+from app_init import db
 from models import Account
 from controllers.account import account_fields
 from flask_restful import Resource, reqparse, marshal_with

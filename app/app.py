@@ -1,9 +1,8 @@
 import os
 
 from flask import Flask, request, render_template, session, url_for, g, redirect
-from flask_bcrypt import Bcrypt
 
-from db_init import db
+from app_init import bcrypt, db
 from controllers.account import get_user_by_username, get_user_by_id
 
 from api_init import init_api
@@ -18,7 +17,8 @@ app.config["SQLALCHEMY_DATABASE_URI"] = "postgresql://{}:{}@{}:{}/{}".format(
     os.environ['POSTGRES_DB'],
 )
 app.config["SQLALCHEMY_TRACK_MODIFICATIONS"] = "False"
-bcrypt = Bcrypt(app)
+
+bcrypt.init_app(app)
 db.init_app(app)
 
 with app.app_context():
