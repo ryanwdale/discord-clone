@@ -1,5 +1,6 @@
 import React, { Component } from 'react';
 import { Button, Checkbox, Form } from 'semantic-ui-react';
+import { Link } from "react-router-dom";
 import axios from 'axios';
 
 class SignIn extends Component{
@@ -38,17 +39,17 @@ class SignIn extends Component{
                 <Form onSubmit={this.handleSubmit}>
                     {this.state.errorMessage && (<p>Error: {this.state.errorMessage}</p>)}
                     <Form.Field>
-                    <label>Username</label>
-                    <Form.Input name='username' placeholder='Username' onChange={this.handleChange} />
+                        <label>Username</label>
+                        <Form.Input required name='username' placeholder='Username' onChange={this.handleChange} />
                     </Form.Field>
                     <Form.Field>
-                    <label>Password</label>
-                    <Form.Input name='password' type='password' placeholder='Password' onChange={this.handleChange} />
+                        <label>Password</label>
+                        <Form.Input required name='password' type='password' placeholder='Password' onChange={this.handleChange} />
                     </Form.Field>
-                    <Form.Field>
-                    <Checkbox label='I want to register an account with the information provided above' />
-                    </Form.Field>
-                    <Button type='submit'>Submit</Button>
+                    <Link to="/signup">
+                        <Button type="button">Sign Up</Button>
+                    </Link>
+                    <Button type='submit'>Sign In</Button>
                 </Form>
             </>
         ) || <p>Welcome {this.state.username}</p>;
