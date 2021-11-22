@@ -17,7 +17,7 @@ class SignUp extends Component{
         formData.append('display_name', this.state.display_name)
 
         axios.post(
-            'http://localhost:8080/api/signup',
+            'http://localhost:8080/api/accounts',
             formData,
             {
                 headers: {
@@ -25,8 +25,7 @@ class SignUp extends Component{
                 }
             }
         )
-        .then((v) => this.setState({isLoggedIn: true, username: v.data.username}))
-        .catch((e) => this.setState({errorMessage: e.response.data.message}))
+        // .catch((e) => this.setState({errorMessage: e.response.data.message}))
     }
 
     render() {

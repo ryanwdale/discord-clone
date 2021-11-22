@@ -1,7 +1,7 @@
 import './App.css';
 
 import React from 'react';
-import {BrowserRouter as Router, Link, Routes, Route} from "react-router-dom"
+import {BrowserRouter as Router, Routes, Route} from "react-router-dom"
 import { Container, Header } from 'semantic-ui-react';
 import SignIn from './Account/SignIn'
 import SignUp from './Account/SignUp'

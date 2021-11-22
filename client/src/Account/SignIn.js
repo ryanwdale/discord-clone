@@ -1,12 +1,12 @@
 import React, { Component } from 'react';
-import { Button, Checkbox, Form } from 'semantic-ui-react';
+import { Button, Form } from 'semantic-ui-react';
 import { Link } from "react-router-dom";
 import axios from 'axios';
 
 class SignIn extends Component{
     constructor(props) {
         super(props)
-        this.state = {username: '', password: '', isLoggedIn: false, errorMessage: ''}
+        this.state = {username: '', password: '', errorMessage: ''}
     }
 
     handleChange = (e, { name, value }) => this.setState({ [name]: value })
@@ -25,12 +25,12 @@ class SignIn extends Component{
                 }
             }
         )
-        .then((v) => this.setState({isLoggedIn: true, username: v.data.username}))
+        .then((v) => this.setState({username: v.data.username}))
         .catch((e) => this.setState({errorMessage: e.response.data.message}))
     }
 
     render() {
-        return !this.state.isLoggedIn && (
+        return (
             <>
                 <p>
                     You must log in to continue.
@@ -52,7 +52,7 @@ class SignIn extends Component{
                     <Button type='submit'>Sign In</Button>
                 </Form>
             </>
-        ) || <p>Welcome {this.state.username}</p>;
+        );
     }
 }
 
