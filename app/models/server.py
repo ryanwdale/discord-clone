@@ -1,4 +1,4 @@
-from db_init import db
+from app_init import db
 
 
 class Server(db.Model):

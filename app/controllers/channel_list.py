@@ -1,4 +1,4 @@
-from db_init import db
+from app_init import db
 from models import Channel
 from controllers.channel import channel_fields
 from flask_restful import Resource, reqparse, marshal_with

@@ -1,4 +1,4 @@
-from db_init import db
+from app_init import db
 from controllers.server import ServerResource, server_fields
 from models import Account
 from flask_restful import Resource, reqparse, fields, marshal_with
@@ -16,11 +16,11 @@ account_fields = {
 
 
 def get_user_by_id(id):
-    return db.session.query(Account).filter(Account.id == id).one()
+    return db.session.query(Account).filter(Account.id == id).first()
 
 
 def get_user_by_username(username):
-    return db.session.query(Account).filter(Account.username == username).one()
+    return db.session.query(Account).filter(Account.username == username).first()
 
 
 class AccountResource(Resource):

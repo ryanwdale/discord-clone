@@ -1,4 +1,4 @@
-from db_init import db
+from app_init import db
 
 account_to_server = db.Table('account_to_server',
                              db.Column('account_id', db.Integer, db.ForeignKey(

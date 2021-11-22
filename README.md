@@ -45,13 +45,13 @@ Example API calls:
 {
   "id": 2,
   "channel_name": "cool channel",
-  "server_id": "1"
+  "server_id": 1
 }
 ```
 
 ### add our account to the server
 
-`curl --header "Content-Type: application/json" --request PUT --data '{"server_id": 35}' http://localhost:8080/api/accounts/13`
+`curl --header "Content-Type: application/json" --request PUT --data '{"server_id": 1}' http://localhost:8080/api/accounts/13`
 
 ```json
 {
