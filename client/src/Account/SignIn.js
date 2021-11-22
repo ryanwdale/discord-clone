@@ -47,7 +47,7 @@ class SignIn extends Component{
                         <Form.Input required name='password' type='password' placeholder='Password' onChange={this.handleChange} />
                     </Form.Field>
                     <Link to="/signup">
-                        <Button type="button">Sign Up</Button>
+                        <u>Sign up for an account</u><br/>
                     </Link>
                     <Button type='submit'>Sign In</Button>
                 </Form>

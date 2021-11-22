@@ -5,7 +5,7 @@ import axios from 'axios';
 class SignUp extends Component{
     constructor(props) {
         super(props)
-        this.state = {username: '', password: '', display_name: '', errorMessage: ''}
+        this.state = {username: '', password: '', displayName: '', errorMessage: ''}
     }
 
     handleChange = (e, { name, value }) => this.setState({ [name]: value })
@@ -14,7 +14,7 @@ class SignUp extends Component{
         const formData = new FormData()
         formData.append('username', this.state.username)
         formData.append('password', this.state.password)
-        formData.append('display_name', this.state.display_name)
+        formData.append('display_name', this.state.displayName)
 
         axios.post(
             'http://localhost:8080/api/accounts',
@@ -42,7 +42,7 @@ class SignUp extends Component{
                 </Form.Field>
                 <Form.Field>
                     <label>Display Name</label>
-                    <Form.Input required name='display_name' placeholder='Display Name' onChange={this.handleChange} />
+                    <Form.Input required name='displayName' placeholder='Display Name' onChange={this.handleChange} />
                 </Form.Field>
                 <Button type='submit'>Submit</Button>
             </Form>
