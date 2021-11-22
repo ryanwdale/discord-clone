@@ -25,7 +25,7 @@ class SignUp extends Component{
                 }
             }
         )
-        // .catch((e) => this.setState({errorMessage: e.response.data.message}))
+        .catch((e) => this.setState({errorMessage: e.response.data.message}))
     }
 
     render() {

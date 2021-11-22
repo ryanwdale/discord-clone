@@ -6,7 +6,7 @@ import axios from 'axios';
 class SignIn extends Component{
     constructor(props) {
         super(props)
-        this.state = {username: '', password: '', errorMessage: ''}
+        this.state = {username: '', password: '', isLoggedIn: false, errorMessage: ''}
     }
 
     handleChange = (e, { name, value }) => this.setState({ [name]: value })
@@ -25,12 +25,12 @@ class SignIn extends Component{
                 }
             }
         )
-        .then((v) => this.setState({username: v.data.username}))
+        .then((v) => this.setState({isLoggedIn: true, username: v.data.username}))
         .catch((e) => this.setState({errorMessage: e.response.data.message}))
     }
 
     render() {
-        return (
+        return !this.state.isLoggedIn && (
             <>
                 <p>
                     You must log in to continue.
@@ -52,7 +52,7 @@ class SignIn extends Component{
                     <Button type='submit'>Sign In</Button>
                 </Form>
             </>
-        );
+        ) || <p>Welcome {this.state.username}</p>;
     }
 }
 
