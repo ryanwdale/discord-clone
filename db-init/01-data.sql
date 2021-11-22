@@ -2,8 +2,8 @@
 
 -- Password is bcrypt with cost of 12
 -- Pre-seeded users have same password as username (user1:user1, user2:user2)
-INSERT INTO account (id, username, password) VALUES
-(1, 'user1', '$2b$12$A1Kb8xnZeFmrAQCEJzml5OexhZcJIvs/ULnBoWMx1gX9mEcf97lFO'),
-(2, 'user2', '$2b$12$PKe76Ojz0mmmRsNkRdMa0eBmMWmtJr0BGsJPQ0XC9AoVewsiuUfzW');
+INSERT INTO account (id, username, password, display_name) VALUES
+(1, 'user1', '$2b$12$A1Kb8xnZeFmrAQCEJzml5OexhZcJIvs/ULnBoWMx1gX9mEcf97lFO', 'user1'),
+(2, 'user2', '$2b$12$PKe76Ojz0mmmRsNkRdMa0eBmMWmtJr0BGsJPQ0XC9AoVewsiuUfzW', 'user2');
 
 ALTER SEQUENCE account_id_seq RESTART WITH 3;

@@ -3,3 +3,4 @@ Flask-Bcrypt==0.7.1
 Flask-SQLAlchemy==2.5.1
 psycopg2-binary==2.9.2
 flask-restful
+flask-cors
