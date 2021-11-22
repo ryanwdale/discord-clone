@@ -9,26 +9,26 @@ class Main extends Component {
   constructor(props) {
     super(props)
     this.state = {username: '', password: '', isLoggedIn: false, errorMessage: ''}
+  }
 
-    this.handleChange = (e, { name, value }) => this.setState({ [name]: value })
+  handleChange = (e, { name, value }) => this.setState({ [name]: value })
 
-    this.handleSubmit = (e) => {
-      const formData = new FormData()
-      formData.append('username', this.state.username)
-      formData.append('password', this.state.password)
+  handleSubmit = (e) => {
+    const formData = new FormData()
+    formData.append('username', this.state.username)
+    formData.append('password', this.state.password)
 
-      axios.post(
-        'http://localhost:8080/api/login',
-        formData,
-        {
-          headers: {
-            'Content-Type': 'application/json',
-          }
+    axios.post(
+      'http://localhost:8080/api/login',
+      formData,
+      {
+        headers: {
+          'Content-Type': 'application/json',
         }
-      )
-      .then((v) => this.setState({isLoggedIn: true, username: v.data.username}))
-      .catch((e) => this.setState({errorMessage: e.response.data.message}))
-    }
+      }
+    )
+    .then((v) => this.setState({isLoggedIn: true, username: v.data.username}))
+    .catch((e) => this.setState({errorMessage: e.response.data.message}))
   }
 
   render() {
