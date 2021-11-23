@@ -18,7 +18,7 @@ class AccountListResource(Resource):
        
         # check if account already exist
         if get_user_by_username(args['username']):
-            return abort(404, message="username has been taken") 
+            return abort(422, message="username has been taken") 
         
         hashed_password = bcrypt.generate_password_hash(args['password']).decode('utf-8')
         account = Account(args['username'], hashed_password, args['display_name'])
