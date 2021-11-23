@@ -1,6 +1,7 @@
 import os
 
 from flask import Flask, request, render_template, session, url_for, g, redirect
+from flask_cors import CORS
 
 from app_init import bcrypt, db
 from controllers.account import get_user_by_username, get_user_by_id
@@ -20,6 +21,7 @@ app.config["SQLALCHEMY_TRACK_MODIFICATIONS"] = "False"
 
 bcrypt.init_app(app)
 db.init_app(app)
+CORS(app)
 
 with app.app_context():
     db.create_all()
