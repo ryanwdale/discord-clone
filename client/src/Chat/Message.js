@@ -1,4 +1,5 @@
 import { Component } from 'react';
+import { Header } from 'semantic-ui-react';
 import './message.css'
 
 class Message extends Component{
@@ -6,10 +7,10 @@ class Message extends Component{
         return (
             <div className="messageContainer">
                 <div className="messageHeader">
-                    <h4>
+                    <Header as="h4">
                         User1
                         <span className="messageTimeStamp">timestamp 10:00</span>
-                    </h4>
+                    </Header>
                 </div>
                 <p>This is a message</p>
             </div>

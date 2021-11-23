@@ -19,12 +19,11 @@ const channelList = [
 class Homepage extends Component{
     constructor() {
         super()
-        this.state = {channelList: channelList, activeItem: null}
+        this.state = {channelList: channelList, activeChannelId: null, activeChannelName: null}
     }
 
-    onChannelSelect = (e, name) => {
-        console.log(name)
-        this.setState({activeItem: name})
+    onChannelSelect = (e, id, name) => {
+        this.setState({activeChannelId: id, activeChannelName: name})
     }
 
     render() {
@@ -35,10 +34,10 @@ class Homepage extends Component{
                         className="sidebar" 
                         channelList={this.state.channelList} 
                         onChannelSelect={this.onChannelSelect} 
-                        activeItem={this.state.activeItem}/>
+                        activeItem={this.state.activeChannelId}/>
                 </div>
                 <div className="chatroomContainer">
-                    <Chatroom className="chatroom" channelName={this.state.activeItem}/>
+                    <Chatroom className="chatroom" channelName={this.state.activeChannelName}/>
                 </div>
             </div>
         )

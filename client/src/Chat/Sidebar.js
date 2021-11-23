@@ -23,8 +23,8 @@ class Sidebar extends Component{
                                 key={channel.id}
                                 className="channelContainer"
                                 name={channel.name}
-                                active={this.props.activeItem === channel.name}
-                                onClick={(e) => {this.props.onChannelSelect(e, channel.name)}}
+                                active={this.props.activeItem === channel.id}
+                                onClick={(e) => {this.props.onChannelSelect(e, channel.id, channel.name)}}
                                 >
                                     <h3>{channel.name}</h3>
                                 </Menu.Item>

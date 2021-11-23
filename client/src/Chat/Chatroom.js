@@ -24,7 +24,7 @@ class Chatroom extends Component{
                 <div className="chatInput">
                     <form>
                         <input placeholder={"Send message to " + this.props.channelName}></input>
-                        <button type="submite" className="chatInputSubmit">
+                        <button type="submit" className="chatInputSubmit">
                             send message
                         </button>
                     </form>
