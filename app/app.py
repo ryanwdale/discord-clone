@@ -1,7 +1,9 @@
 import os
+from datetime import datetime, timedelta, timezone
 
 from flask import Flask, request, render_template, session, url_for, g, redirect
 from flask_cors import CORS
+from flask_jwt_extended import create_access_token, get_jwt, set_access_cookies, get_jwt_identity, JWTManager
 
 from app_init import bcrypt, db
 from controllers.account import get_user_by_username, get_user_by_id
@@ -27,6 +29,49 @@ with app.app_context():
     db.create_all()
 
 init_api(app)
+
+app.config["JWT_COOKIE_SECURE"] = False  # set this to true for production to allow only https
+app.config["JWT_TOKEN_LOCATION"] = ["cookies"]
+app.config["JWT_COOKIE_CSRF_PROTECT"] = False  # todo: set this to true
+app.config["JWT_SECRET_KEY"] = "super-secret"
+app.config["JWT_ACCESS_TOKEN_EXPIRES"] = timedelta(hours=1)
+
+jwt = JWTManager(app)
+
+# Using an `after_request` callback, we refresh any token that is within 30
+# minutes of expiring. Change the timedeltas to match the needs of your application.
+@app.after_request
+def refresh_expiring_jwts(response):
+    try:
+        exp_timestamp = get_jwt()["exp"]
+        now = datetime.now(timezone.utc)
+        target_timestamp = datetime.timestamp(now + timedelta(minutes=30))
+        if target_timestamp > exp_timestamp:
+            access_token = create_access_token(identity=get_jwt_identity())
+            set_access_cookies(response, access_token)
+        return response
+    except (RuntimeError, KeyError):
+        # Case where there is not a valid JWT. Just return the original response
+        return response
+
+
+# automatic user loading: https://flask-jwt-extended.readthedocs.io/en/stable/automatic_user_loading/
+# Register a callback function that takes whatever object is passed in as the
+# identity when creating JWTs and converts it to a JSON serializable format.
+@jwt.user_identity_loader
+def user_identity_lookup(user):
+    return user.id
+
+
+# Register a callback function that loads a user from your database whenever
+# a protected route is accessed. This should return any python object on a
+# successful lookup, or None if the lookup failed for any reason (for example
+# if the user has been deleted from the database).
+@jwt.user_lookup_loader
+def user_lookup_callback(_jwt_header, jwt_data):
+    identity = jwt_data["sub"]
+    return get_user_by_id(identity)
+
 
 
 @app.before_request
