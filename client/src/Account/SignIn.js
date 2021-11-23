@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import { Button, Form } from 'semantic-ui-react';
+import { Button, Form, Header } from 'semantic-ui-react';
 import { Link } from "react-router-dom";
 import axios from 'axios';
 
@@ -32,10 +32,10 @@ class SignIn extends Component{
     render() {
         return !this.state.isLoggedIn && (
             <>
+                <Header as='h1'>Welcome to the project for CMPT 470 of group 1</Header>
                 <p>
                     You must log in to continue.
                 </p>
-
                 <Form onSubmit={this.handleSubmit}>
                     {this.state.errorMessage && (<p>Error: {this.state.errorMessage}</p>)}
                     <Form.Field>
