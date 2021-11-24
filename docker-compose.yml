@@ -9,8 +9,6 @@ services:
       dockerfile: Dockerfile.flask
     env_file:
       - .env
-    ports:
-      - 8080:5000
   db:
     container_name: cmpt-470-project-db-container
     image: cmpt-470-project-db
@@ -21,17 +19,22 @@ services:
       - .env
     volumes:
       - db:/var/lib/postgresql/data
-  
   client:
     container_name: cmpt-470-project-react-app-container
     image: cmpt-470-project-react-app
     build:
       context: .
       dockerfile: Dockerfile.client
-    ports:
-      - 3000:3000
     volumes:
       - './client:/app'
+  proxy:
+    container_name: cmpt-470-project-proxy
+    image: cmpt-470-project-proxy
+    build:
+      context: .
+      dockerfile: Dockerfile.proxy
+    ports:
+      - 8080:80
 
 volumes:
   db:
