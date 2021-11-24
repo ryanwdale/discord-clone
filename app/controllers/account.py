@@ -33,19 +33,3 @@ class AccountResource(Resource):
         if current_user.id != account_id:
             abort(403, message="cannot access this user")
         return current_user
-
-    @jwt_required()
-    @marshal_with(account_fields)
-    def put(self, account_id):
-        # add the account to a new server
-        args = parser.parse_args()
-        server_id = args['server_id']
-        # allow anyone in a server to invite people
-        if not current_user_in_server(server_id):
-            abort(403, message="cannot access this user")
-        account = get_user_by_id(account_id)
-        server = get_server_by_id(server_id)
-        account.servers.append(server)
-        db.session.add(account)
-        db.session.commit()
-        return account
