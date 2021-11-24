@@ -17,7 +17,7 @@ class SignIn extends Component{
         formData.append('password', this.state.password)
 
         axios.post(
-            'http://localhost:8080/api/login',
+            '/api/login',
             formData,
             {
                 headers: {

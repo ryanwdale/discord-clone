@@ -1,6 +1,8 @@
 import { Component } from 'react';
 import { Header, Menu } from 'semantic-ui-react';
+
 import "./sidebar.css"
+import InviteModal from "../Invites/InviteModal"
 
 class Sidebar extends Component{
     constructor(props){
@@ -12,6 +14,7 @@ class Sidebar extends Component{
             <div className="sidebar">
                 <div className="ChannelTitleContainer">
                     <Header as="h2">Server 1</Header>
+                    <InviteModal serverId={1} />
                 </div>
                 <div className="ChatList">
                     <h4 className="textChannelHeader">Text Channels</h4>

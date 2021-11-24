@@ -17,7 +17,7 @@ class SignUp extends Component{
         formData.append('display_name', this.state.displayName)
 
         axios.post(
-            'http://localhost:8080/api/accounts',
+            '/api/accounts',
             formData,
             {
                 headers: {
