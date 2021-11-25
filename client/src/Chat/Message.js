@@ -8,11 +8,11 @@ class Message extends Component{
             <div className="messageContainer">
                 <div className="messageHeader">
                     <Header as="h4">
-                        User1
-                        <span className="messageTimeStamp">timestamp 10:00</span>
+                        {this.props.displayName}
+                        <span className="messageTimeStamp">{this.props.timestamp}</span>
                     </Header>
                 </div>
-                <p>This is a message</p>
+                <p>{this.props.messageContent}</p>
             </div>
         )
     }
