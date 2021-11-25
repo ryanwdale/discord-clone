@@ -1,3 +1,0 @@
-FROM postgres:14.0-alpine3.14
-
-COPY ./db-init/ /docker-entrypoint-initdb.d/
