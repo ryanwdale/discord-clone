@@ -1,4 +1,6 @@
 import { Component } from 'react';
+import { format } from 'date-fns'
+
 import Chatroom from './Chatroom';
 import Sidebar from './Sidebar'
 import './homepage.css'
@@ -19,12 +21,43 @@ const channelList = [
 class Homepage extends Component{
     constructor() {
         super()
-        this.state = {channelList: channelList, activeChannelId: null, activeChannelName: null}
+        this.state = {
+            channelList: channelList, 
+            activeChannelId: channelList.length ? channelList[0].id : null, 
+            activeChannelName: channelList.length ? channelList[0].name : null, 
+            activeMessage: "", 
+            activeChat: []
+        }
     }
 
     onChannelSelect = (e, id, name) => {
+        // We want to fetch the latest messages for the selected channels as well
+        if (id !== this.state.activeChannelId) {
+            // for now we just remove message list and start over
+            this.setState({activeChat: []})
+        }
+
+
         this.setState({activeChannelId: id, activeChannelName: name})
     }
+    
+    handleInputChange = (value) => this.setState({ activeMessage: value })
+
+    handleSubmitMessage = (e) => {
+        e.preventDefault()
+
+        // Should talk to Socket and DB to update messageList instead of directly 
+        // updating messageList
+        this.setState((prevState) => ({
+            activeMessage: "",
+            activeChat: [...prevState.activeChat, {
+                displayName: "user1",
+                timestamp: format(new Date(), 'MM/dd/yyyy H:mm'),
+                messageContent: this.state.activeMessage
+            }]
+        }))
+    }
+
 
     render() {
         return (
@@ -37,7 +70,14 @@ class Homepage extends Component{
                         activeItem={this.state.activeChannelId}/>
                 </div>
                 <div className="chatroomContainer">
-                    <Chatroom className="chatroom" channelName={this.state.activeChannelName}/>
+                    <Chatroom 
+                        className="chatroom" 
+                        channelName={this.state.activeChannelName}
+                        activeMessage={this.state.activeMessage}
+                        messageList={this.state.activeChat}
+                        handleChange={this.handleInputChange}
+                        handleSubmitMessage={this.handleSubmitMessage}
+                    />
                 </div>
             </div>
         )
