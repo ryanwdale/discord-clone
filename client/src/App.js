@@ -5,6 +5,7 @@ import {BrowserRouter as Router, Routes, Route} from "react-router-dom"
 import { Container } from 'semantic-ui-react';
 import SignIn from './Account/SignIn'
 import SignUp from './Account/SignUp'
+import JoinServer from './Invites/JoinServer'
 import Homepage from './Chat/Homepage';
 
 function App() {
@@ -17,6 +18,7 @@ function App() {
           <Routes>
             <Route path="/" element={<SignIn/>}/>
             <Route path="/signup" element={<SignUp/>}/>
+            <Route path="/join/:serverId" element={<JoinServer/>}/>
           </Routes>
         </Container>
     </Router>
