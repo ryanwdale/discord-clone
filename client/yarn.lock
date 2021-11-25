@@ -9291,13 +9291,6 @@
     "iconv-lite" "0.4.24"
     "unpipe" "1.0.0"
 
-"react-addons-update@^15.6.3":
-  "integrity" "sha512-wBkjgx5cR0XTjZEz5jl2kScChrjI9T7rWVdaM0dLiIdHSgeHycLRdHPPiTgKk7vK18Od4rXmLJv91qofBXlE0A=="
-  "resolved" "https://registry.npmjs.org/react-addons-update/-/react-addons-update-15.6.3.tgz"
-  "version" "15.6.3"
-  dependencies:
-    "object-assign" "^4.1.0"
-
 "react-app-polyfill@^2.0.0":
   "integrity" "sha512-0sF4ny9v/B7s6aoehwze9vJNWcmCemAUYBVasscVr92+UYiEqDXOxfKjXN685mDaMRNF3WdhHQs76oTODMocFA=="
   "resolved" "https://registry.npmjs.org/react-app-polyfill/-/react-app-polyfill-2.0.0.tgz"
