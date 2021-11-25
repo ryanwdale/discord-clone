@@ -48,14 +48,22 @@ class Homepage extends Component{
 
         // Should talk to Socket and DB to update messageList instead of directly 
         // updating messageList
-        this.setState((prevState) => ({
-            activeMessage: "",
-            activeChat: [...prevState.activeChat, {
-                displayName: "user1",
-                timestamp: format(new Date(), 'MM/dd/yyyy H:mm'),
-                messageContent: this.state.activeMessage
-            }]
-        }))
+        if (this.state.activeMessage.length){
+            this.setState((prevState) => ({
+                activeMessage: "",
+                activeChat: [...prevState.activeChat, {
+                    displayName: "user1",
+                    timestamp: format(new Date(), 'MM/dd/yyyy H:mm'),
+                    messageContent: this.state.activeMessage
+                }]
+            }), 
+            () => {
+                // We also want to scroll to the latest message, we want to do this after we set state so the div is on the right height
+                // from https://stackoverflow.com/questions/270612/scroll-to-bottom-of-div
+                let chatMessages = document.getElementById("chatMessages");
+                chatMessages.scrollTop = chatMessages.scrollHeight;
+            })
+        }
     }
 
 

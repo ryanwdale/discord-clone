@@ -4,17 +4,13 @@ import './chatroom.css'
 import Message  from './Message';
 
 class Chatroom extends Component{
-    constructor(props) {
-        super(props)
-    }
-
     render() {
         return (
             <div className="chatroom">
                 <div className="channelNameContainer">
                     <Header as="h2">{this.props.channelName}</Header>
                 </div>
-                <div className="chatMessages">
+                <div id="chatMessages" className="chatMessages">
                     {this.props.messageList && this.props.messageList.map((message) => {
                         return (
                             <Message

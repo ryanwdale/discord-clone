@@ -23,12 +23,12 @@ const InviteModal = (props) => {
       )
       .then((v) => setInviteCode(v.data.code))
       .catch((e) => setErrorMessage(e.response.data.message))
-  }, [isModalOpen])
+  }, [isModalOpen, serverId])
 
   useEffect(() => {
     const inviteUrl = createInviteUrl(serverId, inviteCode)
     setInviteLink(createInviteLink(inviteUrl))
-  }, [inviteCode])
+  }, [inviteCode, serverId])
 
   return (
     <Modal
