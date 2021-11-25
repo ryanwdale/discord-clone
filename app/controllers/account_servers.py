@@ -25,6 +25,10 @@ class AccountServersResource(Resource):
         if server is None:
             abort(404, message=f"Server {server_id} doesn't exist")
 
+        # Having an ID of 0 means apply to current user
+        if account_id == 0:
+            account_id = current_user.id
+
         if current_user.id != account_id:
             abort(403, message="You must use an invite code on yourself")
 
