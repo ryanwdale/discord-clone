@@ -4,11 +4,13 @@ from datetime import datetime, timedelta, timezone
 from flask import Flask, request, render_template, session, url_for, g, redirect
 from flask_cors import CORS
 from flask_jwt_extended import create_access_token, get_jwt, set_access_cookies, get_jwt_identity, JWTManager
-
-from app_init import bcrypt, db
-from controllers.account import get_user_by_username, get_user_by_id
+from sqlalchemy import inspect
 
 from api_init import init_api
+from app_init import bcrypt, db
+from controllers.account import get_user_by_username, get_user_by_id
+from db_init import seed_database
+
 
 app = Flask(__name__)
 app.secret_key = 'somesecretkeythatonlyishouldknow'
@@ -26,7 +28,21 @@ db.init_app(app)
 CORS(app)
 
 with app.app_context():
+    seed_data = False
+
+    inspector = inspect(db.engine)
+    current_tables = inspector.get_table_names()
+
+    # Seed with data only if tables do not exist
+    if len(current_tables) == 0:
+        seed_data = True
+
+    # Create all non-existent tables in case new table has been added to model
     db.create_all()
+
+    if seed_data:
+        app.logger.info('Seeding database')
+        seed_database(db)
 
 init_api(app)
 
