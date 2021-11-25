@@ -1,5 +1,6 @@
 import { Component } from 'react';
 import { format } from 'date-fns'
+import axios from 'axios';
 
 import Chatroom from './Chatroom';
 import Sidebar from './Sidebar'
@@ -49,6 +50,25 @@ class Homepage extends Component{
         // Should talk to Socket and DB to update messageList instead of directly 
         // updating messageList
         if (this.state.activeMessage.length){
+            // Send the message to the DB
+            // We need another step of sending this to the socket and broadcasting this
+            const formData = new FormData()
+            formData.append("username", "user1")
+            formData.append("channel_id", this.state.activeChannelId)
+            formData.append("message_content", this.state.activeMessage)
+
+            console.log(this.state)
+
+            axios.post(
+                '/api/message',
+                formData,
+                {
+                    headers: {
+                        'Content-Type': 'application/json',
+                    }
+                }
+            )
+
             this.setState((prevState) => ({
                 activeMessage: "",
                 activeChat: [...prevState.activeChat, {
