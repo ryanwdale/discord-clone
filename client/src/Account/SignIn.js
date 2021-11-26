@@ -52,7 +52,8 @@ class SignIn extends Component{
                     <Button type='submit'>Sign In</Button>
                 </Form>
             </>
-        ) || <p>Welcome {this.state.username}</p>;
+        ) || <meta http-equiv="refresh" content="0; url=/chat" />;
+
     }
 }
 
