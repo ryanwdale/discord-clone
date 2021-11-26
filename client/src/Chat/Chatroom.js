@@ -11,13 +11,13 @@ class Chatroom extends Component{
                     <Header as="h2">{this.props.channelName}</Header>
                 </div>
                 <div id="chatMessages" className="chatMessages">
-                    {this.props.messageList && this.props.messageList.map((message) => {
+                    {this.props.messageList.length != 0 && this.props.messageList.map((message) => {
                         return (
                             <Message
-                                key={message.displayName+message.timestamp}
-                                displayName={message.displayName}
+                                key={message.id}
+                                displayName={message.display_name}
                                 timestamp={message.timestamp}
-                                messageContent={message.messageContent}
+                                messageContent={message.message_content}
                             />
                         )
                     })}

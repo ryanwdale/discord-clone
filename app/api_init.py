@@ -9,6 +9,7 @@ from controllers.server_invite import ServerInviteResource
 from controllers.server_list import ServerListResource
 from controllers.channel import ChannelResource
 from controllers.channel_list import ChannelListResource
+from controllers.message import MessageResource
 
 
 def init_api(app):
@@ -23,3 +24,4 @@ def init_api(app):
     api.add_resource(ServerListResource, '/api/servers')
     api.add_resource(ChannelResource, '/api/channels/<int:channel_id>')
     api.add_resource(ChannelListResource, '/api/channels')
+    api.add_resource(MessageResource, '/api/message')

@@ -1,5 +1,5 @@
 import { Component } from 'react';
-import { format } from 'date-fns'
+import axios from 'axios';
 
 import Chatroom from './Chatroom';
 import Sidebar from './Sidebar'
@@ -12,9 +12,6 @@ const channelList = [
     }, {
         id: 2,
         name: "Channel 2"
-    }, {
-        id: 3,
-        name: "Channel 3"
     }
 ];
 
@@ -30,15 +27,42 @@ class Homepage extends Component{
         }
     }
 
+    componentDidMount() {
+        this.fetchChannelData()
+    }
+
+    fetchChannelData = () => {
+        axios.get(
+            '/api/message',
+            {
+                params: {
+                    'channel_id': this.state.activeChannelId,
+                }
+            }
+        )
+        .then(res => {
+            this.setState({
+                activeMessage: "",
+                activeChat: res.data
+            }, 
+            () => {
+                // We also want to scroll to the latest message, we want to do this after we set state so the div is on the right height
+                // from https://stackoverflow.com/questions/270612/scroll-to-bottom-of-div
+                let chatMessages = document.getElementById("chatMessages");
+                chatMessages.scrollTop = chatMessages.scrollHeight;
+            })
+        })
+        .catch(e => alert(e.response.data.message))
+    }
+
     onChannelSelect = (e, id, name) => {
         // We want to fetch the latest messages for the selected channels as well
         if (id !== this.state.activeChannelId) {
-            // for now we just remove message list and start over
-            this.setState({activeChat: []})
+            this.setState({activeChannelId: id, activeChannelName: name},
+                () => {
+                    this.fetchChannelData()
+                })
         }
-
-
-        this.setState({activeChannelId: id, activeChannelName: name})
     }
     
     handleInputChange = (value) => this.setState({ activeMessage: value })
@@ -49,20 +73,25 @@ class Homepage extends Component{
         // Should talk to Socket and DB to update messageList instead of directly 
         // updating messageList
         if (this.state.activeMessage.length){
-            this.setState((prevState) => ({
-                activeMessage: "",
-                activeChat: [...prevState.activeChat, {
-                    displayName: "user1",
-                    timestamp: format(new Date(), 'MM/dd/yyyy H:mm'),
-                    messageContent: this.state.activeMessage
-                }]
-            }), 
-            () => {
-                // We also want to scroll to the latest message, we want to do this after we set state so the div is on the right height
-                // from https://stackoverflow.com/questions/270612/scroll-to-bottom-of-div
-                let chatMessages = document.getElementById("chatMessages");
-                chatMessages.scrollTop = chatMessages.scrollHeight;
+            // Send the message to the DB
+            // We need another step of sending this to the socket and broadcasting this
+            const formData = new FormData()
+            formData.append("channel_id", this.state.activeChannelId)
+            formData.append("message_content", this.state.activeMessage)
+
+            axios.post(
+                '/api/message',
+                formData,
+                {
+                    headers: {
+                        'Content-Type': 'application/json',
+                    }
+                }
+            )
+            .then(()=> {
+                this.fetchChannelData(this.state.activeChannelId)
             })
+            .catch(e => alert(e.response.data.message))
         }
     }
 
