@@ -1,14 +1,15 @@
 from app_init import db
+from sqlalchemy import func
 
 class Message(db.Model):
     id = db.Column(db.Integer, primary_key=True)
     channel_id = db.Column(db.Integer, nullable=False)
-    display_name = db.Column(db.String, nullable=False)
-    timestamp = db.Column(db.String, nullable=False)
+    user_id = db.Column(db.Integer, nullable=False)
+    timestamp = db.Column(db.DateTime, server_default=func.now())
     message_content = db.Column(db.String, nullable=False)
+    db.ForeignKey("channel.id")
 
-    def __init__(self, channel_id, display_name, timestamp, message_content):
+    def __init__(self, channel_id, user_id, message_content):
         self.channel_id = channel_id
-        self.display_name = display_name
-        self.timestamp = timestamp
+        self.user_id = user_id
         self.message_content = message_content

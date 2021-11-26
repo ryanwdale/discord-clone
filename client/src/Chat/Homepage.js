@@ -1,5 +1,4 @@
 import { Component } from 'react';
-import { format } from 'date-fns'
 import axios from 'axios';
 
 import Chatroom from './Chatroom';
@@ -42,6 +41,7 @@ class Homepage extends Component{
             }
         )
         .then(res => {
+            console.log(res)
             this.setState({
                 activeMessage: "",
                 activeChat: res.data
@@ -76,8 +76,6 @@ class Homepage extends Component{
             // Send the message to the DB
             // We need another step of sending this to the socket and broadcasting this
             const formData = new FormData()
-            formData.append("display_name", "User 1")
-            formData.append("timestamp", format(new Date(), 'MM/dd/yyyy H:mm'))
             formData.append("channel_id", this.state.activeChannelId)
             formData.append("message_content", this.state.activeMessage)
 
