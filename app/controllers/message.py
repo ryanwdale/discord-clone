@@ -34,7 +34,8 @@ class MessageResource(Resource):
     @marshal_with(message_fields)
     def get(self):
         args = fetch_parser.parse_args()
-        messages = db.session.query(Message, Account.display_name).filter(Message.channel_id == args["channel_id"]).join(Account.id == Message.user_id).order_by(Message.id.desc()).limit(100)
+        messages = db.session.query(Message).filter(Message.channel_id == args["channel_id"]).join(Account).order_by(Message.id.desc()).limit(100).with_entities(Message, Account).all()
         messages = messages[::-1]
+        result = [message[0].__dict__ | message[1].__dict__ for message in messages]
 
-        return messages, 200
+        return result, 200
