@@ -23,9 +23,7 @@ const SignIn = (props) => {
           "Content-Type": "application/json",
         },
       })
-      .then((v) => {
-        navigate("chat");
-      })
+      .then(() => navigate("/chat"))
       .catch((e) => setErrorMessage(e.response.data.message));
   };
 
