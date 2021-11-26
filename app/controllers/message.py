@@ -1,6 +1,8 @@
 from app_init import db
 from models import Message, Account
-from flask_restful import Resource, reqparse, fields, marshal_with
+from controllers.channel import get_channel_by_id
+from controllers.server_queries import current_user_in_server
+from flask_restful import Resource, reqparse, fields, marshal_with, abort
 from flask_jwt_extended import jwt_required, current_user
 
 parser = reqparse.RequestParser()
@@ -24,6 +26,10 @@ class MessageResource(Resource):
         args = parser.parse_args()
         user_id = current_user.id
 
+        channel = get_channel_by_id(args["channel_id"])
+        if not current_user_in_server(channel.server_id):
+            abort(403, message="You are not in this server")
+
         message = Message(args["channel_id"], user_id, args["message_content"])
         db.session.add(message)
         db.session.commit()
@@ -34,6 +40,11 @@ class MessageResource(Resource):
     @marshal_with(message_fields)
     def get(self):
         args = fetch_parser.parse_args()
+
+        channel = get_channel_by_id(args["channel_id"])
+        if not current_user_in_server(channel.server_id):
+            abort(403, message="You are not in this server")
+
         messages = db.session.query(Message).filter(Message.channel_id == args["channel_id"]).join(Account).order_by(Message.id.desc()).limit(100).with_entities(Message, Account).all()
         messages = messages[::-1]
         result = [message[1].__dict__ | message[0].__dict__ for message in messages]

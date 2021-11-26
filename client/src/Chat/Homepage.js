@@ -52,6 +52,7 @@ class Homepage extends Component{
                 chatMessages.scrollTop = chatMessages.scrollHeight;
             })
         })
+        .catch(e => alert(e.response.data.message))
     }
 
     onChannelSelect = (e, id, name) => {
@@ -90,6 +91,7 @@ class Homepage extends Component{
             .then(()=> {
                 this.fetchChannelData(this.state.activeChannelId)
             })
+            .catch(e => alert(e.response.data.message))
         }
     }
 
