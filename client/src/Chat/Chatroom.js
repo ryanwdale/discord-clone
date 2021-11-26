@@ -14,10 +14,10 @@ class Chatroom extends Component{
                     {this.props.messageList && this.props.messageList.map((message) => {
                         return (
                             <Message
-                                key={message.displayName+message.timestamp}
-                                displayName={message.displayName}
+                                key={message.id}
+                                displayName={message.display_name}
                                 timestamp={message.timestamp}
-                                messageContent={message.messageContent}
+                                messageContent={message.message_content}
                             />
                         )
                     })}
