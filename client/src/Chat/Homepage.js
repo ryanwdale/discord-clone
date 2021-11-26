@@ -19,10 +19,10 @@ class Homepage extends Component{
     constructor() {
         super()
         this.state = {
-            channelList: channelList, 
-            activeChannelId: channelList.length ? channelList[0].id : null, 
-            activeChannelName: channelList.length ? channelList[0].name : null, 
-            activeMessage: "", 
+            channelList: channelList,
+            activeChannelId: channelList.length ? channelList[0].id : null,
+            activeChannelName: channelList.length ? channelList[0].name : null,
+            activeMessage: "",
             activeChat: []
         }
     }
@@ -33,18 +33,13 @@ class Homepage extends Component{
 
     fetchChannelData = () => {
         axios.get(
-            '/api/message',
-            {
-                params: {
-                    'channel_id': this.state.activeChannelId,
-                }
-            }
+            `/api/channels/${this.state.activeChannelId}/messages`,
         )
         .then(res => {
             this.setState({
                 activeMessage: "",
                 activeChat: res.data
-            }, 
+            },
             () => {
                 // We also want to scroll to the latest message, we want to do this after we set state so the div is on the right height
                 // from https://stackoverflow.com/questions/270612/scroll-to-bottom-of-div
@@ -64,23 +59,22 @@ class Homepage extends Component{
                 })
         }
     }
-    
+
     handleInputChange = (value) => this.setState({ activeMessage: value })
 
     handleSubmitMessage = (e) => {
         e.preventDefault()
 
-        // Should talk to Socket and DB to update messageList instead of directly 
+        // Should talk to Socket and DB to update messageList instead of directly
         // updating messageList
         if (this.state.activeMessage.length){
             // Send the message to the DB
             // We need another step of sending this to the socket and broadcasting this
             const formData = new FormData()
-            formData.append("channel_id", this.state.activeChannelId)
             formData.append("message_content", this.state.activeMessage)
 
             axios.post(
-                '/api/message',
+                `/api/channels/${this.state.activeChannelId}/messages`,
                 formData,
                 {
                     headers: {
@@ -100,15 +94,15 @@ class Homepage extends Component{
         return (
             <div className="homeContainer">
                 <div className="sidebarContainer">
-                    <Sidebar 
-                        className="sidebar" 
-                        channelList={this.state.channelList} 
-                        onChannelSelect={this.onChannelSelect} 
+                    <Sidebar
+                        className="sidebar"
+                        channelList={this.state.channelList}
+                        onChannelSelect={this.onChannelSelect}
                         activeItem={this.state.activeChannelId}/>
                 </div>
                 <div className="chatroomContainer">
-                    <Chatroom 
-                        className="chatroom" 
+                    <Chatroom
+                        className="chatroom"
                         channelName={this.state.activeChannelName}
                         activeMessage={this.state.activeMessage}
                         messageList={this.state.activeChat}

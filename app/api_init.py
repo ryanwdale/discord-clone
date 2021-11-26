@@ -23,5 +23,5 @@ def init_api(app):
     api.add_resource(ServerResource, '/api/servers/<int:server_id>')
     api.add_resource(ServerListResource, '/api/servers')
     api.add_resource(ChannelResource, '/api/channels/<int:channel_id>')
+    api.add_resource(MessageResource, '/api/channels/<int:channel_id>/messages')
     api.add_resource(ChannelListResource, '/api/channels')
-    api.add_resource(MessageResource, '/api/message')
