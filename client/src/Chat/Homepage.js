@@ -41,7 +41,6 @@ class Homepage extends Component{
             }
         )
         .then(res => {
-            console.log(res)
             this.setState({
                 activeMessage: "",
                 activeChat: res.data
