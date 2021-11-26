@@ -16,9 +16,6 @@ message_fields = {
     'message_content': fields.String
 }
 
-fetch_parser = reqparse.RequestParser()
-fetch_parser.add_argument('channel_id')
-
 class MessageResource(Resource):
     @jwt_required()
     def post(self, channel_id):

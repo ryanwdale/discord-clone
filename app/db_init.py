@@ -38,3 +38,13 @@ def seed_database(db):
 
     db.session.add_all(channels + server_invites)
     db.session.commit()
+
+    messages = [
+        Message(channels[0].id, accounts[0].id, 'Welcome to the CMPT 470 project website for group 1'),
+        Message(channels[0].id, accounts[1].id, "I'm not in group 1. I'm in group 14."),
+        Message(channels[0].id, accounts[0].id, "Then you're in the wrong chat room. I've removed you from this server"),
+        Message(channels[1].id, accounts[0].id, 'This channel is for off-topic discussion'),
+    ]
+
+    db.session.add_all(messages)
+    db.session.commit()
