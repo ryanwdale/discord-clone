@@ -33,8 +33,8 @@ class SignUp extends Component{
     render() {
         return (
             <>
-      <Header as="h1"> Sign Up</Header>
-      <p>Please Sign up with a Username, Password, and Display Name.</p>
+              <Header as="h1">Sign up</Header>
+              <p>Please sign up with a username, password, and display name.</p>
          
 
             <Form onSubmit={this.handleSubmit}>
