@@ -13,9 +13,6 @@ const channelList = [
     }, {
         id: 2,
         name: "Channel 2"
-    }, {
-        id: 3,
-        name: "Channel 3"
     }
 ];
 
@@ -57,8 +54,6 @@ class Homepage extends Component{
             formData.append("channel_id", this.state.activeChannelId)
             formData.append("message_content", this.state.activeMessage)
 
-            console.log(this.state)
-
             axios.post(
                 '/api/message',
                 formData,
@@ -68,6 +63,23 @@ class Homepage extends Component{
                     }
                 }
             )
+            .then(()=> {
+                const fetchData = new FormData()
+                fetchData.append("channel_id", this.state.activeChannelId)
+
+                axios.get(
+                    '/api/message',
+                    fetchData,
+                    {
+                        headers: {
+                            'Content-Type': 'application/json',
+                        }
+                    }
+                )
+                .then(res => {
+                    console.log(res)
+                })
+            })
 
             this.setState((prevState) => ({
                 activeMessage: "",
