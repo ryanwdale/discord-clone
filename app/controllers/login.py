@@ -27,4 +27,4 @@ class LoginResource(Resource):
             set_access_cookies(user_response, access_token)
             return user_response
 
-        return abort(403, message="The password you’ve entered is incorrect or you have inputted an incorrect Username. Please try again.")
+        return abort(403, message="The password you’ve entered is incorrect or you have inputted an incorrect username. Please try again.")
