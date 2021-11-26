@@ -53,7 +53,7 @@ class SignUp extends Component{
                     
                 </Form.Field>
                 <Button type='submit'>Submit</Button>
-                <Button type='submit' href="javascript:window.history.back();">Back</Button>
+                <Button type='button' href="/">Return to login page</Button>
             </Form>
             </>
         )
