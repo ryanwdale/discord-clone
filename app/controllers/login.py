@@ -18,7 +18,7 @@ class LoginResource(Resource):
         user = get_user_by_username(username)
 
         if user is None:
-            return abort(404, message="user does not exist")
+            return abort(404, message="There is no account associated with that username. Please try again.")
 
         if bcrypt.check_password_hash(user.password, password):
             user_dict = marshal(user, account_fields)
@@ -27,4 +27,4 @@ class LoginResource(Resource):
             set_access_cookies(user_response, access_token)
             return user_response
 
-        return abort(403, message="could not log in")
+        return abort(403, message="The password you’ve entered is incorrect or you have inputted an incorrect Username. Please try again.")

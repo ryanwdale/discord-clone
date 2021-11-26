@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import { Button, Form } from 'semantic-ui-react';
+import { Button, Form, Header } from 'semantic-ui-react';
 import axios from 'axios';
 
 class SignUp extends Component{
@@ -7,6 +7,8 @@ class SignUp extends Component{
         super(props)
         this.state = {username: '', password: '', displayName: '', errorMessage: ''}
     }
+
+   
 
     handleChange = (e, { name, value }) => this.setState({ [name]: value })
 
@@ -30,6 +32,11 @@ class SignUp extends Component{
 
     render() {
         return (
+            <>
+      <Header as="h1"> Sign Up</Header>
+      <p>Please Sign up with a Username, Password, and Display Name.</p>
+         
+
             <Form onSubmit={this.handleSubmit}>
                 {this.state.errorMessage && (<p>Error: {this.state.errorMessage}</p>)}
                 <Form.Field>
@@ -43,9 +50,12 @@ class SignUp extends Component{
                 <Form.Field>
                     <label>Display Name</label>
                     <Form.Input required name='displayName' placeholder='Display Name' onChange={this.handleChange} />
+                    
                 </Form.Field>
                 <Button type='submit'>Submit</Button>
+                <Button type='submit' href="javascript:window.history.back();">Back</Button>
             </Form>
+            </>
         )
     }
 }
