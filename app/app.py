@@ -3,7 +3,13 @@ from datetime import datetime, timedelta, timezone
 
 from flask import Flask, request, render_template, session, url_for, g, redirect
 from flask_cors import CORS
-from flask_jwt_extended import create_access_token, get_jwt, set_access_cookies, get_jwt_identity, JWTManager
+from flask_jwt_extended import (
+    create_access_token,
+    get_jwt,
+    get_jwt_identity,
+    JWTManager,
+    set_access_cookies,
+)
 from sqlalchemy import inspect
 
 from api_init import init_api
@@ -13,13 +19,13 @@ from db_init import seed_database
 
 
 app = Flask(__name__)
-app.secret_key = os.environ['FLASK_SECRET_KEY']
+app.secret_key = os.environ["FLASK_SECRET_KEY"]
 app.config["SQLALCHEMY_DATABASE_URI"] = "postgresql://{}:{}@{}:{}/{}".format(
-    os.environ['POSTGRES_USER'],
-    os.environ['POSTGRES_PASSWORD'],
-    os.environ['POSTGRES_HOST'],
-    os.environ['POSTGRES_PORT'],
-    os.environ['POSTGRES_DB'],
+    os.environ["POSTGRES_USER"],
+    os.environ["POSTGRES_PASSWORD"],
+    os.environ["POSTGRES_HOST"],
+    os.environ["POSTGRES_PORT"],
+    os.environ["POSTGRES_DB"],
 )
 app.config["SQLALCHEMY_TRACK_MODIFICATIONS"] = "False"
 
@@ -41,15 +47,17 @@ with app.app_context():
     db.create_all()
 
     if seed_data:
-        app.logger.info('Seeding database')
+        app.logger.info("Seeding database")
         seed_database(db)
 
 init_api(app)
 
-app.config["JWT_COOKIE_SECURE"] = False  # set this to true for production to allow only https
+app.config[
+    "JWT_COOKIE_SECURE"
+] = False  # set this to true for production to allow only https
 app.config["JWT_TOKEN_LOCATION"] = ["cookies"]
 app.config["JWT_COOKIE_CSRF_PROTECT"] = False  # todo: set this to true
-app.config["JWT_SECRET_KEY"] = os.environ['JWT_SECRET_KEY']
+app.config["JWT_SECRET_KEY"] = os.environ["JWT_SECRET_KEY"]
 app.config["JWT_ACCESS_TOKEN_EXPIRES"] = timedelta(hours=1)
 
 jwt = JWTManager(app)
@@ -89,46 +97,5 @@ def user_lookup_callback(_jwt_header, jwt_data):
     return get_user_by_id(identity)
 
 
-
-@app.before_request
-def before_request():
-    g.user = None
-
-    if 'user_id' in session:
-        user = get_user_by_id(session['user_id'])
-        g.user = user
-
-
-@app.route('/login', methods=['GET', 'POST'])
-def login():
-    if request.method == 'POST':
-        session.pop('user_id', None)
-
-        username = request.form['username']
-        password = request.form['password']
-
-        user = get_user_by_username(username)
-        if bcrypt.check_password_hash(user.password, password):
-            session['user_id'] = user.id
-            return redirect(url_for('profile'))
-
-        return redirect(url_for('login'))
-
-    return render_template('login.html')
-
-
-@app.route('/profile')
-def profile():
-    if not g.user:
-        return redirect(url_for('login'))
-
-    return render_template('profile.html')
-
-
-@app.route('/')
-def index():
-    return render_template('index.html')
-
-
 if __name__ == "__main__":
-    app.run(debug=False, host='0.0.0.0')
+    app.run(debug=False, host="0.0.0.0")
