@@ -13,7 +13,7 @@ from db_init import seed_database
 
 
 app = Flask(__name__)
-app.secret_key = 'somesecretkeythatonlyishouldknow'
+app.secret_key = os.environ['FLASK_SECRET_KEY']
 app.config["SQLALCHEMY_DATABASE_URI"] = "postgresql://{}:{}@{}:{}/{}".format(
     os.environ['POSTGRES_USER'],
     os.environ['POSTGRES_PASSWORD'],
@@ -49,7 +49,7 @@ init_api(app)
 app.config["JWT_COOKIE_SECURE"] = False  # set this to true for production to allow only https
 app.config["JWT_TOKEN_LOCATION"] = ["cookies"]
 app.config["JWT_COOKIE_CSRF_PROTECT"] = False  # todo: set this to true
-app.config["JWT_SECRET_KEY"] = "super-secret"
+app.config["JWT_SECRET_KEY"] = os.environ['JWT_SECRET_KEY']
 app.config["JWT_ACCESS_TOKEN_EXPIRES"] = timedelta(hours=1)
 
 jwt = JWTManager(app)
@@ -131,4 +131,4 @@ def index():
 
 
 if __name__ == "__main__":
-    app.run(debug=True, host='0.0.0.0')
+    app.run(debug=False, host='0.0.0.0')
