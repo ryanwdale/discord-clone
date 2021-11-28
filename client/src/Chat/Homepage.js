@@ -5,49 +5,45 @@ import Chatroom from './Chatroom';
 import Sidebar from './Sidebar'
 import './homepage.css'
 
-const channelList = [
-    {
-        id: 1,
-        name: "Channel 1"
-    }, {
-        id: 2,
-        name: "Channel 2"
-    }
-];
 
 class Homepage extends Component{
     constructor() {
         super()
         this.state = {
-            channelList: channelList,
-            activeChannelId: channelList.length ? channelList[0].id : null,
-            activeChannelName: channelList.length ? channelList[0].name : null,
+            channelList: [],
+            activeChannelId: null,
+            activeChannelName: null,
             activeMessage: "",
-            activeChat: []
+            activeChat: [],
+            accountId: null
         }
     }
 
     componentDidMount() {
+        this.fetchCurrentAccount()
+        this.updateChannels()
         this.fetchChannelData()
     }
 
     fetchChannelData = () => {
-        axios.get(
-            `/api/channels/${this.state.activeChannelId}/messages`,
-        )
-        .then(res => {
-            this.setState({
-                activeMessage: "",
-                activeChat: res.data
-            },
-            () => {
-                // We also want to scroll to the latest message, we want to do this after we set state so the div is on the right height
-                // from https://stackoverflow.com/questions/270612/scroll-to-bottom-of-div
-                let chatMessages = document.getElementById("chatMessages");
-                chatMessages.scrollTop = chatMessages.scrollHeight;
+        if (this.state.activeChannelId !== null) {
+            axios.get(
+                `/api/channels/${this.state.activeChannelId}/messages`,
+            )
+            .then(res => {
+                this.setState({
+                    activeMessage: "",
+                    activeChat: res.data
+                },
+                () => {
+                    // We also want to scroll to the latest message, we want to do this after we set state so the div is on the right height
+                    // from https://stackoverflow.com/questions/270612/scroll-to-bottom-of-div
+                    let chatMessages = document.getElementById("chatMessages");
+                    chatMessages.scrollTop = chatMessages.scrollHeight;
+                })
             })
-        })
-        .catch(e => alert(e.response.data.message))
+            .catch(e => alert(e.response.data.message))
+        }
     }
 
     onChannelSelect = (e, id, name) => {
@@ -58,6 +54,34 @@ class Homepage extends Component{
                     this.fetchChannelData()
                 })
         }
+    }
+
+    fetchCurrentAccount = () => {
+        axios.get(
+            '/api/currentAccount',
+            {
+                headers: {
+                    'Content-Type': 'application/json',
+                }
+            }
+        )
+        .then((v) => (this.setState({accountId: v.data.id})))
+        .catch(e => alert(e.response.data.message))
+        // todo: navigate to signin on error
+        // todo: use accountId to fetch servers
+    }
+
+    updateChannels = () => {
+        axios.get(
+            '/api/servers/1/channels',
+            {
+                headers: {
+                    'Content-Type': 'application/json',
+                }
+            }
+        )
+        .then((v) => this.setState({channelList: v.data}))
+        .catch(e => alert(e.response.data.message))
     }
 
     handleInputChange = (value) => this.setState({ activeMessage: value })
@@ -98,7 +122,9 @@ class Homepage extends Component{
                         className="sidebar"
                         channelList={this.state.channelList}
                         onChannelSelect={this.onChannelSelect}
-                        activeItem={this.state.activeChannelId}/>
+                        activeItem={this.state.activeChannelId}
+                        updateChannels={this.updateChannels}
+                    />
                 </div>
                 <div className="chatroomContainer">
                     <Chatroom

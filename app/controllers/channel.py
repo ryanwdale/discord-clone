@@ -9,7 +9,7 @@ parser.add_argument('server_id')
 
 channel_fields = {
     'id': fields.Integer,
-    'channel_name': fields.String,
+    'name': fields.String,
     'server_id': fields.Integer
 }
 

@@ -3,12 +3,10 @@ import { Header, Menu } from 'semantic-ui-react';
 
 import "./sidebar.css"
 import InviteModal from "../Invites/InviteModal"
+import CreateChannelModal from './CreateChannelModal';
 
 class Sidebar extends Component{
-    constructor(props){
-        super(props)
-        this.state = {channelList: this.props.channelList}
-    }
+
     render() {
         return (
             <div className="sidebar">
@@ -20,7 +18,7 @@ class Sidebar extends Component{
                     <h4 className="textChannelHeader">Text Channels</h4>
                     
                     <Menu secondary vertical className="Menu">
-                        {this.state.channelList.map(channel => {
+                        {this.props.channelList.map(channel => {
                             return (
                                 <Menu.Item
                                 key={channel.id}
@@ -33,6 +31,10 @@ class Sidebar extends Component{
                                 </Menu.Item>
                             )
                         })}
+                        <CreateChannelModal 
+                            serverId={1}
+                            updateChannels={this.props.updateChannels}
+                        />
                     </Menu>
                 </div>
             </div>
