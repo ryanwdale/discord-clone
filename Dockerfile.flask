@@ -1,15 +1,15 @@
-FROM python:3.9.8-slim-buster
+FROM python:3.9.8-buster
 
-WORKDIR /app
+ENV PYTHONUNBUFFERED=1
 
-COPY app/requirements.txt .
+COPY wait.sh /
 
-RUN pip install -r requirements.txt
+RUN chmod +x /wait.sh
+
+COPY app/requirements.txt /app/
+
+RUN pip install -r /app/requirements.txt
 
 COPY app /app
 
-COPY wait.sh /app
-
-RUN chmod +x wait.sh
-
-CMD ./wait.sh db 5432 && python3 app.py
+CMD ./wait.sh db 5432 && /usr/local/bin/uwsgi --ini /app/uwsgi.ini
