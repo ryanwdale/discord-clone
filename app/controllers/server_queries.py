@@ -1,5 +1,6 @@
 from app_init import db
 from models import Account, Server, ServerInvite
+from models import Channel
 # added this file to prevent circular imports, there's probably a better way
 
 from datetime import datetime
@@ -26,3 +27,7 @@ def is_valid_server_invite(server_id, code):
         ServerInvite.code == code,
         current_time < ServerInvite.expiration,
     ).first() is not None
+
+
+def get_channels_in_server(server_id):
+    return db.session.query(Channel).filter(Channel.server_id == server_id).all()
