@@ -44,6 +44,8 @@ def seed_database(db):
         Message(channels[0].id, accounts[1].id, "I'm not in group 1. I'm in group 14."),
         Message(channels[0].id, accounts[0].id, "Then you're in the wrong chat room. I've removed you from this server"),
         Message(channels[1].id, accounts[0].id, 'This channel is for off-topic discussion'),
+        Message(channels[1].id, accounts[0].id, 'Text formatting has been implemented: _italics_, **bold**, `inline code`, ***italic + bold***'),
+        Message(channels[1].id, accounts[0].id, 'Source for above example: ``_italics_, **bold**, `inline code`, ***italic + bold***``'),
     ]
 
     db.session.add_all(messages)
