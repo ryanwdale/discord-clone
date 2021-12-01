@@ -65,7 +65,7 @@ class Homepage extends Component{
                 }
             }
         )
-        .then((v) => (this.setState({accountId: v.data.id})))
+        .then((v) => (this.setState({accountId: v.data.id, displayName: v.data.display_name})))
         .catch(e => alert(e.response.data.message))
         // todo: navigate to signin on error
         // todo: use accountId to fetch servers
@@ -120,6 +120,7 @@ class Homepage extends Component{
                 <div className="sidebarContainer">
                     <Sidebar
                         className="sidebar"
+                        displayName={this.state.displayName}
                         channelList={this.state.channelList}
                         onChannelSelect={this.onChannelSelect}
                         activeItem={this.state.activeChannelId}

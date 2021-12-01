@@ -4,12 +4,17 @@ import { Header, Menu } from 'semantic-ui-react';
 import "./sidebar.css"
 import InviteModal from "../Invites/InviteModal"
 import CreateChannelModal from './CreateChannelModal';
+import SignOut from "../Account/SignOut";
 
 class Sidebar extends Component{
 
     render() {
         return (
             <div className="sidebar">
+                <div className="AccountInfo">
+                    <Header as="h2"> {this.props.displayName} </Header>
+                    <SignOut />
+                </div>
                 <div className="ChannelTitleContainer">
                     <Header as="h2">Server 1</Header>
                     <InviteModal serverId={1} />
