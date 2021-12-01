@@ -1,10 +1,11 @@
 import { Component } from 'react';
-import { Header, Menu } from 'semantic-ui-react';
+import { Dropdown, Header, Menu } from 'semantic-ui-react';
 
 import "./sidebar.css"
 import InviteModal from "../Invites/InviteModal"
 import CreateChannelModal from './CreateChannelModal';
 import SignOut from "../Account/SignOut";
+
 
 class Sidebar extends Component{
 
@@ -16,12 +17,17 @@ class Sidebar extends Component{
                     <SignOut />
                 </div>
                 <div className="ChannelTitleContainer">
-                    <Header as="h2">Server 1</Header>
-                    <InviteModal serverId={1} />
+                    <Dropdown
+                      fluid
+                      className='largeDropdown'
+                      placeholder='Select a server'
+                      onChange={this.props.onServerSelect}
+                      options={this.props.serverList} />
+                    <InviteModal serverId={this.props.activeServerId} />
                 </div>
                 <div className="ChatList">
                     <h4 className="textChannelHeader">Text Channels</h4>
-                    
+
                     <Menu secondary vertical className="Menu">
                         {this.props.channelList.map(channel => {
                             return (
@@ -36,8 +42,8 @@ class Sidebar extends Component{
                                 </Menu.Item>
                             )
                         })}
-                        <CreateChannelModal 
-                            serverId={1}
+                        <CreateChannelModal
+                            serverId={this.props.activeServerId}
                             updateChannels={this.props.updateChannels}
                         />
                     </Menu>

@@ -7,6 +7,12 @@ import './homepage.css'
 import io from 'socket.io-client';
 
 
+const convertServerListToOptions = (serverList) => {
+  return serverList.map(
+      (server) => ({key: server.id, value: server.id, text: server.server_name})
+  )
+}
+
 class Homepage extends Component{
     constructor() {
         super()
@@ -14,6 +20,8 @@ class Homepage extends Component{
             channelList: [],
             activeChannelId: null,
             activeChannelName: null,
+            serverList: [],
+            activeServerId: null,
             activeMessage: "",
             activeChat: [],
             accountId: null
@@ -35,8 +43,6 @@ class Homepage extends Component{
 
     componentDidMount() {
         this.fetchCurrentAccount()
-        this.updateChannels()
-        this.fetchChannelData()
     }
 
     fetchChannelData = () => {
@@ -81,15 +87,16 @@ class Homepage extends Component{
                 }
             }
         )
-        .then((v) => (this.setState({accountId: v.data.id, displayName: v.data.display_name})))
-        .catch(e => alert(e.response.data.message))
+        .then((v) => {
+            this.setState({accountId: v.data.id, displayName: v.data.display_name, serverList: v.data.servers})
+        })
         // todo: navigate to signin on error
-        // todo: use accountId to fetch servers
     }
 
     updateChannels = () => {
+      if (this.state.activeServerId) {
         axios.get(
-            '/api/servers/1/channels',
+            `/api/servers/${this.state.activeServerId}/channels`,
             {
                 headers: {
                     'Content-Type': 'application/json',
@@ -98,9 +105,16 @@ class Homepage extends Component{
         )
         .then((v) => this.setState({channelList: v.data}))
         .catch(e => alert(e.response.data.message))
+      }
     }
 
     handleInputChange = (value) => this.setState({ activeMessage: value })
+    onServerSelect = (e, data) => {
+      this.setState({ activeServerId: data.value }, () => {
+        this.updateChannels()
+        this.fetchChannelData()
+      })
+    }
 
     handleSubmitMessage = (e) => {
         e.preventDefault()
@@ -140,8 +154,11 @@ class Homepage extends Component{
                         displayName={this.state.displayName}
                         channelList={this.state.channelList}
                         onChannelSelect={this.onChannelSelect}
+                        onServerSelect={this.onServerSelect}
+                        activeServerId={this.state.activeServerId}
                         activeItem={this.state.activeChannelId}
                         updateChannels={this.updateChannels}
+                        serverList={convertServerListToOptions(this.state.serverList)}
                     />
                 </div>
                 <div className="chatroomContainer">
