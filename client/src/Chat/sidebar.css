@@ -1,3 +1,7 @@
+.AccountInfo{
+    padding: 1em;
+    border-bottom: rgb(44, 43, 43) 2px solid;
+}
 .ChannelTitleContainer {
     padding: 1em;
     border-bottom: rgb(44, 43, 43) 2px solid;
