@@ -3,7 +3,7 @@ import axios from 'axios';
 import { Button, Modal } from 'semantic-ui-react';
 import { useNavigate } from 'react-router-dom'
 
-const SignOut = (props) => {
+const SignOut = () => {
 
   const navigate = useNavigate();
   const [errorMessage, setErrorMessage] = useState('')

@@ -1,4 +1,4 @@
-import { Component, useReducer } from 'react';
+import { Component } from 'react';
 import { Header, Menu } from 'semantic-ui-react';
 
 import "./sidebar.css"
@@ -12,7 +12,7 @@ class Sidebar extends Component{
         return (
             <div className="sidebar">
                 <div className="AccountInfo">
-                    <Header as="h2"> Username </Header>
+                    <Header as="h2"> {this.props.displayName} </Header>
                     <SignOut />
                 </div>
                 <div className="ChannelTitleContainer">
