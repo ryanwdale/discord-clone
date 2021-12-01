@@ -27,7 +27,6 @@ const SignOut = (props) => {
       onOpen={() => setIsModalOpen(true)}
       onClose={() => setIsModalOpen(false)}
       content={errorMessage ? errorMessage : <Modal.Content>Signing Out...</Modal.Content>}
-      //actions={[{ key: 'done', content: errorMessage ? "Okay" : "I've copied the link!", positive: true }]}
     />
   );
 }

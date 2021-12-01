@@ -120,6 +120,7 @@ class Homepage extends Component{
                 <div className="sidebarContainer">
                     <Sidebar
                         className="sidebar"
+                        userName={this.state.displayName}
                         channelList={this.state.channelList}
                         onChannelSelect={this.onChannelSelect}
                         activeItem={this.state.activeChannelId}

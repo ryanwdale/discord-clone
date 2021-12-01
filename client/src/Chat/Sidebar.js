@@ -12,7 +12,7 @@ class Sidebar extends Component{
         return (
             <div className="sidebar">
                 <div className="AccountInfo">
-                    <h2 className="username"> Username </h2>
+                    <Header as="h2"> Username </Header>
                     <SignOut />
                 </div>
                 <div className="ChannelTitleContainer">
