@@ -56,6 +56,19 @@ class Homepage extends Component{
         }
     }
 
+    serverInfo = () => {
+        axios.get(
+            'api/servers',
+            {
+                headers: {
+                    'Content-Type': 'application/json',
+                }
+            }
+        )
+        .then((v)=>(this.setState({serverName: v.data.server_name})))
+        .catch(e=>alert(e.response.data.message))
+    }
+
     fetchCurrentAccount = () => {
         axios.get(
             '/api/currentAccount',
@@ -65,7 +78,7 @@ class Homepage extends Component{
                 }
             }
         )
-        .then((v) => (this.setState({accountId: v.data.id, displayName: v.displayName})))
+        .then((v) => (this.setState({accountId: v.data.id, displayName: v.data.display_name})))
         .catch(e => alert(e.response.data.message))
         // todo: navigate to signin on error
         // todo: use accountId to fetch servers
@@ -121,6 +134,7 @@ class Homepage extends Component{
                     <Sidebar
                         className="sidebar"
                         displayName={this.state.displayName}
+                        serverName={this.state.serverName}
                         channelList={this.state.channelList}
                         onChannelSelect={this.onChannelSelect}
                         activeItem={this.state.activeChannelId}
