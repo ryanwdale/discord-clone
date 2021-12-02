@@ -1,34 +1,39 @@
-import React, { useEffect, useState } from 'react';
-import axios from 'axios';
-import { Button, Modal } from 'semantic-ui-react';
-import { useNavigate } from 'react-router-dom'
+import React, { useEffect, useState } from "react";
+import axios from "axios";
+import { Button, Modal } from "semantic-ui-react";
+import { useNavigate } from "react-router-dom";
 
 const SignOut = () => {
-
   const navigate = useNavigate();
-  const [errorMessage, setErrorMessage] = useState('')
-  const [isModalOpen, setIsModalOpen] = useState(false)
+  const [errorMessage, setErrorMessage] = useState("");
+  const [isModalOpen, setIsModalOpen] = useState(false);
 
   useEffect(() => {
-    if (!isModalOpen) { return }
+    if (!isModalOpen) {
+      return;
+    }
 
     axios
-      .post(
-        "/api/logout"
-      )
+      .post("/api/logout")
       .then((v) => navigate("/"))
-      .catch((e) => setErrorMessage(e.response.data.message))
-  }, [isModalOpen])
+      .catch((e) => setErrorMessage(e.response.data.message));
+  }, [isModalOpen]);
 
   return (
     <Modal
       trigger={<Button>Sign Out</Button>}
-      header='Sign Out'
+      header="Sign Out"
       onOpen={() => setIsModalOpen(true)}
       onClose={() => setIsModalOpen(false)}
-      content={errorMessage ? errorMessage : <Modal.Content>Signing Out...</Modal.Content>}
+      content={
+        errorMessage ? (
+          errorMessage
+        ) : (
+          <Modal.Content>Signing Out...</Modal.Content>
+        )
+      }
     />
   );
-}
+};
 
 export default SignOut;

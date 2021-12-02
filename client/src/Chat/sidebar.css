@@ -1,50 +1,51 @@
-.AccountInfo{
-    padding: 1em;
-    border-bottom: rgb(44, 43, 43) 2px solid;
+.AccountInfo {
+  padding: 1em;
+  border-bottom: rgb(44, 43, 43) 2px solid;
 }
 .ChannelTitleContainer {
-    padding: 1em;
-    border-bottom: rgb(44, 43, 43) 2px solid;
+  padding: 1em;
+  border-bottom: rgb(44, 43, 43) 2px solid;
 }
 
 .ChatList {
-    margin-top: 1em;
-    margin-left: 1em;
-    margin-right: 1em;
+  margin-top: 1em;
+  margin-left: 1em;
+  margin-right: 1em;
 }
 
 .textChannelHeader {
-    margin-bottom: 0.5em;
+  margin-bottom: 0.5em;
 }
 
 .Menu {
-    margin: 0 !important;
-    width: 100% !important;
+  margin: 0 !important;
+  width: 100% !important;
 }
 
 .channelContainer {
-    width:100% !important;
+  width: 100% !important;
 }
 
 .channelContainer:hover {
-    background-color: rgb(126, 126, 126) !important;
+  background-color: rgb(126, 126, 126) !important;
 }
 
 h2 {
-    color: white !important;
+  color: white !important;
 }
 
 .largeDropdown .default.text {
-    color: white !important;
+  color: white !important;
 }
 
 .largeDropdown {
-    color: white;
-    font-size: 1.5em;
-    font-weight: bolder;
-    margin-bottom: 1em;
+  color: white;
+  font-size: 1.5em;
+  font-weight: bolder;
+  margin-bottom: 1em;
 }
 
-h3, h4 {
-    color: silver !important;
+h3,
+h4 {
+  color: silver !important;
 }

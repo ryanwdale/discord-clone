@@ -1,7 +1,6 @@
-import React, { Component, useState } from 'react';
-import axios from 'axios';
-import { Button, Modal, Form, Message } from 'semantic-ui-react';
-
+import React, { Component, useState } from "react";
+import axios from "axios";
+import { Button, Modal, Form, Message } from "semantic-ui-react";
 
 const CreateChannelModal = (props) => {
   const [open, setOpen] = useState(false);
@@ -15,7 +14,7 @@ const CreateChannelModal = (props) => {
     >
       <Modal.Header>Add a Channel</Modal.Header>
       <Modal.Content>
-        <CreateChannelForm 
+        <CreateChannelForm
           serverId={props.serverId}
           updateChannels={props.updateChannels}
         />
@@ -32,10 +31,9 @@ const CreateChannelModal = (props) => {
 };
 
 class CreateChannelForm extends Component {
-
   state = {
     channelName: "",
-    errorMessage: ""
+    errorMessage: "",
   };
 
   handleChange = (e, { name, value }) => {
@@ -43,26 +41,22 @@ class CreateChannelForm extends Component {
   };
   handleSubmit = () => {
     axios
-      .post(
-        "/api/channels",
-        {
-          server_id: this.props.serverId,
-          channel_name: this.state.channelName,
-          headers: {
-            "Content-Type": "application/json",
-          },
-        }
-      )
+      .post("/api/channels", {
+        server_id: this.props.serverId,
+        channel_name: this.state.channelName,
+        headers: {
+          "Content-Type": "application/json",
+        },
+      })
       .then(() => {
         this.props.updateChannels();
         // todo: close modal without reloading
         window.location.reload();
       })
-      .catch((e) => this.setState({errorMessage: e.response.data.message}));
-  }
+      .catch((e) => this.setState({ errorMessage: e.response.data.message }));
+  };
 
   render() {
-
     return (
       <Form onSubmit={this.handleSubmit}>
         <Form.Input
@@ -78,8 +72,7 @@ class CreateChannelForm extends Component {
             header="Error creating channel"
             content={this.state.errorMessage}
           />
-        )
-        }
+        )}
         <Form.Button content="Submit" />
       </Form>
     );

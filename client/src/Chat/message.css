@@ -1,10 +1,10 @@
 .messageContainer {
-    padding: 15px;
-    color: white;
+  padding: 15px;
+  color: white;
 }
 
 .messageTimeStamp {
-    color: lightgray;
-    font-size: small;
-    margin-left: 5px;
+  color: lightgray;
+  font-size: small;
+  margin-left: 5px;
 }
