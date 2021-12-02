@@ -6,17 +6,16 @@ from flask_jwt_extended import jwt_required, current_user
 
 
 parser = reqparse.RequestParser()
-parser.add_argument('server_name')
+parser.add_argument("server_name")
 
 
 class ServerListResource(Resource):
-
     @jwt_required()
     @marshal_with(server_fields)
     def post(self):
         args = parser.parse_args()
         # create the server
-        server = Server(args['server_name'])
+        server = Server(args["server_name"])
         db.session.add(server)
         db.session.commit()
         # add current user to server

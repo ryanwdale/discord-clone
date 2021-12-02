@@ -5,7 +5,6 @@ from flask_jwt_extended import jwt_required
 
 
 class ServerChannelsResource(Resource):
-
     @jwt_required()
     @marshal_with(channel_fields)
     def get(self, server_id):

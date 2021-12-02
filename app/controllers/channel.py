@@ -5,12 +5,12 @@ from flask_restful import Resource, reqparse, fields, marshal_with, abort
 from flask_jwt_extended import jwt_required
 
 parser = reqparse.RequestParser()
-parser.add_argument('server_id')
+parser.add_argument("server_id")
 
 channel_fields = {
-    'id': fields.Integer,
-    'name': fields.String,
-    'server_id': fields.Integer
+    "id": fields.Integer,
+    "name": fields.String,
+    "server_id": fields.Integer,
 }
 
 
@@ -19,7 +19,6 @@ def get_channel_by_id(channel_id):
 
 
 class ChannelResource(Resource):
-
     @jwt_required()
     @marshal_with(channel_fields)
     def get(self, channel_id):
@@ -29,4 +28,3 @@ class ChannelResource(Resource):
         if not current_user_in_server(channel.server_id):
             abort(403, message="You are not in this server")
         return channel
-

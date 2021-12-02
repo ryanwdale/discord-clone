@@ -6,17 +6,16 @@ from flask_jwt_extended import jwt_required
 
 
 parser = reqparse.RequestParser()
-parser.add_argument('channel_id')
+parser.add_argument("channel_id")
 
 server_fields = {
-    'id': fields.Integer,
-    'server_name': fields.String,
-    'channels': fields.List(fields.Nested(channel_fields))
+    "id": fields.Integer,
+    "server_name": fields.String,
+    "channels": fields.List(fields.Nested(channel_fields)),
 }
 
 
 class ServerResource(Resource):
-
     @jwt_required()
     @marshal_with(server_fields)
     def get(self, server_id):
@@ -34,7 +33,7 @@ class ServerResource(Resource):
             abort(403, message="You are not in this server")
         # add a new channel to the server
         args = parser.parse_args()
-        channel_id = args['channel_id']
+        channel_id = args["channel_id"]
         channel = get_channel_by_id(channel_id)
         if channel is None:
             abort(404, message=f"Channel {channel_id} doesn't exist")

@@ -5,14 +5,14 @@ from flask_restful import Resource, reqparse, fields, marshal_with
 from flask_jwt_extended import jwt_required, current_user
 
 parser = reqparse.RequestParser()
-parser.add_argument('server_id')
+parser.add_argument("server_id")
 
 
 account_fields = {
-    'id': fields.Integer,
-    'username': fields.String,
-    'display_name': fields.String,
-    'servers': fields.List(fields.Nested(server_fields))
+    "id": fields.Integer,
+    "username": fields.String,
+    "display_name": fields.String,
+    "servers": fields.List(fields.Nested(server_fields)),
 }
 
 
