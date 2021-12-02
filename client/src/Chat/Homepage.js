@@ -101,7 +101,23 @@ class Homepage extends Component {
                 },
                 () => {
                   this.updateChannels();
-                  this.fetchChannelData();
+
+                  if (!this.state.activeChannelId) {
+                    const activeServer = this.state.serverList[0];
+
+                    if (activeServer.channels.length) {
+                      const activeChannel = activeServer.channels[0];
+                      this.setState(
+                        {
+                          activeChannelId: activeChannel.id,
+                          activeChannelName: activeChannel.name,
+                        },
+                        () => {
+                          this.fetchChannelData();
+                        }
+                      );
+                    }
+                  }
                 }
               );
             }
