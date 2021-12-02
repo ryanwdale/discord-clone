@@ -22,7 +22,8 @@ def seed_database(db):
     db.session.commit()
 
     account_servers = [
-        accounts[0].servers.append(servers[0])
+        accounts[0].servers.append(servers[0]),
+        accounts[1].servers.append(servers[0])
     ]
 
     channels = [

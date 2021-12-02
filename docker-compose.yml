@@ -9,6 +9,8 @@ services:
       dockerfile: Dockerfile.flask
     env_file:
       - .env
+    volumes:
+      - sockets:/tmp
   db:
     container_name: cmpt-470-project-db-container
     image: 'postgres:14.0-alpine3.14'
@@ -32,6 +34,10 @@ services:
       dockerfile: Dockerfile.proxy
     ports:
       - 8080:80
+    volumes:
+      - sockets:/tmp
 
 volumes:
   db:
+  sockets:
+
