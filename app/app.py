@@ -100,19 +100,19 @@ def user_lookup_callback(_jwt_header, jwt_data):
     return get_user_by_id(identity)
 
 
-@socket.on('server message')
+@socket.on("server message")
 def get(data):
-    room = str(data['room'])
-    emit('client message', data['message'], to=room, include_self=False)
+    room = str(data["room"])
+    emit("client message", data["message"], to=room, include_self=False)
 
 
-@socket.on('join')
+@socket.on("join")
 def on_join(data):
-    room = str(data['channel_id'])
+    room = str(data["channel_id"])
     join_room(room)
 
 
-@socket.on('leave')
+@socket.on("leave")
 def on_leave(data):
-    room = str(data['channel_id'])
+    room = str(data["channel_id"])
     leave_room(room)

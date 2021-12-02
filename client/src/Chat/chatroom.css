@@ -1,47 +1,47 @@
 /* Certain parts of the css is taken from youtube.com/watch?v=zc1loX80TX8*/
 .chatroom {
-    display: flex;
-    flex-direction: column;
-    flex: 0.75;
-    height:100vh
+  display: flex;
+  flex-direction: column;
+  flex: 0.75;
+  height: 100vh;
 }
 
 .channelNameContainer {
-    display: flex;
-    padding: 1em;
+  display: flex;
+  padding: 1em;
 }
 
 .chatInput {
-    color: lightgray;
-    display: flex;
-    align-items: center;
-    justify-content: space-between;
-    padding: 15px;
-    border-radius: 3px;
-    margin: 15px;
-    background-color: rgb(77, 74, 74);
+  color: lightgray;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 15px;
+  border-radius: 3px;
+  margin: 15px;
+  background-color: rgb(77, 74, 74);
 }
 
 .chatMessages {
-    flex: 1;
-    overflow-wrap: break-word;
-    overflow-y: scroll;
+  flex: 1;
+  overflow-wrap: break-word;
+  overflow-y: scroll;
 }
 
 .chatInput > form {
-    width: 100%;
+  width: 100%;
 }
 
 .chatInput > form > input {
-    padding: 15px;
-    background-color: transparent;
-    border: none;
-    color: white;
-    font-size: large;
-    outline-width: 0;
-    width: 100%;
+  padding: 15px;
+  background-color: transparent;
+  border: none;
+  color: white;
+  font-size: large;
+  outline-width: 0;
+  width: 100%;
 }
 
 .chatInputSubmit {
-    display: none;
+  display: none;
 }

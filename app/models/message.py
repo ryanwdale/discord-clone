@@ -1,6 +1,7 @@
 from app_init import db
 from sqlalchemy import func
 
+
 class Message(db.Model):
     id = db.Column(db.Integer, primary_key=True)
     channel_id = db.Column(db.Integer, db.ForeignKey("channel.id"), nullable=False)

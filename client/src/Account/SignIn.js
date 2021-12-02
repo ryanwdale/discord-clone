@@ -32,7 +32,6 @@ const SignIn = (props) => {
       <Header as="h1"> Welcome to the project for CMPT 470 of group 1 </Header>
       <p>Please log in with your username and password.</p>
       <Form onSubmit={handleSubmit}>
-     
         {errorMessage && <p> Error: {errorMessage} </p>}
         <Form.Field>
           <label> Username </label>
