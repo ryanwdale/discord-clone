@@ -21,6 +21,7 @@ class Sidebar extends Component {
             placeholder="Select a server"
             onChange={this.props.onServerSelect}
             options={this.props.serverList}
+            value={this.props.activeServerId}
           />
           <InviteModal serverId={this.props.activeServerId} />
         </div>

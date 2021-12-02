@@ -87,11 +87,26 @@ class Homepage extends Component {
         },
       })
       .then((v) => {
-        this.setState({
-          accountId: v.data.id,
-          displayName: v.data.display_name,
-          serverList: v.data.servers,
-        });
+        this.setState(
+          {
+            accountId: v.data.id,
+            displayName: v.data.display_name,
+            serverList: v.data.servers,
+          },
+          () => {
+            if (this.state.serverList.length) {
+              this.setState(
+                {
+                  activeServerId: this.state.serverList[0].id,
+                },
+                () => {
+                  this.updateChannels();
+                  this.fetchChannelData();
+                }
+              );
+            }
+          }
+        );
       });
     // todo: navigate to signin on error
   };
