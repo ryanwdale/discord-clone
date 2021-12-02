@@ -1,7 +1,7 @@
 import os
 from datetime import datetime, timedelta, timezone
 
-from flask import Flask, request, render_template, session, url_for, g, redirect
+from flask import Flask
 from flask_cors import CORS
 from flask_jwt_extended import (
     create_access_token,
@@ -13,10 +13,11 @@ from flask_jwt_extended import (
 from sqlalchemy import inspect
 
 from api_init import init_api
-from app_init import bcrypt, db
-from controllers.account import get_user_by_username, get_user_by_id
+from app_init import bcrypt, db, socket
+from controllers.account import get_user_by_id
 from db_init import seed_database
 
+from flask_socketio import emit, join_room, leave_room
 
 app = Flask(__name__)
 app.secret_key = os.environ["FLASK_SECRET_KEY"]
@@ -31,6 +32,7 @@ app.config["SQLALCHEMY_TRACK_MODIFICATIONS"] = "False"
 
 bcrypt.init_app(app)
 db.init_app(app)
+socket.init_app(app)
 CORS(app)
 
 with app.app_context():
@@ -62,6 +64,7 @@ app.config["JWT_ACCESS_TOKEN_EXPIRES"] = timedelta(hours=1)
 
 jwt = JWTManager(app)
 
+# todo: this has a bug, log in then wait for a while then refresh to reproduce
 # Using an `after_request` callback, we refresh any token that is within 30
 # minutes of expiring. Change the timedeltas to match the needs of your application.
 @app.after_request
@@ -97,5 +100,19 @@ def user_lookup_callback(_jwt_header, jwt_data):
     return get_user_by_id(identity)
 
 
-if __name__ == "__main__":
-    app.run(debug=False, host="0.0.0.0")
+@socket.on('server message')
+def get(data):
+    room = str(data['room'])
+    emit('client message', data['message'], to=room, include_self=False)
+
+
+@socket.on('join')
+def on_join(data):
+    room = str(data['channel_id'])
+    join_room(room)
+
+
+@socket.on('leave')
+def on_leave(data):
+    room = str(data['channel_id'])
+    leave_room(room)

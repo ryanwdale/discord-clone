@@ -4,6 +4,7 @@ import axios from 'axios';
 import Chatroom from './Chatroom';
 import Sidebar from './Sidebar'
 import './homepage.css'
+import io from 'socket.io-client';
 
 
 class Homepage extends Component{
@@ -17,6 +18,19 @@ class Homepage extends Component{
             activeChat: [],
             accountId: null
         }
+        this.socket = io();
+        this.socket.on("client message", (message) => {
+            console.log(message)
+            // todo: add message to activeChat
+        })
+
+        this.socket.on("disconnect", (reason) => {
+            if (reason === "io server disconnect") {
+              // the disconnection was initiated by the server, you need to reconnect manually
+              this.socket.connect();
+            }
+            // else the socket will automatically try to reconnect
+        });
     }
 
     componentDidMount() {
@@ -49,8 +63,10 @@ class Homepage extends Component{
     onChannelSelect = (e, id, name) => {
         // We want to fetch the latest messages for the selected channels as well
         if (id !== this.state.activeChannelId) {
+            this.socket.emit("leave", {channel_id: this.state.activeChannelId})
             this.setState({activeChannelId: id, activeChannelName: name},
                 () => {
+                    this.socket.emit("join", {channel_id: id})
                     this.fetchChannelData()
                 })
         }
@@ -92,8 +108,9 @@ class Homepage extends Component{
         // Should talk to Socket and DB to update messageList instead of directly
         // updating messageList
         if (this.state.activeMessage.length){
+            // Broadcast message, maybe this should save to DB then we don't need the post?
+            this.socket.emit("server message", {message: this.state.activeMessage, room: this.state.activeChannelId})
             // Send the message to the DB
-            // We need another step of sending this to the socket and broadcasting this
             const formData = new FormData()
             formData.append("message_content", this.state.activeMessage)
 
