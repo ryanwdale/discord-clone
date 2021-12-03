@@ -6,9 +6,13 @@
   height: 100vh;
 }
 
-.channelNameContainer {
+.channelTopBar {
   display: flex;
   padding: 1em;
+}
+
+.headerContainer {
+  padding: 5px;
 }
 
 .chatInput {
@@ -26,6 +30,7 @@
   flex: 1;
   overflow-wrap: break-word;
   overflow-y: scroll;
+  margin-left: 5px;
 }
 
 .chatInput > form {

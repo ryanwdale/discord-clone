@@ -1,0 +1,34 @@
+.searchInput {
+    color: lightgray;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding: 5px;
+    border-radius: 3px;
+    margin: 5px;
+    background-color: rgb(77, 74, 74);
+    position: absolute;
+    right: 0px;
+    margin-right: 15px;
+}
+
+.searchInput > form {
+    width: 100%;
+    float: right;
+}
+
+.searchInput > form > input {
+    font-size: 14px;
+    padding: 5px;
+    background-color: transparent;
+    border: none;
+    color: white;
+    font-size: large;
+    outline-width: 0;
+    width: 100%;
+}
+  
+.searchInputSubmit {
+    display: none;
+}
+  
