@@ -6,15 +6,17 @@ def seed_database(db):
     hashed_passwords = [
         bcrypt.generate_password_hash("user1").decode("utf-8"),
         bcrypt.generate_password_hash("user2").decode("utf-8"),
+        bcrypt.generate_password_hash("user3").decode("utf-8"),
     ]
 
     accounts = [
         Account("user1", hashed_passwords[0], "User 1"),
         Account("user2", hashed_passwords[1], "User 2"),
+        Account("user3", hashed_passwords[2], "User 3"),
     ]
 
     servers = [
-        Server("Server 1, with user 1 only"),
+        Server("Server 1, with users 1 and 2"),
     ]
 
     # IDs are not generated until they have been committed
