@@ -6,4 +6,4 @@ COPY wait.sh /
 
 RUN chmod +x wait.sh
 
-CMD /wait.sh db 5432 && /wait.sh client 3000 && nginx -g "daemon off; error_log /dev/stdout info;"
+CMD sleep 30 && nginx -g "daemon off; error_log /dev/stdout info;"
