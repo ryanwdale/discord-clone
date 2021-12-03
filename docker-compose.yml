@@ -10,7 +10,7 @@ services:
     env_file:
       - .env
     volumes:
-      - sockets:/tmp
+      - shared:/shared
   db:
     container_name: cmpt-470-project-db-container
     image: 'postgres:14.0-alpine3.14'
@@ -35,9 +35,9 @@ services:
     ports:
       - 8080:80
     volumes:
-      - sockets:/tmp
+      - shared:/shared
 
 volumes:
   db:
-  sockets:
+  shared:
 
