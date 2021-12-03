@@ -19,6 +19,7 @@ message_fields = {
 
 class MessageResource(Resource):
     @jwt_required()
+    @marshal_with(message_fields)
     def post(self, channel_id):
         args = parser.parse_args()
         user_id = current_user.id
@@ -31,7 +32,7 @@ class MessageResource(Resource):
         db.session.add(message)
         db.session.commit()
 
-        return None, 201
+        return message, 201
 
     @jwt_required()
     @marshal_with(message_fields)
