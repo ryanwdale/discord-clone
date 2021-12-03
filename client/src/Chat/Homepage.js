@@ -24,6 +24,7 @@ class Homepage extends Component {
       serverList: [],
       activeServerId: null,
       activeMessage: "",
+      activeSearchMessage: "",
       activeChat: [],
       accountId: null,
     };
@@ -151,6 +152,7 @@ class Homepage extends Component {
   };
 
   handleInputChange = (value) => this.setState({ activeMessage: value });
+  handleSearchChange = (value) => this.setState({ activeSearchMessage: value });
   onServerSelect = (e, data) => {
     this.setState({ activeServerId: data.value }, () => {
       this.updateChannels();
@@ -191,6 +193,13 @@ class Homepage extends Component {
     }
   };
 
+  handleSubmitSearchMessage = (e) => {
+    e.preventDefault();
+
+    // TODO: add backend logic
+    console.log(this.state.activeSearchMessage)
+  }
+
   render() {
     return (
       <div className="homeContainer">
@@ -212,9 +221,12 @@ class Homepage extends Component {
             className="chatroom"
             channelName={this.state.activeChannelName}
             activeMessage={this.state.activeMessage}
+            activeSearchMessage={this.state.activeSearchMessage}
             messageList={this.state.activeChat}
             handleChange={this.handleInputChange}
+            handleSearchChange={this.handleSearchChange}
             handleSubmitMessage={this.handleSubmitMessage}
+            handleSubmitSearchMessage={this.handleSubmitSearchMessage}
           />
         </div>
       </div>
