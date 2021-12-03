@@ -103,7 +103,7 @@ def user_lookup_callback(_jwt_header, jwt_data):
 @socket.on("server message")
 def get(data):
     room = str(data["room"])
-    emit("client message", data["message"], to=room, include_self=False)
+    emit("client message", data["message"], to=room, include_self=True)
 
 
 @socket.on("join")
