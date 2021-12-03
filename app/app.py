@@ -101,23 +101,33 @@ def user_lookup_callback(_jwt_header, jwt_data):
     return get_user_by_id(identity)
 
 
+def can_use_room(channel_id):
+    channel = get_channel_by_id(channel_id)
+
+    if channel is None:
+        return False
+
+    can_use_room = current_user_in_server(channel.server_id, session["user_id"])
+
+    return can_use_room
+
+
 @socket.on("server message")
-def get(data):
-    room = str(data["room"])
+def on_server_message(data):
+    channel_id = data["room"]
+
+    if not can_use_room(channel_id):
+        disconnect()
+
+    room = str(channel_id)
     emit("client message", data["message"], to=room, include_self=True)
 
 
 @socket.on("join")
 def on_join(data):
     channel_id = data["channel_id"]
-    channel = get_channel_by_id(channel_id)
 
-    if channel is None:
-        disconnect()
-
-    can_join = current_user_in_server(channel.server_id, session["user_id"])
-
-    if not can_join:
+    if not can_use_room(channel_id):
         disconnect()
 
     room = str(channel_id)
