@@ -12,4 +12,4 @@ RUN pip install -r /app/requirements.txt
 
 COPY app /app
 
-CMD sleep 20 && python3 app.py
+CMD ./wait.sh db 5432 && /usr/local/bin/uwsgi --ini /app/uwsgi.ini
