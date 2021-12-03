@@ -8,8 +8,11 @@ from datetime import datetime
 from flask_jwt_extended import current_user
 
 
-def current_user_in_server(server_id):
-    return current_user.id in map(lambda x: x.id, get_users_in_server(server_id))
+def current_user_in_server(server_id, user_id=None):
+    if user_id is None:
+        user_id = current_user.id
+
+    return user_id in map(lambda x: x.id, get_users_in_server(server_id))
 
 
 def get_server_by_id(server_id):
@@ -41,3 +44,7 @@ def is_valid_server_invite(server_id, code):
 
 def get_channels_in_server(server_id):
     return db.session.query(Channel).filter(Channel.server_id == server_id).all()
+
+
+def get_channel_by_id(channel_id):
+    return db.session.query(Channel).filter(Channel.id == channel_id).first()

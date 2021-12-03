@@ -2,7 +2,7 @@ from app_init import bcrypt
 from controllers.account import get_user_by_username, account_fields
 from flask_restful import abort, Resource, reqparse, marshal
 from flask_jwt_extended import create_access_token, set_access_cookies
-from flask import jsonify
+from flask import jsonify, session
 
 parser = reqparse.RequestParser()
 parser.add_argument("username")
@@ -28,6 +28,7 @@ class LoginResource(Resource):
             user_response = jsonify(user_dict)
             access_token = create_access_token(identity=user)
             set_access_cookies(user_response, access_token)
+            session["user_id"] = user.id
             return user_response
 
         return abort(

@@ -1,7 +1,7 @@
 import os
-from datetime import datetime, timedelta, timezone
 
-from flask import Flask
+from datetime import datetime, timedelta, timezone
+from flask import Flask, session
 from flask_cors import CORS
 from flask_jwt_extended import (
     create_access_token,
@@ -10,14 +10,15 @@ from flask_jwt_extended import (
     JWTManager,
     set_access_cookies,
 )
+from flask_socketio import disconnect, emit, join_room, leave_room
 from sqlalchemy import inspect
 
 from api_init import init_api
 from app_init import bcrypt, db, socket
 from controllers.account import get_user_by_id
+from controllers.server_queries import current_user_in_server, get_channel_by_id
 from db_init import seed_database
 
-from flask_socketio import emit, join_room, leave_room
 
 app = Flask(__name__)
 app.secret_key = os.environ["FLASK_SECRET_KEY"]
@@ -100,15 +101,36 @@ def user_lookup_callback(_jwt_header, jwt_data):
     return get_user_by_id(identity)
 
 
+def can_use_room(channel_id):
+    channel = get_channel_by_id(channel_id)
+
+    if channel is None:
+        return False
+
+    can_use_room = current_user_in_server(channel.server_id, session["user_id"])
+
+    return can_use_room
+
+
 @socket.on("server message")
-def get(data):
-    room = str(data["room"])
+def on_server_message(data):
+    channel_id = data["room"]
+
+    if not can_use_room(channel_id):
+        disconnect()
+
+    room = str(channel_id)
     emit("client message", data["message"], to=room, include_self=True)
 
 
 @socket.on("join")
 def on_join(data):
-    room = str(data["channel_id"])
+    channel_id = data["channel_id"]
+
+    if not can_use_room(channel_id):
+        disconnect()
+
+    room = str(channel_id)
     join_room(room)
 
 
