@@ -29,7 +29,7 @@ class Homepage extends Component {
     };
     this.socket = io();
     this.socket.on("client message", (message) => {
-      this.setState((prevState) => ({activeChat: [...prevState.activeChat, message]}), 
+      this.setState((prevState) => ({activeChat: [...prevState.activeChat, message]}),
       () =>{
         // We also want to scroll to the latest message, we want to do this after we set state so the div is on the right height
         // from https://stackoverflow.com/questions/270612/scroll-to-bottom-of-div
@@ -122,6 +122,7 @@ class Homepage extends Component {
                           activeChannelName: activeChannel.name,
                         },
                         () => {
+                          this.socket.emit("join", { channel_id: activeChannel.id });
                           this.fetchChannelData();
                         }
                       );
@@ -159,7 +160,7 @@ class Homepage extends Component {
 
   handleSubmitMessage = (e) => {
     e.preventDefault();
-    
+
     if (this.state.activeMessage.length) {
       const formData = new FormData();
       formData.append("message_content", this.state.activeMessage);
@@ -183,7 +184,7 @@ class Homepage extends Component {
             message: message,
             room: this.state.activeChannelId,
           });
-          
+
           this.setState({activeMessage: ""})
         })
         .catch((e) => alert(e.response.data.message));
