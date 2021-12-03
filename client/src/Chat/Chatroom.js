@@ -11,7 +11,7 @@ class Chatroom extends Component {
           <Header as="h2">{this.props.channelName}</Header>
         </div>
         <div id="chatMessages" className="chatMessages">
-          {this.props.messageList.length != 0 &&
+          {this.props.messageList.length !== 0 &&
             this.props.messageList.map((message) => {
               return (
                 <Message

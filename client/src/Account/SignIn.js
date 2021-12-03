@@ -1,9 +1,9 @@
-import React, { Component, useState } from "react";
+import React, { useState } from "react";
 import { Button, Form, Header } from "semantic-ui-react";
 import { Link, useNavigate } from "react-router-dom";
 import axios from "axios";
 
-const SignIn = (props) => {
+const SignIn = () => {
   const [username, setUsername] = useState("");
   const [password, setPassword] = useState("");
   const [errorMessage, setErrorMessage] = useState("");
