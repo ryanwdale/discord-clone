@@ -1,6 +1,7 @@
 import React, { useEffect, useState } from "react";
 import axios from "axios";
 import { Link, useLocation, useParams } from "react-router-dom";
+import getCsrfCookie from "../Account/GetCsrfCookie";
 
 const SuccessMessage = (props) => {
   return (
@@ -34,6 +35,7 @@ const JoinServer = () => {
       .put("/api/accounts/0/servers", formData, {
         headers: {
           "Content-Type": "application/json",
+          "X-CSRF-TOKEN": getCsrfCookie()
         },
       })
       .then(() => setJoinedServer(true))

@@ -59,7 +59,7 @@ app.config[
     "JWT_COOKIE_SECURE"
 ] = False  # set this to true for production to allow only https
 app.config["JWT_TOKEN_LOCATION"] = ["cookies"]
-app.config["JWT_COOKIE_CSRF_PROTECT"] = False  # todo: set this to true
+app.config["JWT_COOKIE_CSRF_PROTECT"] = True
 app.config["JWT_SECRET_KEY"] = os.environ["JWT_SECRET_KEY"]
 app.config["JWT_ACCESS_TOKEN_EXPIRES"] = timedelta(hours=1)
 
