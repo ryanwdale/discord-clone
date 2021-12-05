@@ -59,13 +59,13 @@ app.config[
     "JWT_COOKIE_SECURE"
 ] = False  # set this to true for production to allow only https
 app.config["JWT_TOKEN_LOCATION"] = ["cookies"]
-app.config["JWT_COOKIE_CSRF_PROTECT"] = False  # todo: set this to true
+app.config["JWT_COOKIE_CSRF_PROTECT"] = True
+app.config["JWT_CSRF_CHECK_FORM"] = True
 app.config["JWT_SECRET_KEY"] = os.environ["JWT_SECRET_KEY"]
 app.config["JWT_ACCESS_TOKEN_EXPIRES"] = timedelta(hours=1)
 
 jwt = JWTManager(app)
 
-# todo: this has a bug, log in then wait for a while then refresh to reproduce
 # Using an `after_request` callback, we refresh any token that is within 30
 # minutes of expiring. Change the timedeltas to match the needs of your application.
 @app.after_request
@@ -75,7 +75,8 @@ def refresh_expiring_jwts(response):
         now = datetime.now(timezone.utc)
         target_timestamp = datetime.timestamp(now + timedelta(minutes=30))
         if target_timestamp > exp_timestamp:
-            access_token = create_access_token(identity=get_jwt_identity())
+            user = get_user_by_id(get_jwt_identity())
+            access_token = create_access_token(identity=user)
             set_access_cookies(response, access_token)
         return response
     except (RuntimeError, KeyError):

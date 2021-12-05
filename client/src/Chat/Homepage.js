@@ -5,6 +5,7 @@ import Chatroom from "./Chatroom";
 import Sidebar from "./Sidebar";
 import "./homepage.css";
 import io from "socket.io-client";
+import getCsrfCookie from "../Account/GetCsrfCookie";
 
 const convertServerListToOptions = (serverList) => {
   return serverList.map((server) => ({
@@ -166,7 +167,6 @@ class Homepage extends Component {
     if (this.state.activeMessage.length) {
       const formData = new FormData();
       formData.append("message_content", this.state.activeMessage);
-
       axios
         .post(
           `/api/channels/${this.state.activeChannelId}/messages`,
@@ -174,6 +174,7 @@ class Homepage extends Component {
           {
             headers: {
               "Content-Type": "application/json",
+              "X-CSRF-TOKEN": getCsrfCookie()
             },
           }
         )

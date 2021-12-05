@@ -1,6 +1,7 @@
 import React, { Component, useState } from "react";
 import axios from "axios";
 import { Button, Modal, Form, Message } from "semantic-ui-react";
+import getCsrfCookie from "../Account/GetCsrfCookie";
 
 const CreateChannelModal = (props) => {
   const [open, setOpen] = useState(false);
@@ -40,14 +41,18 @@ class CreateChannelForm extends Component {
     this.setState({ [name]: value });
   };
   handleSubmit = () => {
+    const formData = new FormData();
+    formData.append("channel_name", this.state.channelName);
     axios
-      .post("/api/channels", {
-        server_id: this.props.serverId,
-        channel_name: this.state.channelName,
-        headers: {
-          "Content-Type": "application/json",
-        },
-      })
+      .post(`/api/servers/${this.props.serverId}/channels`,
+        formData,
+        {
+          headers: {
+            "Content-Type": "application/json",
+            "X-CSRF-TOKEN": getCsrfCookie()
+          },
+        }
+      )
       .then(() => {
         this.props.updateChannels();
         // todo: close modal without reloading

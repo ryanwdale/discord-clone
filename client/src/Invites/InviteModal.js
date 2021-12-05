@@ -1,6 +1,7 @@
 import React, { useEffect, useState } from "react";
 import axios from "axios";
 import { Button, Modal } from "semantic-ui-react";
+import getCsrfCookie from "../Account/GetCsrfCookie";
 
 const createInviteUrl = (serverId, code) => `/join/${serverId}?code=${code}`;
 const createInviteLink = (url) => <a href={url}>invite link</a>;
@@ -19,7 +20,14 @@ const InviteModal = (props) => {
     }
 
     axios
-      .post(`/api/servers/${serverId}/invites`)
+      .post(`/api/servers/${serverId}/invites`,
+      {},
+      {
+        headers: {
+          "Content-Type": "application/json",
+          "X-CSRF-TOKEN": getCsrfCookie()
+        },
+      })
       .then((v) => setInviteCode(v.data.code))
       .catch((e) => setErrorMessage(e.response.data.message));
   }, [isModalOpen, serverId]);
