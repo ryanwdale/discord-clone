@@ -66,7 +66,6 @@ app.config["JWT_ACCESS_TOKEN_EXPIRES"] = timedelta(hours=1)
 
 jwt = JWTManager(app)
 
-# todo: this has a bug, log in then wait for a while then refresh to reproduce
 # Using an `after_request` callback, we refresh any token that is within 30
 # minutes of expiring. Change the timedeltas to match the needs of your application.
 @app.after_request
