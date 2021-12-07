@@ -5,6 +5,7 @@ import "./sidebar.css";
 import InviteModal from "../Invites/InviteModal";
 import CreateChannelModal from "./CreateChannelModal";
 import SignOut from "../Account/SignOut";
+import CreateServerModal from './CreateServerModal';
 
 class Sidebar extends Component {
   render() {
@@ -25,6 +26,11 @@ class Sidebar extends Component {
                 options={this.props.serverList}
                 value={this.props.activeServerId}
               />
+              <CreateServerModal 
+                            serverId={1}
+                            updateChannels={this.props.updateChannels}
+                        />
+
               <InviteModal serverId={this.props.activeServerId} />
             </>
           )) || <Header as="h2">You are not in any servers</Header>}
