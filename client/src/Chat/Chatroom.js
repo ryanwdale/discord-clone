@@ -24,9 +24,13 @@ class Chatroom extends Component {
               return (
                 <Message
                   key={message.id}
+                  channelId={this.props.channelId}
+                  messageId={message.id}
+                  isFromCurrentUser={this.props.activeUserId === message.user_id}
                   displayName={message.display_name}
                   timestamp={message.timestamp}
                   messageContent={message.message_content}
+                  socket={this.props.socket}
                 />
               );
             })}

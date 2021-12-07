@@ -15,6 +15,13 @@ const convertServerListToOptions = (serverList) => {
   }));
 };
 
+const scrollToTop = () => {
+  // We also want to scroll to the latest message, we want to do this after we set state so the div is on the right height
+  // from https://stackoverflow.com/questions/270612/scroll-to-bottom-of-div
+  let chatMessages = document.getElementById("chatMessages");
+  chatMessages.scrollTop = chatMessages.scrollHeight;
+};
+
 class Homepage extends Component {
   constructor() {
     super();
@@ -31,13 +38,19 @@ class Homepage extends Component {
     };
     this.socket = io();
     this.socket.on("client message", (message) => {
-      this.setState((prevState) => ({activeChat: [...prevState.activeChat, message]}),
-      () =>{
-        // We also want to scroll to the latest message, we want to do this after we set state so the div is on the right height
-        // from https://stackoverflow.com/questions/270612/scroll-to-bottom-of-div
-        let chatMessages = document.getElementById("chatMessages");
-        chatMessages.scrollTop = chatMessages.scrollHeight;
-      })
+      this.setState(
+        (prevState) => ({ activeChat: [...prevState.activeChat, message] }),
+        scrollToTop
+      );
+    });
+
+    this.socket.on("delete message", (messageId) => {
+      this.setState((prevState) => {
+        const chatMessages = prevState.activeChat.filter(
+          (message) => message.id != messageId
+        );
+        return { activeChat: chatMessages };
+      }, scrollToTop);
     });
 
     this.socket.on("disconnect", (reason) => {
@@ -124,7 +137,9 @@ class Homepage extends Component {
                           activeChannelName: activeChannel.name,
                         },
                         () => {
-                          this.socket.emit("join", { channel_id: activeChannel.id });
+                          this.socket.emit("join", {
+                            channel_id: activeChannel.id,
+                          });
                           this.fetchChannelData();
                         }
                       );
@@ -174,21 +189,21 @@ class Homepage extends Component {
           {
             headers: {
               "Content-Type": "application/json",
-              "X-CSRF-TOKEN": getCsrfCookie()
+              "X-CSRF-TOKEN": getCsrfCookie(),
             },
           }
         )
         .then((res) => {
-          let message = res.data
+          let message = res.data;
           // We need to fill in the display name
-          message.display_name = this.state.displayName
+          message.display_name = this.state.displayName;
 
           this.socket.emit("server message", {
             message: message,
             room: this.state.activeChannelId,
           });
 
-          this.setState({activeMessage: ""})
+          this.setState({ activeMessage: "" });
         })
         .catch((e) => alert(e.response.data.message));
     }
@@ -198,8 +213,8 @@ class Homepage extends Component {
     e.preventDefault();
 
     // TODO: add backend logic
-    console.log(this.state.activeSearchMessage)
-  }
+    console.log(this.state.activeSearchMessage);
+  };
 
   render() {
     return (
@@ -220,7 +235,9 @@ class Homepage extends Component {
         <div className="chatroomContainer">
           <Chatroom
             className="chatroom"
+            channelId={this.state.activeChannelId}
             channelName={this.state.activeChannelName}
+            activeUserId={this.state.accountId}
             activeMessage={this.state.activeMessage}
             activeSearchMessage={this.state.activeSearchMessage}
             messageList={this.state.activeChat}
@@ -228,6 +245,7 @@ class Homepage extends Component {
             handleSearchChange={this.handleSearchChange}
             handleSubmitMessage={this.handleSubmitMessage}
             handleSubmitSearchMessage={this.handleSubmitSearchMessage}
+            socket={this.socket}
           />
         </div>
       </div>
