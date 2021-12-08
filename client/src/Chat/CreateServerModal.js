@@ -1,7 +1,7 @@
 import React, { Component, useState } from 'react';
 import axios from 'axios';
 import { Button, Modal, Form, Message } from 'semantic-ui-react';
-
+import getCsrfCookie from "../Account/GetCsrfCookie";
 
 const CreateServerModal = (props) => {
   const [open, setOpen] = useState(false);
