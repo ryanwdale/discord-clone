@@ -10,6 +10,7 @@ parser.add_argument("message_content")
 
 message_fields = {
     "id": fields.Integer,
+    "user_id": fields.Integer,
     "display_name": fields.String,
     "timestamp": fields.DateTime,
     "channel_id": fields.Integer,

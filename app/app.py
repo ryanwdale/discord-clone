@@ -16,7 +16,7 @@ from sqlalchemy import inspect
 from api_init import init_api
 from app_init import bcrypt, db, socket
 from controllers.account import get_user_by_id
-from controllers.server_queries import current_user_in_server, get_channel_by_id
+from controllers.server_queries import current_user_in_server, delete_message, get_channel_by_id, get_message
 from db_init import seed_database
 
 
@@ -111,6 +111,24 @@ def can_use_room(channel_id):
     can_use_room = current_user_in_server(channel.server_id, session["user_id"])
 
     return can_use_room
+
+
+@socket.on("delete message")
+def on_delete_message(data):
+    message_id = data["message_id"]
+    channel_id = data["channel_id"]
+    requestor = session["user_id"]
+
+    message = get_message(message_id)
+
+    if message is None:
+        return
+
+    if requestor == message.user_id:
+        delete_message(message_id)
+
+        room = str(channel_id)
+        emit("delete message", message.id, to=room, include_self=True)
 
 
 @socket.on("server message")

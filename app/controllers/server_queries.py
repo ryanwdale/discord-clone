@@ -1,8 +1,5 @@
 from app_init import db
-from models import Account, Server, ServerInvite
-from models import Channel
-
-# added this file to prevent circular imports, there's probably a better way
+from models import Account, Channel, Message, Server, ServerInvite
 
 from datetime import datetime
 from flask_jwt_extended import current_user
@@ -48,3 +45,13 @@ def get_channels_in_server(server_id):
 
 def get_channel_by_id(channel_id):
     return db.session.query(Channel).filter(Channel.id == channel_id).first()
+
+
+def get_message(message_id):
+    return db.session.query(Message).filter(Message.id == message_id).first()
+
+
+def delete_message(message_id):
+    message = get_message(message_id)
+    db.session.delete(message)
+    db.session.commit()
