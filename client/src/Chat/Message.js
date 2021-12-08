@@ -1,4 +1,3 @@
-import { Component } from "react";
 import { Button, Header } from "semantic-ui-react";
 import { format } from "date-fns";
 import ReactMarkdown from "react-markdown";

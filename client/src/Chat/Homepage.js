@@ -35,6 +35,8 @@ class Homepage extends Component {
       activeSearchMessage: "",
       activeChat: [],
       accountId: null,
+      showAnalytics: false,
+      analytics: null
     };
     this.socket = io();
     this.socket.on("client message", (message) => {
@@ -47,7 +49,7 @@ class Homepage extends Component {
     this.socket.on("delete message", (messageId) => {
       this.setState((prevState) => {
         const chatMessages = prevState.activeChat.filter(
-          (message) => message.id != messageId
+          (message) => message.id !== messageId
         );
         return { activeChat: chatMessages };
       }, scrollToTop);
@@ -96,7 +98,7 @@ class Homepage extends Component {
     // We want to fetch the latest messages for the selected channels as well
     if (id !== this.state.activeChannelId) {
       this.socket.emit("leave", { channel_id: this.state.activeChannelId });
-      this.selectChannel(id, name);
+      this.setState({showAnalytics: false}, () => {this.selectChannel(id, name);})
     }
   };
 
@@ -167,6 +169,26 @@ class Homepage extends Component {
     }
   };
 
+  fetchChannelAnalytics = () => {
+    axios
+      .get(
+        `/api/channels/${this.state.activeChannelId}/analytics`,
+        {
+          headers: {
+            "Content-Type": "application/json",
+          },
+        }
+      )
+      .then((res) => {
+        this.setState({showAnalytics: true, analytics: res.data})
+      })
+      .catch((e) => alert(e.response.data.message));
+  }
+
+  toggleShowAnalytics = () => {
+    this.setState({showAnalytics: false}, scrollToTop)
+  }
+
   selectFirstChannel = () => {
     if (this.state.channelList.length) {
       const channel = this.state.channelList[0];
@@ -205,7 +227,7 @@ class Homepage extends Component {
   handleInputChange = (value) => this.setState({ activeMessage: value });
   handleSearchChange = (value) => this.setState({ activeSearchMessage: value });
   onServerSelect = (e, data) => {
-    this.setState({ activeServerId: data.value }, () => {
+    this.setState({ activeServerId: data.value, showAnalytics: false }, () => {
       this.updateChannels();
       this.fetchChannelData();
     });
@@ -276,6 +298,10 @@ class Homepage extends Component {
             activeMessage={this.state.activeMessage}
             activeSearchMessage={this.state.activeSearchMessage}
             messageList={this.state.activeChat}
+            fetchChannelAnalytics={this.fetchChannelAnalytics}
+            showAnalytics={this.state.showAnalytics}
+            toggleShowAnalytics={this.toggleShowAnalytics}
+            analytics={this.state.analytics}
             handleChange={this.handleInputChange}
             handleSearchChange={this.handleSearchChange}
             handleSubmitMessage={this.handleSubmitMessage}

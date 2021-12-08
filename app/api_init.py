@@ -10,6 +10,7 @@ from controllers.server_list import ServerListResource
 from controllers.channel import ChannelResource
 from controllers.message import MessageResource
 from controllers.server_channels import ServerChannelsResource
+from controllers.analytics import AnalyticsResource
 
 
 def init_api(app):
@@ -25,3 +26,4 @@ def init_api(app):
     api.add_resource(ServerChannelsResource, "/api/servers/<int:server_id>/channels")
     api.add_resource(ChannelResource, "/api/channels/<int:channel_id>")
     api.add_resource(MessageResource, "/api/channels/<int:channel_id>/messages")
+    api.add_resource(AnalyticsResource, "/api/channels/<int:channel_id>/analytics")
