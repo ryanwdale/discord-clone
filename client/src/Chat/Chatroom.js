@@ -1,5 +1,5 @@
 import { Component } from "react";
-import { Header } from "semantic-ui-react";
+import { Header, Button } from "semantic-ui-react";
 import "./chatroom.css";
 import Message from "./Message";
 import Search from "./Search"
@@ -12,6 +12,12 @@ class Chatroom extends Component {
           <div className="headerContainer">
             <Header as="h2">{this.props.channelName}</Header>
           </div>
+          {this.props.channelId !== null && 
+            <Button
+              content="Delete Channel"
+              onClick={this.props.deleteChannel}
+            />
+          }
           <Search
             activeSearchMessage={this.props.activeSearchMessage}
             handleSearchChange={this.props.handleSearchChange}
