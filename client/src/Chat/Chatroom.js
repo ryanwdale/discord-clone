@@ -15,6 +15,12 @@ class Chatroom extends Component {
           {this.props.showAnalytics ?
             <Button className="analytics_btn" onClick={this.props.toggleShowAnalytics}>Back</Button> :
             <>
+              {this.props.channelId !== null && 
+                <Button
+                  content="Delete Channel"
+                  onClick={this.props.deleteChannel}
+                />
+              }
               <Button className="analytics_btn" onClick={this.props.fetchChannelAnalytics}>View Channel Analytics</Button>
               <Search
                 activeSearchMessage={this.props.activeSearchMessage}

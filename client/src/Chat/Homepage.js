@@ -98,12 +98,16 @@ class Homepage extends Component {
     // We want to fetch the latest messages for the selected channels as well
     if (id !== this.state.activeChannelId) {
       this.socket.emit("leave", { channel_id: this.state.activeChannelId });
-      this.setState({ activeChannelId: id, activeChannelName: name, showAnalytics: false}, () => {
-        this.socket.emit("join", { channel_id: id });
-        this.fetchChannelData();
-      });
+      this.this.setState({showAnalytics: false}, () => {this.selectChannel(id, name);})
     }
   };
+
+  selectChannel = (id, name) => {
+    this.setState({ activeChannelId: id, activeChannelName: name }, () => {
+      this.socket.emit("join", { channel_id: id });
+      this.fetchChannelData();
+    });
+  }
 
   fetchCurrentAccount = () => {
     axios
@@ -133,18 +137,7 @@ class Homepage extends Component {
 
                     if (activeServer.channels.length) {
                       const activeChannel = activeServer.channels[0];
-                      this.setState(
-                        {
-                          activeChannelId: activeChannel.id,
-                          activeChannelName: activeChannel.name,
-                        },
-                        () => {
-                          this.socket.emit("join", {
-                            channel_id: activeChannel.id,
-                          });
-                          this.fetchChannelData();
-                        }
-                      );
+                      this.selectChannel(activeChannel.id, activeChannel.name);
                     }
                   }
                 }
@@ -156,7 +149,7 @@ class Homepage extends Component {
     // todo: navigate to signin on error
   };
 
-  updateChannels = () => {
+  updateChannels = (selectFirstChannel = false) => {
     if (this.state.activeServerId) {
       axios
         .get(`/api/servers/${this.state.activeServerId}/channels`, {
@@ -164,7 +157,14 @@ class Homepage extends Component {
             "Content-Type": "application/json",
           },
         })
-        .then((v) => this.setState({ channelList: v.data }))
+        .then((v) => this.setState(
+          { channelList: v.data },
+          () => {
+            if (selectFirstChannel || this.state.activeChannelId === null) {
+              this.selectFirstChannel();
+            }
+          }
+        ))
         .catch((e) => alert(e.response.data.message));
     }
   };
@@ -187,6 +187,41 @@ class Homepage extends Component {
 
   toggleShowAnalytics = () => {
     this.setState({showAnalytics: false}, scrollToTop)
+  }
+  
+  selectFirstChannel = () => {
+    if (this.state.channelList.length) {
+      const channel = this.state.channelList[0];
+      this.selectChannel(channel.id, channel.name);
+    }
+    else {
+      this.setState(
+        { 
+          activeChannelId: null, 
+          activeChannelName: null, 
+          activeMessage: "", 
+          activeChat: []
+        }
+      );
+    }
+  }
+
+  deleteChannel = () => {
+    axios
+      .delete(
+        `/api/channels/${this.state.activeChannelId}`, 
+        {
+          headers: {
+            "X-CSRF-TOKEN": getCsrfCookie(),
+          },
+        }
+      )
+      .then(() => {
+        this.socket.emit("leave", { channel_id: this.state.activeChannelId });
+        this.updateChannels(true);
+      })
+      .catch((e) => alert(e.response.data.message));
+      
   }
 
   handleInputChange = (value) => this.setState({ activeMessage: value });
@@ -272,6 +307,7 @@ class Homepage extends Component {
             handleSubmitMessage={this.handleSubmitMessage}
             handleSubmitSearchMessage={this.handleSubmitSearchMessage}
             socket={this.socket}
+            deleteChannel={this.deleteChannel}
           />
         </div>
       </div>
