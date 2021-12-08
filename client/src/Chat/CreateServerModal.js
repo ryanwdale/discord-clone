@@ -50,6 +50,7 @@ class CreateServerForm extends Component {
           server_name: this.state.server_name,
           headers: {
             "Content-Type": "application/json",
+            "X-CSRF-TOKEN": getCsrfCookie()
           },
         }
       )
@@ -59,7 +60,7 @@ class CreateServerForm extends Component {
         // todo: close modal without reloading
         window.location.reload();
       })
-     
+      .catch((e) => this.setState({ errorMessage: e.response.data.message }));
   }
 
   render() {
