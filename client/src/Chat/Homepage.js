@@ -98,7 +98,7 @@ class Homepage extends Component {
     // We want to fetch the latest messages for the selected channels as well
     if (id !== this.state.activeChannelId) {
       this.socket.emit("leave", { channel_id: this.state.activeChannelId });
-      this.this.setState({showAnalytics: false}, () => {this.selectChannel(id, name);})
+      this.setState({showAnalytics: false}, () => {this.selectChannel(id, name);})
     }
   };
 
@@ -188,7 +188,7 @@ class Homepage extends Component {
   toggleShowAnalytics = () => {
     this.setState({showAnalytics: false}, scrollToTop)
   }
-  
+
   selectFirstChannel = () => {
     if (this.state.channelList.length) {
       const channel = this.state.channelList[0];
