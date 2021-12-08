@@ -35,6 +35,8 @@ class Homepage extends Component {
       activeSearchMessage: "",
       activeChat: [],
       accountId: null,
+      showAnalytics: false,
+      analytics: Object()
     };
     this.socket = io();
     this.socket.on("client message", (message) => {
@@ -96,7 +98,7 @@ class Homepage extends Component {
     // We want to fetch the latest messages for the selected channels as well
     if (id !== this.state.activeChannelId) {
       this.socket.emit("leave", { channel_id: this.state.activeChannelId });
-      this.setState({ activeChannelId: id, activeChannelName: name }, () => {
+      this.setState({ activeChannelId: id, activeChannelName: name, showAnalytics: false}, () => {
         this.socket.emit("join", { channel_id: id });
         this.fetchChannelData();
       });
@@ -167,10 +169,30 @@ class Homepage extends Component {
     }
   };
 
+  fetchChannelAnalytics = () => {
+    axios
+      .get(
+        `/api/channels/${this.state.activeChannelId}/analytics`,
+        {
+          headers: {
+            "Content-Type": "application/json",
+          },
+        }
+      )
+      .then((res) => {
+        this.setState({showAnalytics: true, analytics: res.data})
+      })
+      .catch((e) => alert(e.response.data.message));
+  }
+
+  toggleShowAnalytics = () => {
+    this.setState({showAnalytics: false}, scrollToTop)
+  }
+
   handleInputChange = (value) => this.setState({ activeMessage: value });
   handleSearchChange = (value) => this.setState({ activeSearchMessage: value });
   onServerSelect = (e, data) => {
-    this.setState({ activeServerId: data.value }, () => {
+    this.setState({ activeServerId: data.value, showAnalytics: false }, () => {
       this.updateChannels();
       this.fetchChannelData();
     });
@@ -241,6 +263,10 @@ class Homepage extends Component {
             activeMessage={this.state.activeMessage}
             activeSearchMessage={this.state.activeSearchMessage}
             messageList={this.state.activeChat}
+            fetchChannelAnalytics={this.fetchChannelAnalytics}
+            showAnalytics={this.state.showAnalytics}
+            toggleShowAnalytics={this.toggleShowAnalytics}
+            analytics={this.state.analytics}
             handleChange={this.handleInputChange}
             handleSearchChange={this.handleSearchChange}
             handleSubmitMessage={this.handleSubmitMessage}

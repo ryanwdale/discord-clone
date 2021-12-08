@@ -50,3 +50,22 @@
 .chatInputSubmit {
   display: none;
 }
+
+.analytics_div {
+  margin-left: 15px;
+  margin-top: 10px;
+}
+
+.analytics_inner_div {
+  margin-top: 20px;
+}
+
+.analytics_text {
+  color: white;
+  font-size: large;
+  margin-left: 10px;
+}
+
+.analytics_btn {
+  margin-left: 15px !important;
+}

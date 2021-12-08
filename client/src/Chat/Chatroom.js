@@ -26,7 +26,7 @@ class Chatroom extends Component {
         </div>
         {this.props.showAnalytics ? 
           <div className="analytics_div">
-            <Header as="h2">Channel analytics</Header>
+            <Header as="h3">Channel analytics</Header>
             {this.props.analytics.user_stats && 
               <div className="analytics_inner_div">
                   <Header as="h3">Top users and their message counts:</Header>
