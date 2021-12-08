@@ -158,7 +158,7 @@ class Homepage extends Component {
         .then((v) => this.setState(
           { channelList: v.data },
           () => {
-            if (selectFirstChannel) {
+            if (selectFirstChannel || this.state.activeChannelId === null) {
               this.selectFirstChannel();
             }
           }
