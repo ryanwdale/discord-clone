@@ -18,6 +18,7 @@ const CreateChannelModal = (props) => {
         <CreateChannelForm
           serverId={props.serverId}
           updateChannels={props.updateChannels}
+          closeModal={() => setOpen(false)}
         />
       </Modal.Content>
       <Modal.Actions>
@@ -40,7 +41,7 @@ class CreateChannelForm extends Component {
   handleChange = (e, { name, value }) => {
     this.setState({ [name]: value });
   };
-  handleSubmit = () => {
+  handleSubmit = (e) => {
     const formData = new FormData();
     formData.append("channel_name", this.state.channelName);
     axios
@@ -54,9 +55,9 @@ class CreateChannelForm extends Component {
         }
       )
       .then(() => {
+        e.preventDefault();
         this.props.updateChannels();
-        // todo: close modal without reloading
-        window.location.reload();
+        this.props.closeModal();
       })
       .catch((e) => this.setState({ errorMessage: e.response.data.message }));
   };
