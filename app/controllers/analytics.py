@@ -40,10 +40,10 @@ class AnalyticsResource(Resource):
             abort(403, message="You are not in this server")
 
         user_stats = (
-            db.session.query(Account.display_name, func.count(Message.message_content))
+            db.session.query(Account.display_name, func.count(Message.message_content), Account.username)
             .filter(Message.channel_id == channel_id)
             .join(Account)
-            .group_by(Account.display_name)
+            .group_by(Account.username, Account.display_name)
             .all()
         )
 
