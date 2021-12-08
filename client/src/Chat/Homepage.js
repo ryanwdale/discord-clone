@@ -185,7 +185,6 @@ class Homepage extends Component {
   }
 
   deleteChannel = () => {
-    console.log(this.state.channelList);
     axios
       .delete(
         `/api/channels/${this.state.activeChannelId}`, 
@@ -198,9 +197,8 @@ class Homepage extends Component {
       .then(() => {
         this.socket.emit("leave", { channel_id: this.state.activeChannelId });
         this.updateChannels(true);
-        console.log(this.state.channelList);
       })
-      .catch((e) => console.log(e));
+      .catch((e) => alert(e.response.data.message));
       
   }
 
