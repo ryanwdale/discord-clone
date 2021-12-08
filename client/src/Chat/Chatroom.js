@@ -33,7 +33,7 @@ class Chatroom extends Component {
                   {this.props.analytics.user_stats.map(user_stat => {
                     return (
                       <>
-                        <span className="analytics_text">{user_stat[0]} sent {user_stat[1]} messages</span>
+                        <span key={user_stat[0]} className="analytics_text">{user_stat[0]} sent {user_stat[1]} messages</span>
                         <br/>
                       </>
                     )
@@ -45,7 +45,7 @@ class Chatroom extends Component {
                   {this.props.analytics.wordcount_stats.map(wordcount_stat => {
                     return (
                       <>
-                        <span className="analytics_text">"{wordcount_stat[0]}" occured {wordcount_stat[1]} times</span>
+                        <span key={wordcount_stat[0]} className="analytics_text">"{wordcount_stat[0]}" occurred {wordcount_stat[1]} times</span>
                         <br/>
                       </>
                     )
@@ -59,9 +59,13 @@ class Chatroom extends Component {
                   return (
                     <Message
                       key={message.id}
+                      channelId={this.props.channelId}
+                      messageId={message.id}
+                      isFromCurrentUser={this.props.activeUserId === message.user_id}
                       displayName={message.display_name}
                       timestamp={message.timestamp}
                       messageContent={message.message_content}
+                      socket={this.props.socket}
                     />
                   );
                 })}

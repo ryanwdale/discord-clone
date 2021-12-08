@@ -7,7 +7,6 @@ from flask_restful import Resource, fields, marshal_with, abort
 from flask_jwt_extended import jwt_required
 
 analytics_fields = {
-    "id": fields.Integer,
     "user_stats": fields.List(fields.List(fields.String)),
     "wordcount_stats": fields.List(fields.List(fields.String)),
 }

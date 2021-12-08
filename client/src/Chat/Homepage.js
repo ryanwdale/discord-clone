@@ -36,7 +36,7 @@ class Homepage extends Component {
       activeChat: [],
       accountId: null,
       showAnalytics: false,
-      analytics: Object()
+      analytics: null
     };
     this.socket = io();
     this.socket.on("client message", (message) => {
