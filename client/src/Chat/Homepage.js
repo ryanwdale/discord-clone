@@ -49,7 +49,7 @@ class Homepage extends Component {
     this.socket.on("delete message", (messageId) => {
       this.setState((prevState) => {
         const chatMessages = prevState.activeChat.filter(
-          (message) => message.id != messageId
+          (message) => message.id !== messageId
         );
         return { activeChat: chatMessages };
       }, scrollToTop);
