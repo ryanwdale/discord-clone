@@ -92,7 +92,7 @@ class Homepage extends Component {
             }
           );
         })
-        .catch((e) => alert(e.response.data.message));
+        .catch(() => this.updateChannels(true));
     }
   };
 
@@ -166,7 +166,6 @@ class Homepage extends Component {
         );
       })
       .catch(() => this.setState({loggedIn: false}));
-    // todo: navigate to signin on error
   };
 
   updateChannels = (selectFirstChannel = false) => {
@@ -259,7 +258,7 @@ class Homepage extends Component {
           }
         )
         .then(() => this.setState({ activeMessage: "" }))
-        .catch((e) => alert(e.response.data.message));
+        .catch(() => this.updateChannels(true));
     }
   };
 
