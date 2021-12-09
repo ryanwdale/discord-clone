@@ -14,6 +14,10 @@ class Sidebar extends Component {
         <div className="AccountInfo">
           <Header as="h2"> {this.props.displayName} </Header>
           <SignOut />
+          <CreateServerModal 
+                            serverId={this.props.activeServerId}
+                            updateChannels={this.props.updateChannels}
+                        />
         </div>
         <div className="ChannelTitleContainer">
           {(this.props.serverList.length > 0 && (
@@ -26,10 +30,7 @@ class Sidebar extends Component {
                 options={this.props.serverList}
                 value={this.props.activeServerId}
               />
-              <CreateServerModal 
-                            serverId={1}
-                            updateChannels={this.props.updateChannels}
-                        />
+              
 
               <InviteModal serverId={this.props.activeServerId} />
             </>
