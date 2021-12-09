@@ -39,6 +39,7 @@ class Homepage extends Component {
     };
     this.socket = io();
     this.socket.on("client message", (message) => {
+      message = JSON.parse(message);
       this.setState(
         (prevState) => ({ activeChat: [...prevState.activeChat, message] }),
         scrollToTop
@@ -239,18 +240,7 @@ class Homepage extends Component {
             },
           }
         )
-        .then((res) => {
-          let message = res.data;
-          // We need to fill in the display name
-          message.display_name = this.state.displayName;
-
-          this.socket.emit("server message", {
-            message: message,
-            room: this.state.activeChannelId,
-          });
-
-          this.setState({ activeMessage: "" });
-        })
+        .then(() => this.setState({ activeMessage: "" }))
         .catch((e) => alert(e.response.data.message));
     }
   };

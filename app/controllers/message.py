@@ -1,9 +1,13 @@
-from app_init import db
+from app_init import db, socket
 from models import Message, Account
 from controllers.channel import get_channel_by_id
-from controllers.server_queries import current_user_in_server
-from flask_restful import Resource, reqparse, fields, marshal_with, abort
+from controllers.server_queries import current_user_in_server, get_account_by_user_id
+
+import json
+
+from flask_restful import Resource, reqparse, fields, marshal, marshal_with, abort
 from flask_jwt_extended import jwt_required, current_user
+from flask_socketio import disconnect, emit
 
 parser = reqparse.RequestParser()
 parser.add_argument("message_content")
@@ -20,7 +24,6 @@ message_fields = {
 
 class MessageResource(Resource):
     @jwt_required()
-    @marshal_with(message_fields)
     def post(self, channel_id):
         args = parser.parse_args()
         user_id = current_user.id
@@ -33,7 +36,14 @@ class MessageResource(Resource):
         db.session.add(message)
         db.session.commit()
 
-        return message, 201
+        message.display_name = get_account_by_user_id(message.user_id).display_name
+
+        marshalled_message = marshal(message, message_fields)
+
+        room = str(channel_id)
+        emit("client message", json.dumps(marshalled_message), to=room, namespace="/")
+
+        return marshalled_message, 201
 
     @jwt_required()
     @marshal_with(message_fields)
