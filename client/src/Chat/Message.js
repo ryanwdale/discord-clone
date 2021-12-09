@@ -22,7 +22,7 @@ const Message = (props) => {
           </span>
         </Header>
         {props.isFromCurrentUser && (
-            <Icon name="trash alternate outline" style = {{"margin-left": "10px"}} onClick={deleteMessage} />
+            <Icon name="trash alternate outline" className="trash-button" onClick={deleteMessage} />
           )}
       </div>
       <ReactMarkdown children={props.messageContent} />

@@ -12,3 +12,8 @@
 .messageHeader {
   display: flex;
 }
+
+.trash-button {
+  cursor: pointer;
+  margin-left: 10px !important;
+}
