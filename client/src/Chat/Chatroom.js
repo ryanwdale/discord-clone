@@ -5,6 +5,7 @@ import { Button, Header, Icon } from "semantic-ui-react";
 import "./chatroom.css";
 import Message from "./Message";
 import Search from "./Search";
+import AnnouncementModal from "../Announcements/AnnouncementModal";
 
 const Chatroom = (props) => {
   const [searchQuery, setSearchQuery] = useState("");
@@ -66,6 +67,10 @@ const Chatroom = (props) => {
             >
               View Channel Analytics
             </Button>
+            <AnnouncementModal
+              channelId={props.channelId}
+              //onClick={this.props.AnnouncementModal}
+            />
             <Search
               activeSearchMessage={searchQuery}
               handleSearchChange={handleSearchChange}
