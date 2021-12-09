@@ -21,9 +21,13 @@ const Message = (props) => {
             {format(new Date(props.timestamp), "MM/dd/yyyy H:mm")}
           </span>
         </Header>
-        {props.isFromCurrentUser && (
-            <Icon name="trash alternate outline" className="trash-button" onClick={deleteMessage} />
-          )}
+        {!props.disableMessageDelete && props.isFromCurrentUser && (
+          <Icon
+            name="trash alternate outline"
+            className="trash-button"
+            onClick={deleteMessage}
+          />
+        )}
       </div>
       <ReactMarkdown children={props.messageContent} />
     </div>

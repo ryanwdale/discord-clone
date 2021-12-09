@@ -32,11 +32,10 @@ class Homepage extends Component {
       serverList: [],
       activeServerId: null,
       activeMessage: "",
-      activeSearchMessage: "",
       activeChat: [],
       accountId: null,
       showAnalytics: false,
-      analytics: null
+      analytics: null,
     };
     this.socket = io();
     this.socket.on("client message", (message) => {
@@ -98,7 +97,9 @@ class Homepage extends Component {
     // We want to fetch the latest messages for the selected channels as well
     if (id !== this.state.activeChannelId) {
       this.socket.emit("leave", { channel_id: this.state.activeChannelId });
-      this.setState({showAnalytics: false}, () => {this.selectChannel(id, name);})
+      this.setState({ showAnalytics: false }, () => {
+        this.selectChannel(id, name);
+      });
     }
   };
 
@@ -107,7 +108,7 @@ class Homepage extends Component {
       this.socket.emit("join", { channel_id: id });
       this.fetchChannelData();
     });
-  }
+  };
 
   fetchCurrentAccount = () => {
     axios
@@ -157,75 +158,63 @@ class Homepage extends Component {
             "Content-Type": "application/json",
           },
         })
-        .then((v) => this.setState(
-          { channelList: v.data },
-          () => {
+        .then((v) =>
+          this.setState({ channelList: v.data }, () => {
             if (selectFirstChannel || this.state.activeChannelId === null) {
               this.selectFirstChannel();
             }
-          }
-        ))
+          })
+        )
         .catch((e) => alert(e.response.data.message));
     }
   };
 
   fetchChannelAnalytics = () => {
     axios
-      .get(
-        `/api/channels/${this.state.activeChannelId}/analytics`,
-        {
-          headers: {
-            "Content-Type": "application/json",
-          },
-        }
-      )
+      .get(`/api/channels/${this.state.activeChannelId}/analytics`, {
+        headers: {
+          "Content-Type": "application/json",
+        },
+      })
       .then((res) => {
-        this.setState({showAnalytics: true, analytics: res.data})
+        this.setState({ showAnalytics: true, analytics: res.data });
       })
       .catch((e) => alert(e.response.data.message));
-  }
+  };
 
   toggleShowAnalytics = () => {
-    this.setState({showAnalytics: false}, scrollToTop)
-  }
+    this.setState({ showAnalytics: false }, scrollToTop);
+  };
 
   selectFirstChannel = () => {
     if (this.state.channelList.length) {
       const channel = this.state.channelList[0];
       this.selectChannel(channel.id, channel.name);
+    } else {
+      this.setState({
+        activeChannelId: null,
+        activeChannelName: null,
+        activeMessage: "",
+        activeChat: [],
+      });
     }
-    else {
-      this.setState(
-        { 
-          activeChannelId: null, 
-          activeChannelName: null, 
-          activeMessage: "", 
-          activeChat: []
-        }
-      );
-    }
-  }
+  };
 
   deleteChannel = () => {
     axios
-      .delete(
-        `/api/channels/${this.state.activeChannelId}`, 
-        {
-          headers: {
-            "X-CSRF-TOKEN": getCsrfCookie(),
-          },
-        }
-      )
+      .delete(`/api/channels/${this.state.activeChannelId}`, {
+        headers: {
+          "X-CSRF-TOKEN": getCsrfCookie(),
+        },
+      })
       .then(() => {
         this.socket.emit("leave", { channel_id: this.state.activeChannelId });
         this.updateChannels(true);
       })
       .catch((e) => alert(e.response.data.message));
-      
-  }
+  };
 
   handleInputChange = (value) => this.setState({ activeMessage: value });
-  handleSearchChange = (value) => this.setState({ activeSearchMessage: value });
   onServerSelect = (e, data) => {
     this.setState({ activeServerId: data.value, showAnalytics: false }, () => {
       this.updateChannels();
@@ -266,13 +255,6 @@ class Homepage extends Component {
     }
   };
 
-  handleSubmitSearchMessage = (e) => {
-    e.preventDefault();
-
-    // TODO: add backend logic
-    console.log(this.state.activeSearchMessage);
-  };
-
   render() {
     return (
       <div className="homeContainer">
@@ -296,16 +278,13 @@ class Homepage extends Component {
             channelName={this.state.activeChannelName}
             activeUserId={this.state.accountId}
             activeMessage={this.state.activeMessage}
-            activeSearchMessage={this.state.activeSearchMessage}
             messageList={this.state.activeChat}
             fetchChannelAnalytics={this.fetchChannelAnalytics}
             showAnalytics={this.state.showAnalytics}
             toggleShowAnalytics={this.toggleShowAnalytics}
             analytics={this.state.analytics}
             handleChange={this.handleInputChange}
-            handleSearchChange={this.handleSearchChange}
             handleSubmitMessage={this.handleSubmitMessage}
-            handleSubmitSearchMessage={this.handleSubmitSearchMessage}
             socket={this.socket}
             deleteChannel={this.deleteChannel}
           />
