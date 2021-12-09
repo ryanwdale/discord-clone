@@ -1,5 +1,5 @@
 import { Component } from "react";
-import { Header, Button } from "semantic-ui-react";
+import { Header, Button, Icon } from "semantic-ui-react";
 import "./chatroom.css";
 import Message from "./Message";
 import Search from "./Search"
@@ -16,8 +16,9 @@ class Chatroom extends Component {
             <Button className="analytics_btn" onClick={this.props.toggleShowAnalytics}>Back</Button> :
             <>
               {this.props.channelId !== null && 
-                <Button
-                  content="Delete Channel"
+                <Icon
+                  className="trash-button"
+                  name="trash alternate outline"
                   onClick={this.props.deleteChannel}
                 />
               }

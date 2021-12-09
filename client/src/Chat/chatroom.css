@@ -69,3 +69,7 @@
 .analytics_btn {
   margin-left: 15px !important;
 }
+
+.trash-button {
+  cursor: pointer;
+}
