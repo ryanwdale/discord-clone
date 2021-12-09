@@ -19,7 +19,6 @@ const AnnouncementModal = (props) => {
     >
       <Modal.Header>Announcements for {props.channelName}</Modal.Header>
         <Modal.Content> 
-            {announcement}
             <CreateAnnouncementModal 
                 channelId={props.channelId}
                 updateChannels={props.updateChannels}

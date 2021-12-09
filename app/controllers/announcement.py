@@ -9,7 +9,7 @@ from flask_socketio import SocketIO
 parser = reqparse.RequestParser()
 parser.add_argument('announcement')
 
-message_fields = {
+announcement_fields = {
     'id': fields.Integer,
     'display_name': fields.String,
     'timestamp': fields.DateTime,
@@ -19,6 +19,7 @@ message_fields = {
 
 class AnnouncementResource(Resource):
     @jwt_required()
+    @marshal_with(announcement_fields)
     def post(self, channel_id):
         args = parser.parse_args()
         user_id = current_user.id
@@ -34,13 +35,12 @@ class AnnouncementResource(Resource):
         return announcement, 201
 
     @jwt_required()
-    @marshal_with(announcement)
+    @marshal_with(announcement_fields)
     def get(self, channel_id):
         channel = get_channel_by_id(channel_id)
         if not current_user_in_server(channel.server_id):
             abort(403, message="You are not in this server")
 
-        announcement = db.session.query(Announcement).filter(Message.channel_id == channel_id).order_by(Announcement.id.desc()).limit(100).all()
-        result = [message[1].__dict__ | message[0].__dict__ for message in messages]
+        announcement = db.session.query(Announcement).filter(Announcement.channel_id == channel_id).first()
 
         return result, 200

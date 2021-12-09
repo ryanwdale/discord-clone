@@ -47,7 +47,7 @@ class CreateAnnouncementForm extends Component {
     const formData = new FormData();
     formData.append("announcement", this.state.announcement);
     axios
-      .post(`/api/channels/${channelId}/announcements`,
+      .post(`/api/channels/${this.props.channelId}/announcements`,
         formData,
         {
           headers: {
