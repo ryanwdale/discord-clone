@@ -57,7 +57,6 @@ class CreateServerForm extends Component {
       )
       .then(() => {
         e.preventDefault();
-        this.props.updateChannels();
         this.props.closeModal();
         window.location.reload();
       })
