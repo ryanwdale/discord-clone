@@ -16,7 +16,6 @@ const CreateServerModal = (props) => {
       <Modal.Header>Create a new server</Modal.Header>
       <Modal.Content>
         <CreateServerForm 
-          serverId={props.serverId}
           updateChannels={props.updateChannels}
           closeModal={() => setOpen(false)}
         />
