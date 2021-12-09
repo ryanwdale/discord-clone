@@ -104,6 +104,21 @@ class Homepage extends Component {
     }
   };
 
+  onServerCreate = (newServerInfo) => {
+    this.setState(
+      (prevState) => ({
+        serverList: [...prevState.serverList, newServerInfo],
+      }),
+      () => {
+        if (this.state.serverList.length === 1) {
+          this.setState({
+            activeServerId: newServerInfo.id,
+          });
+        }
+      }
+    );
+  };
+
   selectChannel = (id, name) => {
     this.setState({ activeChannelId: id, activeChannelName: name }, () => {
       this.socket.emit("join", { channel_id: id });
@@ -255,6 +270,7 @@ class Homepage extends Component {
             channelList={this.state.channelList}
             onChannelSelect={this.onChannelSelect}
             onServerSelect={this.onServerSelect}
+            onServerCreate={this.onServerCreate}
             activeServerId={this.state.activeServerId}
             activeItem={this.state.activeChannelId}
             updateChannels={this.updateChannels}
