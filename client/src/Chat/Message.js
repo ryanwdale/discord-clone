@@ -1,4 +1,4 @@
-import { Button, Header } from "semantic-ui-react";
+import { Header, Icon } from "semantic-ui-react";
 import { format } from "date-fns";
 import ReactMarkdown from "react-markdown";
 
@@ -20,12 +20,10 @@ const Message = (props) => {
           <span className="messageTimeStamp">
             {format(new Date(props.timestamp), "MM/dd/yyyy H:mm")}
           </span>
-          {props.isFromCurrentUser && (
-            <Button size="mini" onClick={deleteMessage}>
-              Delete message
-            </Button>
-          )}
         </Header>
+        {props.isFromCurrentUser && (
+            <Icon name="trash alternate outline" style = {{"margin-left": "10px"}} onClick={deleteMessage} />
+          )}
       </div>
       <ReactMarkdown children={props.messageContent} />
     </div>
