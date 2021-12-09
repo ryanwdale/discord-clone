@@ -6,8 +6,6 @@ import getCsrfCookie from "../Account/GetCsrfCookie";
 const CreateAnnouncementModal = (props) => {
   const [open, setOpen] = useState(false);
 
-  const channelId=props.channelId;
-
   return (
     <Modal
       onClose={() => setOpen(false)}
@@ -18,6 +16,7 @@ const CreateAnnouncementModal = (props) => {
       <Modal.Header>Create a New Announcement</Modal.Header>
       <Modal.Content>
         <CreateAnnouncementForm 
+          channelId={props.channelId}
           updateChannels={props.updateChannels}
           closeModal={() => setOpen(false)}
         />

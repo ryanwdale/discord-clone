@@ -2,7 +2,7 @@ import React, { useEffect, useState } from "react";
 import axios from "axios";
 import { Button, Modal } from "semantic-ui-react";
 import getCsrfCookie from "../Account/GetCsrfCookie";
-import CreateAnnoucenemtModal from "../Announcements/CreateAnnouncementModal"
+import CreateAnnouncementModal from "../Announcements/CreateAnnouncementModal"
 
 const AnnouncementModal = (props) => {
   const [announcement, setAnnouncmenet] = useState("");
@@ -19,9 +19,11 @@ const AnnouncementModal = (props) => {
     >
       <Modal.Header>Announcements for {props.channelName}</Modal.Header>
         <Modal.Content> 
-            {props.announcement}
-            <CreateAnnoucenemtModal 
-                channelId={props.channelId}/>
+            {announcement}
+            <CreateAnnouncementModal 
+                channelId={props.channelId}
+                updateChannels={props.updateChannels}
+                />
         </Modal.Content>
         <Modal.Actions>
             <Button

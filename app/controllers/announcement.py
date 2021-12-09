@@ -1,5 +1,5 @@
 from app_init import db
-from models import Message, Account, Annoucnement
+from models import Message, Account, Announcement
 from controllers.channel import get_channel_by_id
 from controllers.server_queries import current_user_in_server
 from flask_restful import Resource, reqparse, fields, marshal_with, abort
@@ -31,7 +31,7 @@ class AnnouncementResource(Resource):
         db.session.add(announcement)
         db.session.commit()
 
-        return None, 201
+        return announcement, 201
 
     @jwt_required()
     @marshal_with(announcement)
