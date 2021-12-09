@@ -131,17 +131,6 @@ def on_delete_message(data):
         emit("delete message", message.id, to=room, include_self=True)
 
 
-@socket.on("server message")
-def on_server_message(data):
-    channel_id = data["room"]
-
-    if not can_use_room(channel_id):
-        disconnect()
-
-    room = str(channel_id)
-    emit("client message", data["message"], to=room, include_self=True)
-
-
 @socket.on("join")
 def on_join(data):
     channel_id = data["channel_id"]
