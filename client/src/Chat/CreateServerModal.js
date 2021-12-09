@@ -18,6 +18,7 @@ const CreateServerModal = (props) => {
         <CreateServerForm 
           serverId={props.serverId}
           updateChannels={props.updateChannels}
+          closeModal={() => setOpen(false)}
         />
       </Modal.Content>
       <Modal.Actions>
@@ -41,27 +42,27 @@ class CreateServerForm extends Component {
   handleChange = (e, { name, value }) => {
     this.setState({ [name]: value });
   };
-  handleSubmit = () => {
+  
+  handleSubmit = (e) => {
+    const formData = new FormData();
+    formData.append("server_name", this.state.server_name);
     axios
-      .post(
-        "/api/servers",
+      .post(`/api/servers`,
+        formData,
         {
-          
-          server_name: this.state.server_name,
           headers: {
             "Content-Type": "application/json",
             "X-CSRF-TOKEN": getCsrfCookie()
           },
         }
       )
-      
       .then(() => {
+        e.preventDefault();
         this.props.updateChannels();
-        // todo: close modal without reloading
+        this.props.closeModal();
         window.location.reload();
       })
-      .catch((e) => this.setState({ errorMessage: e.response.data.message }));
-  }
+  };
 
   render() {
 
