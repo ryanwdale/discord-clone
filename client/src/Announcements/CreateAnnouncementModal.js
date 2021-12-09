@@ -6,6 +6,8 @@ import getCsrfCookie from "../Account/GetCsrfCookie";
 const CreateAnnouncementModal = (props) => {
   const [open, setOpen] = useState(false);
 
+  const channelId=props.channelId;
+
   return (
     <Modal
       onClose={() => setOpen(false)}
@@ -13,7 +15,7 @@ const CreateAnnouncementModal = (props) => {
       open={open}
       trigger={<Button content="Create new announcement" />}
     >
-      <Modal.Header>Create a new announcement</Modal.Header>
+      <Modal.Header>Create a New Announcement</Modal.Header>
       <Modal.Content>
         <CreateAnnouncementForm 
           updateChannels={props.updateChannels}
@@ -68,9 +70,9 @@ class CreateAnnouncementForm extends Component {
       <Form onSubmit={this.handleSubmit}>
         <Form.Input
           required
-          label="announcement"
+          label="Announcement"
           name="announcement"
-          value={this.state.Announcement}
+          value={this.state.announcement}
           onChange={this.handleChange}
         />
         {this.state.errorMessage && (

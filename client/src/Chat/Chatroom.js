@@ -69,7 +69,7 @@ const Chatroom = (props) => {
             </Button>
             <AnnouncementModal
               channelId={props.channelId}
-              //onClick={this.props.AnnouncementModal}
+              channelName={props.channelName}
             />
             <Search
               activeSearchMessage={searchQuery}

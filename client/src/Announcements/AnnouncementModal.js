@@ -9,12 +9,7 @@ const AnnouncementModal = (props) => {
   const [errorMessage, setErrorMessage] = useState("");
   const [open, setOpen] = useState(false);
 
-
-  const serverId = props.serverId;
-
-
   return (
-
 
     <Modal
       onClose={() => setOpen(false)}
@@ -22,10 +17,11 @@ const AnnouncementModal = (props) => {
       open={open}
       trigger={<Button content="Announcement" />}
     >
-      <Modal.Header>Announcements for </Modal.Header>
+      <Modal.Header>Announcements for {props.channelName}</Modal.Header>
         <Modal.Content> 
             {props.announcement}
-            <CreateAnnoucenemtModal></CreateAnnoucenemtModal>
+            <CreateAnnoucenemtModal 
+                channelId={props.channelId}/>
         </Modal.Content>
         <Modal.Actions>
             <Button
