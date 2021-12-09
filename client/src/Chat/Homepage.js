@@ -169,6 +169,21 @@ class Homepage extends Component {
     }
   };
 
+  updateAnnouncements = () => {
+    if (this.state.activeServerId) {
+      axios
+        .get(`/api/channels/${this.state.activeServerId}/announcements`, {
+          headers: {
+            "Content-Type": "application/json",
+          },
+        })
+        .then((v) =>
+          this.setState({ announcementList: v.data })
+        )
+        .catch((e) => alert(e.response.data.message));
+    }
+  };
+
   fetchChannelAnalytics = () => {
     axios
       .get(`/api/channels/${this.state.activeChannelId}/analytics`, {
@@ -287,6 +302,8 @@ class Homepage extends Component {
             handleSubmitMessage={this.handleSubmitMessage}
             socket={this.socket}
             deleteChannel={this.deleteChannel}
+            announcementList={this.state.announcementList}
+            updateAnnouncements={this.updateAnnouncements}
           />
         </div>
       </div>

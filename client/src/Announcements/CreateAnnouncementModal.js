@@ -17,7 +17,7 @@ const CreateAnnouncementModal = (props) => {
       <Modal.Content>
         <CreateAnnouncementForm 
           channelId={props.channelId}
-          updateChannels={props.updateChannels}
+          updateAnnouncements={props.updateAnnouncements}
           closeModal={() => setOpen(false)}
         />
       </Modal.Content>
@@ -58,8 +58,8 @@ class CreateAnnouncementForm extends Component {
       )
       .then(() => {
         e.preventDefault();
+        this.props.updateAnnouncements();
         this.props.closeModal();
-        window.location.reload();
       })
   };
 

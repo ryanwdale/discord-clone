@@ -5,8 +5,6 @@ import getCsrfCookie from "../Account/GetCsrfCookie";
 import CreateAnnouncementModal from "../Announcements/CreateAnnouncementModal"
 
 const AnnouncementModal = (props) => {
-  const [announcement, setAnnouncmenet] = useState("");
-  const [errorMessage, setErrorMessage] = useState("");
   const [open, setOpen] = useState(false);
 
   return (
@@ -21,7 +19,7 @@ const AnnouncementModal = (props) => {
         <Modal.Content> 
             <CreateAnnouncementModal 
                 channelId={props.channelId}
-                updateChannels={props.updateChannels}
+                updateAnnouncements={props.updateAnnouncements}
                 />
         </Modal.Content>
         <Modal.Actions>

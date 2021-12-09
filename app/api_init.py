@@ -9,8 +9,11 @@ from controllers.server_invite import ServerInviteResource
 from controllers.server_list import ServerListResource
 from controllers.channel import ChannelResource
 from controllers.message import MessageResource
+from controllers.message_search import MessageSearchResource
 from controllers.server_channels import ServerChannelsResource
+from controllers.analytics import AnalyticsResource
 from controllers.announcement import AnnouncementResource
+
 
 
 def init_api(app):
@@ -27,3 +30,5 @@ def init_api(app):
     api.add_resource(ChannelResource, "/api/channels/<int:channel_id>")
     api.add_resource(MessageResource, "/api/channels/<int:channel_id>/messages")
     api.add_resource(AnnouncementResource, "/api/channels/<int:channel_id>/announcements")
+    api.add_resource(MessageSearchResource, "/api/channels/<int:channel_id>/messages/search")
+    api.add_resource(AnalyticsResource, "/api/channels/<int:channel_id>/analytics")

@@ -70,6 +70,7 @@ const Chatroom = (props) => {
             <AnnouncementModal
               channelId={props.channelId}
               channelName={props.channelName}
+              updateAnnouncements={props.updateAnnouncements}
             />
             <Search
               activeSearchMessage={searchQuery}
