@@ -16,7 +16,12 @@ from sqlalchemy import inspect
 from api_init import init_api
 from app_init import bcrypt, db, socket
 from controllers.account import get_user_by_id
-from controllers.server_queries import current_user_in_server, delete_message, get_channel_by_id, get_message
+from controllers.server_queries import (
+    current_user_in_server,
+    delete_message,
+    get_channel_by_id,
+    get_message,
+)
 from db_init import seed_database
 
 
@@ -62,7 +67,7 @@ app.config["JWT_TOKEN_LOCATION"] = ["cookies"]
 app.config["JWT_COOKIE_CSRF_PROTECT"] = True
 app.config["JWT_CSRF_CHECK_FORM"] = True
 app.config["JWT_SECRET_KEY"] = os.environ["JWT_SECRET_KEY"]
-app.config["JWT_ACCESS_TOKEN_EXPIRES"] = timedelta(hours=1)
+app.config["JWT_ACCESS_TOKEN_EXPIRES"] = timedelta(days=14)
 
 jwt = JWTManager(app)
 
@@ -73,7 +78,7 @@ def refresh_expiring_jwts(response):
     try:
         exp_timestamp = get_jwt()["exp"]
         now = datetime.now(timezone.utc)
-        target_timestamp = datetime.timestamp(now + timedelta(minutes=30))
+        target_timestamp = datetime.timestamp(now + timedelta(days=7))
         if target_timestamp > exp_timestamp:
             user = get_user_by_id(get_jwt_identity())
             access_token = create_access_token(identity=user)
@@ -146,3 +151,17 @@ def on_join(data):
 def on_leave(data):
     room = str(data["channel_id"])
     leave_room(room)
+
+
+@socket.on("login")
+def on_login():
+    user_id = session["user_id"]
+    room = f"user-{user_id}"
+    join_room(room)
+
+
+@socket.on("logout")
+def on_login():
+    user_id = session["user_id"]
+    room = f"user-{user_id}"
+    emit("logout", {}, to=room, include_self=False)

@@ -13,7 +13,7 @@ class Sidebar extends Component {
       <div className="sidebar">
         <div className="AccountInfo">
           <Header as="h2"> {this.props.displayName} </Header>
-          <SignOut />
+          <SignOut socket={this.props.socket} />
         </div>
         <div className="ChannelTitleContainer">
           {(this.props.serverList.length > 0 && (
