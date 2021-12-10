@@ -41,6 +41,7 @@ class AnnouncementResource(Resource):
         if not current_user_in_server(channel.server_id):
             abort(403, message="You are not in this server")
 
-        announcement = db.session.query(Announcement).filter(Announcement.channel_id == channel_id).first()
+        announcement = db.session.query(Announcement).filter(Announcement.channel_id == channel_id).all()
 
-        return result, 200
+        return announcement, 200
+ 

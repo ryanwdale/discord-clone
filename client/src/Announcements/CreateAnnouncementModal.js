@@ -13,7 +13,7 @@ const CreateAnnouncementModal = (props) => {
       open={open}
       trigger={<Button content="Create new announcement" />}
     >
-      <Modal.Header>Create a New Announcement</Modal.Header>
+      <Modal.Header>Create a New Announcement for {props.channelName}</Modal.Header>
       <Modal.Content>
         <CreateAnnouncementForm 
           channelId={props.channelId}

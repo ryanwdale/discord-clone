@@ -36,6 +36,7 @@ class Homepage extends Component {
       accountId: null,
       showAnalytics: false,
       analytics: null,
+      announcementList: [],
     };
     this.socket = io();
     this.socket.on("client message", (message) => {
