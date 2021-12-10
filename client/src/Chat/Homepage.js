@@ -108,6 +108,7 @@ class Homepage extends Component {
     this.setState({ activeChannelId: id, activeChannelName: name }, () => {
       this.socket.emit("join", { channel_id: id });
       this.fetchChannelData();
+      this.updateAnnouncements();
     });
   };
 
@@ -165,6 +166,7 @@ class Homepage extends Component {
             if (selectFirstChannel || this.state.activeChannelId === null) {
               this.selectFirstChannel();
             }
+            this.updateAnnouncements();
           })
         )
         .catch((e) => alert(e.response.data.message));
@@ -172,9 +174,9 @@ class Homepage extends Component {
   };
 
   updateAnnouncements = () => {
-    if (this.state.activeServerId) {
+    if (this.state.activeChannelId) {
       axios
-        .get(`/api/channels/${this.state.activeServerId}/announcements`, {
+        .get(`/api/channels/${this.state.activeChannelId}/announcements`, {
           headers: {
             "Content-Type": "application/json",
           },

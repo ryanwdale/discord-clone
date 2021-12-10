@@ -4,6 +4,7 @@ import ReactMarkdown from "react-markdown";
 
 const Announcement = (props) => {
 
+
   return (
     <div className="AnnouncementContainer">
       <div className="AnnouncementHeader">

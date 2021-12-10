@@ -6,6 +6,7 @@ import Announcement from "../Announcements/Announcement";
 const AnnouncementModal = (props) => {
   const [open, setOpen] = useState(false);
 
+
   return (
 
     <Modal
@@ -16,19 +17,18 @@ const AnnouncementModal = (props) => {
     >
       <Modal.Header>Announcements for {props.channelName}</Modal.Header>
         <Modal.Content> 
-            <p>{props.announcementList.map((announcement)=>{
+            <div>{props.announcementList.map((announcement)=>{
                 return(
                     <Announcement
                         key={announcement.id}
                         channelId={props.channelId}
                         announcement={announcement.announcement}
-                        isFromCurrentUser={props.activeUserId===announcement.user_id}
-                        displayName={announcement.displayName}
-                        announcementId={announcement.id}
+                        displayName={announcement.display_name}
                         timestamp={announcement.timestamp}
+                        socket={props.socket}
                     />
                 )
-            })}</p>
+            })}</div>
             <CreateAnnouncementModal 
                 channelId={props.channelId}
                 channelName={props.channelName}

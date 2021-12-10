@@ -72,6 +72,7 @@ const Chatroom = (props) => {
               channelName={props.channelName}
               updateAnnouncements={props.updateAnnouncements}
               announcementList={props.announcementList}
+              socket={props.socket}
             />
             <Search
               activeSearchMessage={searchQuery}

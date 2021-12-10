@@ -11,7 +11,7 @@ const CreateAnnouncementModal = (props) => {
       onClose={() => setOpen(false)}
       onOpen={() => setOpen(true)}
       open={open}
-      trigger={<Button content="Create new announcement" />}
+      trigger={<Button content="Create a new announcement" />}
     >
       <Modal.Header>Create a New Announcement for {props.channelName}</Modal.Header>
       <Modal.Content>
