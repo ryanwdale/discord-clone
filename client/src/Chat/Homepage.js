@@ -240,8 +240,8 @@ class Homepage extends Component {
 
   handleInputChange = (value) => this.setState({ activeMessage: value });
   onServerSelect = (e, data) => {
-    this.setState({ activeServerId: data.value, showAnalytics: false }, () => {
-      this.updateChannels();
+    this.setState({ activeServerId: data.value, showAnalytics: false, activeChannelId: null }, () => {
+      this.updateChannels(true);
       this.fetchChannelData();
     });
   };
