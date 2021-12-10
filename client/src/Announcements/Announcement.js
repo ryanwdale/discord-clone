@@ -3,12 +3,6 @@ import { format } from "date-fns";
 import ReactMarkdown from "react-markdown";
 
 const Announcement = (props) => {
-  const deleteAnnouncement = () => {
-    props.socket.emit("delete Announcement", {
-      channel_id: props.channelId,
-      announcement_id: props.announcementId,
-    });
-  };
 
   return (
     <div className="AnnouncementContainer">
