@@ -67,7 +67,7 @@ const Chatroom = (props) => {
             >
               View Channel Analytics
             </Button>
-            {props.announcement.map((announcement)=> {
+            {props.announcementList.map((announcement)=> {
               return (
             <AnnouncementModal
               channelId={props.channelId}
