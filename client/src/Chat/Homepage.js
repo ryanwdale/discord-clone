@@ -133,6 +133,7 @@ class Homepage extends Component {
                 },
                 () => {
                   this.updateChannels();
+                  this.updateAnnouncements();
 
                   if (!this.state.activeChannelId) {
                     const activeServer = this.state.serverList[0];

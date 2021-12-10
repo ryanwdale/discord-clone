@@ -67,17 +67,12 @@ const Chatroom = (props) => {
             >
               View Channel Analytics
             </Button>
-            {props.announcementList.map((announcement)=> {
-              return (
             <AnnouncementModal
               channelId={props.channelId}
               channelName={props.channelName}
               updateAnnouncements={props.updateAnnouncements}
-              announcement={announcement.announcement}
+              announcementList={props.announcementList}
             />
-              );
-            }
-            )}
             <Search
               activeSearchMessage={searchQuery}
               handleSearchChange={handleSearchChange}
