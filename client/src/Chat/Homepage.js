@@ -269,7 +269,7 @@ class Homepage extends Component {
           open={!this.state.loggedIn}
         >
           <Modal.Content>
-            You are not logged in. Please sign in <a href="../">here</a>
+            You are not logged in. Please <a href="/">sign in here</a>
           </Modal.Content>
         </Modal>
         <div className="sidebarContainer">
