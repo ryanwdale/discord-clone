@@ -31,7 +31,8 @@ const Chatroom = (props) => {
       })
       .then((res) => {
         setSearchResults(res.data);
-      });
+      })
+      .catch(() => props.updateChannels(true));
   };
 
   const resetSearch = () => {
@@ -142,9 +143,13 @@ const Chatroom = (props) => {
                     socket={props.socket}
                   />
                 ))) || (
-                <Header as="h3">
-                  No results found for search query "{activeSearchQuery}"
-                </Header>
+                <Banner warning icon="exclamation circle">
+                  <Icon name="exclamation circle" />
+                  <Banner.Content>
+                    <Banner.Header>No results found</Banner.Header>
+                    Your query for "{activeSearchQuery}" returned no results
+                  </Banner.Content>
+                </Banner>
               ))) ||
               (props.messageList.length !== 0 &&
                 props.messageList.map((message) => {

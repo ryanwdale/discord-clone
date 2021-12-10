@@ -240,10 +240,17 @@ class Homepage extends Component {
 
   handleInputChange = (value) => this.setState({ activeMessage: value });
   onServerSelect = (e, data) => {
-    this.setState({ activeServerId: data.value, showAnalytics: false, activeChannelId: null }, () => {
-      this.updateChannels(true);
-      this.fetchChannelData();
-    });
+    this.setState(
+      {
+        activeServerId: data.value,
+        showAnalytics: false,
+        activeChannelId: null,
+      },
+      () => {
+        this.updateChannels(true);
+        this.fetchChannelData();
+      }
+    );
   };
 
   handleSubmitMessage = (e) => {
@@ -307,6 +314,7 @@ class Homepage extends Component {
             handleSubmitMessage={this.handleSubmitMessage}
             socket={this.socket}
             deleteChannel={this.deleteChannel}
+            updateChannels={this.updateChannels}
           />
         </div>
       </div>
