@@ -1,5 +1,6 @@
 import { Component } from "react";
 import axios from "axios";
+import { Modal } from "semantic-ui-react";
 
 import Chatroom from "./Chatroom";
 import Sidebar from "./Sidebar";
@@ -26,6 +27,7 @@ class Homepage extends Component {
   constructor() {
     super();
     this.state = {
+      loggedIn: true,
       channelList: [],
       activeChannelId: null,
       activeChannelName: null,
@@ -90,7 +92,7 @@ class Homepage extends Component {
             }
           );
         })
-        .catch((e) => alert(e.response.data.message));
+        .catch(() => this.updateChannels(true));
     }
   };
 
@@ -162,8 +164,8 @@ class Homepage extends Component {
             }
           }
         );
-      });
-    // todo: navigate to signin on error
+      })
+      .catch(() => this.setState({loggedIn: false}));
   };
 
   updateChannels = (selectFirstChannel = false) => {
@@ -256,13 +258,20 @@ class Homepage extends Component {
           }
         )
         .then(() => this.setState({ activeMessage: "" }))
-        .catch((e) => alert(e.response.data.message));
+        .catch(() => this.updateChannels(true));
     }
   };
 
   render() {
     return (
       <div className="homeContainer">
+        <Modal
+          open={!this.state.loggedIn}
+        >
+          <Modal.Content>
+            You are not logged in. Please <a href="/">sign in here</a>
+          </Modal.Content>
+        </Modal>
         <div className="sidebarContainer">
           <Sidebar
             className="sidebar"
