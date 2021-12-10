@@ -13,7 +13,8 @@ class Announcement(db.Model):
         backref=db.backref("announcements", lazy=True)
     )
 
-    def __init__(self, channel_id, user_id, announcement):
+    def __init__(self, channel_id, author_user_id, message):
         self.channel_id = channel_id
-        self.user_id = user_id
-        self.announcement = announcement
+        self.author_user_id = author_user_id
+        self.message = message
+

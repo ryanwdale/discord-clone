@@ -23,7 +23,7 @@ const AnnouncementModal = (props) => {
                         key={announcement.id}
                         channelId={props.channelId}
                         announcement={announcement.announcement}
-                        displayName={announcement.display_name}
+                        displayName={account.display_name}
                         timestamp={announcement.timestamp}
                         socket={props.socket}
                     />

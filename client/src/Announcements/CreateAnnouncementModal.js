@@ -64,7 +64,6 @@ class CreateAnnouncementForm extends Component {
   };
 
   render() {
-
     return (
       <Form onSubmit={this.handleSubmit}>
         <Form.Input
