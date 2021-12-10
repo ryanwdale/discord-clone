@@ -3,7 +3,7 @@ import axios from "axios";
 import { Button, Modal } from "semantic-ui-react";
 import { useNavigate } from "react-router-dom";
 
-const SignOut = () => {
+const SignOut = (props) => {
   const navigate = useNavigate();
   const [errorMessage, setErrorMessage] = useState("");
   const [isModalOpen, setIsModalOpen] = useState(false);
@@ -12,6 +12,8 @@ const SignOut = () => {
     if (!isModalOpen) {
       return;
     }
+
+    props.socket.emit("logout");
 
     axios
       .post("/api/logout")

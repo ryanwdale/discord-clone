@@ -64,6 +64,11 @@ class Homepage extends Component {
       }
       // else the socket will automatically try to reconnect
     });
+
+    this.socket.on("logout", () => {
+      this.socket.disconnect();
+      this.setState({ loggedIn: false });
+    });
   }
 
   componentDidMount() {
@@ -136,6 +141,7 @@ class Homepage extends Component {
         },
       })
       .then((v) => {
+        this.socket.emit("login");
         this.setState(
           {
             accountId: v.data.id,
@@ -165,7 +171,7 @@ class Homepage extends Component {
           }
         );
       })
-      .catch(() => this.setState({loggedIn: false}));
+      .catch(() => this.setState({ loggedIn: false }));
   };
 
   updateChannels = (selectFirstChannel = false) => {
@@ -265,9 +271,7 @@ class Homepage extends Component {
   render() {
     return (
       <div className="homeContainer">
-        <Modal
-          open={!this.state.loggedIn}
-        >
+        <Modal open={!this.state.loggedIn}>
           <Modal.Content>
             You are not logged in. Please <a href="/">sign in here</a>
           </Modal.Content>
@@ -284,6 +288,7 @@ class Homepage extends Component {
             activeItem={this.state.activeChannelId}
             updateChannels={this.updateChannels}
             serverList={convertServerListToOptions(this.state.serverList)}
+            socket={this.socket}
           />
         </div>
         <div className="chatroomContainer">
