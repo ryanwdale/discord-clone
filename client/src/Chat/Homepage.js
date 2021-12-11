@@ -189,7 +189,7 @@ class Homepage extends Component {
             }
           })
         )
-        .catch((e) => alert(e.response.data.message));
+        .catch(() => this.setState({ loggedIn: false }));
     }
   };
 
@@ -203,7 +203,7 @@ class Homepage extends Component {
       .then((res) => {
         this.setState({ showAnalytics: true, analytics: res.data });
       })
-      .catch((e) => alert(e.response.data.message));
+      .catch(() => this.updateChannels(true));
   };
 
   toggleShowAnalytics = () => {
@@ -235,7 +235,7 @@ class Homepage extends Component {
         this.socket.emit("leave", { channel_id: this.state.activeChannelId });
         this.updateChannels(true);
       })
-      .catch((e) => alert(e.response.data.message));
+      .catch(() => this.updateChannels(true));
   };
 
   handleInputChange = (value) => this.setState({ activeMessage: value });
