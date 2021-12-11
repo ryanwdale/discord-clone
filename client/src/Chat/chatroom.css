@@ -1,4 +1,9 @@
 /* Certain parts of the css is taken from youtube.com/watch?v=zc1loX80TX8*/
+
+button {
+  margin-bottom: 0.5em !important;
+}
+
 .chatroom {
   display: flex;
   flex-direction: column;
