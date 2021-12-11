@@ -1,5 +1,5 @@
 import axios from "axios";
-import { Component, useEffect, useState } from "react";
+import { useEffect, useState } from "react";
 import { Button, Header, Icon, Message as Banner } from "semantic-ui-react";
 
 import "./chatroom.css";
@@ -36,7 +36,9 @@ const Chatroom = (props) => {
   };
 
   const resetSearch = () => {
-    setSearchQuery(""), setActiveSearchQuery(""), setSearchResults(null);
+    setSearchQuery("");
+    setActiveSearchQuery("");
+    setSearchResults(null);
   };
   const disabledSearchMessage =
     "Chat is disabled in search mode. Clear search query to continue chatting";

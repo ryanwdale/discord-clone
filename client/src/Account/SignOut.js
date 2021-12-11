@@ -19,7 +19,7 @@ const SignOut = (props) => {
       .post("/api/logout")
       .then((v) => navigate("/"))
       .catch((e) => setErrorMessage(e.response.data.message));
-  }, [isModalOpen]);
+  }, [isModalOpen, navigate, props.socket]);
 
   return (
     <Modal
