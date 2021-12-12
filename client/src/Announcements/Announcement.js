@@ -1,9 +1,8 @@
-import { Header, Icon } from "semantic-ui-react";
+import { Header } from "semantic-ui-react";
 import { format } from "date-fns";
 import ReactMarkdown from "react-markdown";
 
 const Announcement = (props) => {
-
 
   return (
     <div className="AnnouncementContainer">

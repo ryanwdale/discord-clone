@@ -1,11 +1,10 @@
-import React, { useEffect, useState } from "react";
+import React, { Component, useEffect, useState } from "react";
 import { Button, Modal } from "semantic-ui-react";
-import CreateAnnouncementModal from "../Announcements/CreateAnnouncementModal"
+import CreateAnnouncementModal from "../Announcements/CreateAnnouncementModal";
 import Announcement from "../Announcements/Announcement";
 
 const AnnouncementModal = (props) => {
   const [open, setOpen] = useState(false);
-
 
   return (
 
@@ -23,13 +22,13 @@ const AnnouncementModal = (props) => {
                         key={announcement.id}
                         channelId={props.channelId}
                         announcement={announcement.announcement}
-                        displayName={account.display_name}
+                        displayName={announcement.display_name}
                         timestamp={announcement.timestamp}
                         socket={props.socket}
                     />
                 )
             })}</div>
-            <CreateAnnouncementModal 
+            <CreateAnnouncementModal  
                 channelId={props.channelId}
                 channelName={props.channelName}
                 updateAnnouncements={props.updateAnnouncements}

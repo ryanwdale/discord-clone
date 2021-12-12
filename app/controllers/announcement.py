@@ -13,6 +13,7 @@ announcement_fields = {
     'id': fields.Integer,
     'display_name': fields.String,
     'timestamp': fields.DateTime,
+    'user_id' : fields.Integer,
     'channel_id': fields.Integer,
     'announcement': fields.String
 }

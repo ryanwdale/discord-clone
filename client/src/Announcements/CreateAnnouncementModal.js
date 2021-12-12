@@ -57,10 +57,10 @@ class CreateAnnouncementForm extends Component {
         }
       )
       .then(() => {
-        e.preventDefault();
         this.props.updateAnnouncements();
         this.props.closeModal();
       })
+      .catch((e) => this.setState({ errorMessage: (e.response.data.message || "Error creating announcement")}))
   };
 
   render() {
@@ -76,7 +76,7 @@ class CreateAnnouncementForm extends Component {
         {this.state.errorMessage && (
           <Message
             error
-            header="Error creating Announcement"
+            header="Error creating announcement"
             content={this.state.errorMessage}
           />
         )
