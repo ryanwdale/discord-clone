@@ -38,6 +38,7 @@ class Homepage extends Component {
       accountId: null,
       showAnalytics: false,
       analytics: null,
+      announcementList: [],
     };
     this.socket = io();
     this.socket.on("client message", (message) => {
@@ -130,6 +131,7 @@ class Homepage extends Component {
     this.setState({ activeChannelId: id, activeChannelName: name }, () => {
       this.socket.emit("join", { channel_id: id });
       this.fetchChannelData();
+      this.updateAnnouncements();
     });
   };
 
@@ -156,6 +158,7 @@ class Homepage extends Component {
                 },
                 () => {
                   this.updateChannels();
+                  this.updateAnnouncements();
 
                   if (!this.state.activeChannelId) {
                     const activeServer = this.state.serverList[0];
@@ -187,9 +190,25 @@ class Homepage extends Component {
             if (selectFirstChannel || this.state.activeChannelId === null) {
               this.selectFirstChannel();
             }
+            this.updateAnnouncements();
           })
         )
         .catch(() => this.setState({ loggedIn: false }));
+    }
+  };
+
+  updateAnnouncements = () => {
+    if (this.state.activeChannelId) {
+      axios
+        .get(`/api/channels/${this.state.activeChannelId}/announcements`, {
+          headers: {
+            "Content-Type": "application/json",
+          },
+        })
+        .then((v) =>
+          this.setState({ announcementList: v.data })
+        )
+        .catch((e) => alert(e.response.data.message));
     }
   };
 
@@ -314,7 +333,8 @@ class Homepage extends Component {
             handleSubmitMessage={this.handleSubmitMessage}
             socket={this.socket}
             deleteChannel={this.deleteChannel}
-            updateChannels={this.updateChannels}
+            announcementList={this.state.announcementList}
+            updateAnnouncements={this.updateAnnouncements}
           />
         </div>
       </div>
