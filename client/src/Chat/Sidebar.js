@@ -5,7 +5,7 @@ import "./sidebar.css";
 import InviteModal from "../Invites/InviteModal";
 import CreateChannelModal from "./CreateChannelModal";
 import SignOut from "../Account/SignOut";
-import CreateServerModal from './CreateServerModal';
+import CreateServerModal from "./CreateServerModal";
 
 class Sidebar extends Component {
   render() {
@@ -13,11 +13,7 @@ class Sidebar extends Component {
       <div className="sidebar">
         <div className="AccountInfo">
           <Header as="h2"> {this.props.displayName} </Header>
-          <SignOut />
-          <CreateServerModal 
-                            serverId={this.props.activeServerId}
-                            updateChannels={this.props.updateChannels}
-                        />
+          <SignOut socket={this.props.socket} />
         </div>
         <div className="ChannelTitleContainer">
           {(this.props.serverList.length > 0 && (
@@ -30,11 +26,12 @@ class Sidebar extends Component {
                 options={this.props.serverList}
                 value={this.props.activeServerId}
               />
-              
 
               <InviteModal serverId={this.props.activeServerId} />
             </>
           )) || <Header as="h2">You are not in any servers</Header>}
+
+          <CreateServerModal onServerCreate={this.props.onServerCreate} />
         </div>
         {this.props.serverList.length > 0 && (
           <div className="ChatList">

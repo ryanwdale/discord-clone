@@ -16,9 +16,10 @@ function App() {
       </Routes>
       <Container style={{ margin: "2em" }}>
         <Routes>
-          <Route path="/" element={<SignIn />} />
+          <Route exact path="/" element={<SignIn />} />
           <Route path="/signup" element={<SignUp />} />
           <Route path="/join/:serverId" element={<JoinServer />} />
+          <Route path="*" element={<SignIn />} />
         </Routes>
       </Container>
     </Router>

@@ -1,10 +1,28 @@
+FROM node:16.10-alpine3.11 AS builder
+
+ENV PATH="$PATH:/node_modules/.bin"
+
+COPY client/package.json client/package-lock.json ./
+
+RUN npm install --silent
+
+WORKDIR /app
+
+COPY client/ /app/
+
+RUN npm run build
+
+
+
 FROM nginx:1.21.4
+
+COPY --from=builder /app/build /public
 
 COPY nginx-base.conf /etc/nginx/nginx.conf
 COPY nginx.conf /etc/nginx/conf.d/default.conf
 
-COPY wait.sh /
+COPY wait-socket.sh /
 
-RUN chmod +x wait.sh
+RUN chmod +x wait-socket.sh
 
-CMD /wait.sh db 5432 && /wait.sh client 3000 && nginx -g "daemon off; error_log /dev/stdout info;"
+CMD ./wait-socket.sh cmpt-470-project-back-end.sock && nginx -g "daemon off; error_log /dev/stdout info;"

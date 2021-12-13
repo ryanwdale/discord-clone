@@ -1,5 +1,6 @@
 import { Component } from "react";
 import axios from "axios";
+import { Modal } from "semantic-ui-react";
 
 import Chatroom from "./Chatroom";
 import Sidebar from "./Sidebar";
@@ -26,6 +27,7 @@ class Homepage extends Component {
   constructor() {
     super();
     this.state = {
+      loggedIn: true,
       channelList: [],
       activeChannelId: null,
       activeChannelName: null,
@@ -40,6 +42,7 @@ class Homepage extends Component {
     };
     this.socket = io();
     this.socket.on("client message", (message) => {
+      message = JSON.parse(message);
       this.setState(
         (prevState) => ({ activeChat: [...prevState.activeChat, message] }),
         scrollToTop
@@ -61,6 +64,11 @@ class Homepage extends Component {
         this.socket.connect();
       }
       // else the socket will automatically try to reconnect
+    });
+
+    this.socket.on("logout", () => {
+      this.socket.disconnect();
+      this.setState({ loggedIn: false });
     });
   }
 
@@ -90,7 +98,7 @@ class Homepage extends Component {
             }
           );
         })
-        .catch((e) => alert(e.response.data.message));
+        .catch(() => this.updateChannels(true));
     }
   };
 
@@ -102,6 +110,21 @@ class Homepage extends Component {
         this.selectChannel(id, name);
       });
     }
+  };
+
+  onServerCreate = (newServerInfo) => {
+    this.setState(
+      (prevState) => ({
+        serverList: [...prevState.serverList, newServerInfo],
+      }),
+      () => {
+        if (this.state.serverList.length === 1) {
+          this.setState({
+            activeServerId: newServerInfo.id,
+          });
+        }
+      }
+    );
   };
 
   selectChannel = (id, name) => {
@@ -120,6 +143,7 @@ class Homepage extends Component {
         },
       })
       .then((v) => {
+        this.socket.emit("login");
         this.setState(
           {
             accountId: v.data.id,
@@ -149,8 +173,8 @@ class Homepage extends Component {
             }
           }
         );
-      });
-    // todo: navigate to signin on error
+      })
+      .catch(() => this.setState({ loggedIn: false }));
   };
 
   updateChannels = (selectFirstChannel = false) => {
@@ -169,7 +193,7 @@ class Homepage extends Component {
             this.updateAnnouncements();
           })
         )
-        .catch((e) => alert(e.response.data.message));
+        .catch(() => this.setState({ loggedIn: false }));
     }
   };
 
@@ -198,7 +222,7 @@ class Homepage extends Component {
       .then((res) => {
         this.setState({ showAnalytics: true, analytics: res.data });
       })
-      .catch((e) => alert(e.response.data.message));
+      .catch(() => this.updateChannels(true));
   };
 
   toggleShowAnalytics = () => {
@@ -230,15 +254,22 @@ class Homepage extends Component {
         this.socket.emit("leave", { channel_id: this.state.activeChannelId });
         this.updateChannels(true);
       })
-      .catch((e) => alert(e.response.data.message));
+      .catch(() => this.updateChannels(true));
   };
 
   handleInputChange = (value) => this.setState({ activeMessage: value });
   onServerSelect = (e, data) => {
-    this.setState({ activeServerId: data.value, showAnalytics: false }, () => {
-      this.updateChannels();
-      this.fetchChannelData();
-    });
+    this.setState(
+      {
+        activeServerId: data.value,
+        showAnalytics: false,
+        activeChannelId: null,
+      },
+      () => {
+        this.updateChannels(true);
+        this.fetchChannelData();
+      }
+    );
   };
 
   handleSubmitMessage = (e) => {
@@ -258,25 +289,19 @@ class Homepage extends Component {
             },
           }
         )
-        .then((res) => {
-          let message = res.data;
-          // We need to fill in the display name
-          message.display_name = this.state.displayName;
-
-          this.socket.emit("server message", {
-            message: message,
-            room: this.state.activeChannelId,
-          });
-
-          this.setState({ activeMessage: "" });
-        })
-        .catch((e) => alert(e.response.data.message));
+        .then(() => this.setState({ activeMessage: "" }))
+        .catch(() => this.updateChannels(true));
     }
   };
 
   render() {
     return (
       <div className="homeContainer">
+        <Modal open={!this.state.loggedIn}>
+          <Modal.Content>
+            You are not logged in. Please <a href="/">sign in here</a>
+          </Modal.Content>
+        </Modal>
         <div className="sidebarContainer">
           <Sidebar
             className="sidebar"
@@ -284,10 +309,12 @@ class Homepage extends Component {
             channelList={this.state.channelList}
             onChannelSelect={this.onChannelSelect}
             onServerSelect={this.onServerSelect}
+            onServerCreate={this.onServerCreate}
             activeServerId={this.state.activeServerId}
             activeItem={this.state.activeChannelId}
             updateChannels={this.updateChannels}
             serverList={convertServerListToOptions(this.state.serverList)}
+            socket={this.socket}
           />
         </div>
         <div className="chatroomContainer">

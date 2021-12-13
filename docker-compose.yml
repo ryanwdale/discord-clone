@@ -18,14 +18,6 @@ services:
       - .env
     volumes:
       - db:/var/lib/postgresql/data
-  client:
-    container_name: cmpt-470-project-react-app-container
-    image: cmpt-470-project-react-app
-    build:
-      context: .
-      dockerfile: Dockerfile.client
-    volumes:
-      - './client:/app'
   proxy:
     container_name: cmpt-470-project-proxy
     image: cmpt-470-project-proxy
