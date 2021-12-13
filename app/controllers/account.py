@@ -19,10 +19,11 @@ account_fields = {
 def get_user_by_id(id):
     return db.session.query(Account).filter(Account.id == id).first()
 
+def get_account_by_user_id(user_id):
+    return db.session.query(Account).filter(Account.id == user_id).first()
 
 def get_user_by_username(username):
     return db.session.query(Account).filter(Account.username == username).first()
-
 
 class AccountResource(Resource):
     @jwt_required()

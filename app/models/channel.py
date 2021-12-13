@@ -10,6 +10,11 @@ class Channel(db.Model):
         cascade="all,delete",
         backref=db.backref("channels", lazy=True),
     )
+    announcements = db.relationship(
+        "Announcement",
+        cascade="all,delete",
+        backref=db.backref("channels", lazy=True),
+    )
 
     def __init__(self, channel_name, server_id):
         self.name = channel_name

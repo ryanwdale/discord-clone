@@ -7,12 +7,6 @@ class Announcement(db.Model):
     user_id = db.Column(db.Integer, db.ForeignKey("account.id"), nullable=False)
     timestamp = db.Column(db.DateTime, server_default=func.now())
     announcement = db.Column(db.String, nullable=False)
-    accounts = db.relationship(
-        "Account",
-        cascade="all,delete",
-        backref=db.backref("announcements")
-
-    )
 
     def __init__(self, channel_id, user_id, announcement):
         self.channel_id = channel_id

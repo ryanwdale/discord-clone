@@ -36,7 +36,9 @@ const Chatroom = (props) => {
   };
 
   const resetSearch = () => {
-    setSearchQuery(""), setActiveSearchQuery(""), setSearchResults(null);
+    setSearchQuery(""), 
+    setActiveSearchQuery(""), 
+    setSearchResults(null);
   };
   const disabledSearchMessage =
     "Chat is disabled in search mode. Clear search query to continue chatting";

@@ -6,7 +6,6 @@ account_to_server = db.Table(
     db.Column("server_id", db.Integer, db.ForeignKey("server.id"), primary_key=True),
 )
 
-
 class Account(db.Model):
 
     id = db.Column(db.Integer, primary_key=True)

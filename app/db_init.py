@@ -73,6 +73,11 @@ def seed_database(db):
             accounts[0].id,
             "This is an announcement",
         ),
+        Announcement(
+            channels[1].id,
+            accounts[1].id,
+            "Hello",
+        ),
     ]
 
     db.session.add_all(messages + announcements)
