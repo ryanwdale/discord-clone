@@ -3,7 +3,7 @@ from app_init import db
 
 class Channel(db.Model):
     id = db.Column(db.Integer, primary_key=True)
-    name = db.Column(db.String, nullable=False)
+    name = db.Column(db.String(40), nullable=False)
     server_id = db.Column(db.Integer, db.ForeignKey("server.id"), nullable=False)
     messages = db.relationship(
         "Message",
