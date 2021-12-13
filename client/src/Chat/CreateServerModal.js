@@ -65,6 +65,7 @@ class CreateServerForm extends Component {
           required
           label="Server Name"
           name="server_name"
+          maxLength="60"
           value={this.state.server_name}
           onChange={this.handleChange}
         />

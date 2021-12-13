@@ -69,6 +69,7 @@ class CreateChannelForm extends Component {
           required
           label="Channel Name"
           name="channelName"
+          maxLength="40"
           value={this.state.channelName}
           onChange={this.handleChange}
         />
