@@ -71,8 +71,10 @@ app.config["JWT_ACCESS_TOKEN_EXPIRES"] = timedelta(days=14)
 
 jwt = JWTManager(app)
 
+# Implicit token refreshing with cookies:
+# https://flask-jwt-extended.readthedocs.io/en/stable/refreshing_tokens/#implicit-refreshing-with-cookies
 # Using an `after_request` callback, we refresh any token that is within 30
-# minutes of expiring. Change the timedeltas to match the needs of your application.
+# minutes of expiring.
 @app.after_request
 def refresh_expiring_jwts(response):
     try:

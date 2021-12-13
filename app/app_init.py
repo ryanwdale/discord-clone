@@ -4,4 +4,4 @@ from flask_socketio import SocketIO
 
 bcrypt = Bcrypt()
 db = SQLAlchemy()
-socket = SocketIO(logger=True, engineio_logger=True)
+socket = SocketIO()
