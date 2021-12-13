@@ -84,6 +84,13 @@ const Chatroom = (props) => {
                 >
                   View Channel Analytics
                 </Button>
+                <AnnouncementModal
+                  channelId={props.channelId}
+                  channelName={props.channelName}
+                  updateAnnouncements={props.updateAnnouncements}
+                  announcementList={props.announcementList}
+                  socket={props.socket}
+                />
                 <Search
                   activeSearchMessage={searchQuery}
                   handleSearchChange={handleSearchChange}
@@ -91,25 +98,6 @@ const Chatroom = (props) => {
                 />
               </>
             )}
-            <Button
-              className="analytics_btn"
-              onClick={props.fetchChannelAnalytics}
-            >
-              View Channel Analytics
-            </Button>
-            <AnnouncementModal
-              channelId={props.channelId}
-              channelName={props.channelName}
-              displayName={props.displayName}
-              updateAnnouncements={props.updateAnnouncements}
-              announcementList={props.announcementList}
-              socket={props.socket}
-            />
-            <Search
-              activeSearchMessage={searchQuery}
-              handleSearchChange={handleSearchChange}
-              handleSubmitSearchMessage={handleSubmitSearchMessage}
-            />
           </>
         )}
       </div>
