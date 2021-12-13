@@ -1,6 +1,6 @@
 import axios from "axios";
-import { Component, useEffect, useState } from "react";
-import { Button, Header, Icon } from "semantic-ui-react";
+import { useEffect, useState } from "react";
+import { Button, Header, Icon, Message as Banner } from "semantic-ui-react";
 
 import "./chatroom.css";
 import Message from "./Message";
@@ -32,12 +32,13 @@ const Chatroom = (props) => {
       })
       .then((res) => {
         setSearchResults(res.data);
-      });
+      })
+      .catch(() => props.updateChannels(true));
   };
 
   const resetSearch = () => {
-    setSearchQuery(""), 
-    setActiveSearchQuery(""), 
+    setSearchQuery("");
+    setActiveSearchQuery("");
     setSearchResults(null);
   };
   const disabledSearchMessage =
@@ -47,21 +48,48 @@ const Chatroom = (props) => {
   return (
     <div className="chatroom">
       <div className="channelTopBar">
-        <div className="headerContainer">
-          <Header as="h2">{props.channelName}</Header>
-        </div>
-        {props.showAnalytics ? (
-          <Button className="analytics_btn" onClick={props.toggleShowAnalytics}>
-            Back
-          </Button>
-        ) : (
+        {(!props.channelId && (
+          <Banner
+            id="no-selected-channel-banner"
+            warning
+            icon="exclamation circle"
+            header="No channel selected"
+            content="You must select a server in the left sidebar, and also one of the channels. You may create a new server and/or a new channel with the appropriate buttons in the sidebar."
+          />
+        )) || (
           <>
-            {props.channelId !== null && (
-              <Icon
-                className="trash-button"
-                name="trash alternate outline"
-                onClick={props.deleteChannel}
-              />
+            <div className="headerContainer">
+              <Header as="h2">{props.channelName}</Header>
+            </div>
+
+            {props.showAnalytics ? (
+              <Button
+                className="analytics_btn"
+                onClick={props.toggleShowAnalytics}
+              >
+                Back
+              </Button>
+            ) : (
+              <>
+                {props.channelId !== null && (
+                  <Icon
+                    className="trash-button"
+                    name="trash alternate outline"
+                    onClick={props.deleteChannel}
+                  />
+                )}
+                <Button
+                  className="analytics_btn"
+                  onClick={props.fetchChannelAnalytics}
+                >
+                  View Channel Analytics
+                </Button>
+                <Search
+                  activeSearchMessage={searchQuery}
+                  handleSearchChange={handleSearchChange}
+                  handleSubmitSearchMessage={handleSubmitSearchMessage}
+                />
+              </>
             )}
             <Button
               className="analytics_btn"
@@ -137,9 +165,13 @@ const Chatroom = (props) => {
                     socket={props.socket}
                   />
                 ))) || (
-                <Header as="h3">
-                  No results found for search query "{activeSearchQuery}"
-                </Header>
+                <Banner warning icon="exclamation circle">
+                  <Icon name="exclamation circle" />
+                  <Banner.Content>
+                    <Banner.Header>No results found</Banner.Header>
+                    Your query for "{activeSearchQuery}" returned no results
+                  </Banner.Content>
+                </Banner>
               ))) ||
               (props.messageList.length !== 0 &&
                 props.messageList.map((message) => {
@@ -160,9 +192,11 @@ const Chatroom = (props) => {
           <div className="chatInput">
             <form onSubmit={(e) => props.handleSubmitMessage(e)}>
               <input
-                disabled={!!activeSearchQuery}
+                disabled={!!activeSearchQuery || !props.channelId}
                 placeholder={
-                  activeSearchQuery
+                  !props.channelId
+                    ? "You must select a channel before chatting"
+                    : activeSearchQuery
                     ? disabledSearchMessage
                     : "Send message to " + props.channelName
                 }
