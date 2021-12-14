@@ -333,6 +333,7 @@ class Homepage extends Component {
             handleSubmitMessage={this.handleSubmitMessage}
             socket={this.socket}
             deleteChannel={this.deleteChannel}
+            updateChannels={this.updateChannels}
             announcementList={this.state.announcementList}
             updateAnnouncements={this.updateAnnouncements}
           />
