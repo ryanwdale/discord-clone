@@ -28,7 +28,7 @@ const SignIn = () => {
   };
 
   return (
-    <>
+    <div style={{ margin: "2em" }}>
       <Header as="h1"> Welcome to the project for CMPT 470 of group 1 </Header>
       <p>Please log in with your username and password.</p>
       <Form onSubmit={handleSubmit}>
@@ -58,7 +58,7 @@ const SignIn = () => {
         </Link>
         <Button type="submit"> Sign In </Button>
       </Form>
-    </>
+    </div>
   );
 };
 
