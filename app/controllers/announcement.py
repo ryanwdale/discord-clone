@@ -1,7 +1,6 @@
 from app_init import db
 from models import Message, Account, Announcement
 from controllers.channel import get_channel_by_id
-from controllers.account import get_account_by_user_id
 from controllers.server_queries import current_user_in_server
 from flask_restful import Resource, reqparse, fields, marshal_with, abort
 from flask_jwt_extended import jwt_required, current_user
@@ -48,6 +47,7 @@ class AnnouncementResource(Resource):
             db.session.query(Announcement)
             .join(Account, Announcement.user_id==Account.id)
             .filter(Announcement.channel_id == channel_id)
+            .order_by(Announcement.timestamp.desc())
             .all()
         )
 

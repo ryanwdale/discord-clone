@@ -15,11 +15,6 @@ def current_user_in_server(server_id, user_id=None):
 def get_server_by_id(server_id):
     return db.session.query(Server).filter(Server.id == server_id).first()
 
-
-def get_account_by_user_id(user_id):
-    return db.session.query(Account).filter(Account.id == user_id).first()
-
-
 def get_users_in_server(server_id):
     return (
         db.session.query(Account)
