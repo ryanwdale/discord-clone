@@ -1,7 +1,8 @@
 from app_init import db, socket
 from models import Message, Account
 from controllers.channel import get_channel_by_id
-from controllers.server_queries import current_user_in_server, get_account_by_user_id
+from controllers.server_queries import current_user_in_server
+from controllers.account import get_user_by_id
 
 import json
 
@@ -36,7 +37,7 @@ class MessageResource(Resource):
         db.session.add(message)
         db.session.commit()
 
-        message.display_name = get_account_by_user_id(message.user_id).display_name
+        message.display_name = get_user_by_id(message.user_id).display_name
 
         marshalled_message = marshal(message, message_fields)
 
