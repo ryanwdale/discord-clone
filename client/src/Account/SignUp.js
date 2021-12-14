@@ -31,7 +31,7 @@ const SignUp = () => {
   };
 
   return (
-    <>
+    <div style={{ margin: "2em" }}>
       <Header as="h1">Sign up</Header>
       <p>Please sign up with a username, password, and display name.</p>
 
@@ -67,7 +67,7 @@ const SignUp = () => {
         </Form.Field>
         <Button type="submit">Submit</Button>
       </Form>
-    </>
+    </div>
   );
 };
 
