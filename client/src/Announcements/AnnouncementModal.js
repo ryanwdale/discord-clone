@@ -1,4 +1,4 @@
-import React, { Component, useEffect, useState } from "react";
+import React, { useState } from "react";
 import { Button, Modal } from "semantic-ui-react";
 import CreateAnnouncementModal from "../Announcements/CreateAnnouncementModal";
 import Announcement from "../Announcements/Announcement";

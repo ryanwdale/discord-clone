@@ -2,7 +2,6 @@ import "./App.css";
 
 import React from "react";
 import { BrowserRouter as Router, Routes, Route } from "react-router-dom";
-import { Container } from "semantic-ui-react";
 import SignIn from "./Account/SignIn";
 import SignUp from "./Account/SignUp";
 import JoinServer from "./Invites/JoinServer";
